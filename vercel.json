@@ -1,21 +1,11 @@
 {
   "version": 2,
   "routes": [
-    {
-      "src": "/api/checkout",
-      "dest": "/api/checkout.js"
-    },
-    {
-      "src": "/api/webhook",
-      "dest": "/api/webhook.js"
-    },
-    {
-      "src": "/success",
-      "dest": "/success.html"
-    },
-    {
-      "src": "/",
-      "dest": "/index.html"
-    }
+    { "src": "/api/checkout", "dest": "/api/checkout.js" },
+    { "src": "/api/webhook", "dest": "/api/webhook.js" },
+    { "src": "/success", "dest": "/success.html" },
+    { "src": "/login", "dest": "/login.html" },
+    { "src": "/affiliate", "dest": "/affiliate.html" },
+    { "src": "/", "dest": "/index.html" }
   ]
 }
