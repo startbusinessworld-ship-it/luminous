@@ -128,7 +128,6 @@ function handleLogin() {
   const errAlert = document.getElementById('alertError');
   const okAlert = document.getElementById('alertSuccess');
 
-  // Hide alerts
   errAlert.classList.remove('show');
   okAlert.classList.remove('show');
 
@@ -138,22 +137,32 @@ function handleLogin() {
     return;
   }
 
-  // Loading state
   btn.classList.add('loading');
   btn.disabled = true;
 
-  // Simulate auth — replace with real API call
+  // Demo auth — replace with real API in production
   setTimeout(() => {
     btn.classList.remove('loading');
     btn.disabled = false;
-    // Demo: any login shows success → redirect to dashboard
-    // In production: validate credentials via API, then redirect
+
+    // Extract name from email for demo
+    const namePart = email.split('@')[0].replace(/[._]/g,' ');
+    const name = namePart.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+
+    // Save user to sessionStorage
+    const user = {
+      email: email,
+      name: name,
+      company: name.split(' ')[0] + ' International Ltd.',
+      type: 'client'  // or 'affiliate'
+    };
+    sessionStorage.setItem('lum_user', JSON.stringify(user));
+
     okAlert.classList.add('show');
-    setTimeout(() => { window.location.href = 'index.html'; }, 1500);
-  }, 1400);
+    setTimeout(() => { window.location.href = 'dashboard.html'; }, 1200);
+  }, 1200);
 }
 
-// Enter key submits
 document.addEventListener('keydown', e => { if(e.key === 'Enter') handleLogin(); });
 </script>
 </body>

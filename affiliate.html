@@ -262,11 +262,28 @@ function handleSubmit(e) {
   const orig = btn.textContent;
   btn.textContent = 'Submitting...';
   btn.style.pointerEvents = 'none';
+
+  const form = e.target;
+  const firstName = form.querySelector('input[type=text]')?.value || 'User';
+  const lastName = form.querySelectorAll('input[type=text]')[1]?.value || '';
+  const email = form.querySelector('input[type=email]')?.value || 'affiliate@example.com';
+
   setTimeout(() => {
-    btn.textContent = '✓ Application received — redirecting...';
+    btn.textContent = '✓ Account created — redirecting...';
     btn.style.background = '#1a6b34';
     btn.style.boxShadow = '0 6px 20px rgba(26,107,52,0.3)';
-    setTimeout(() => { window.location.href = 'login.html'; }, 1800);
+
+    // Save affiliate user
+    const user = {
+      email: email,
+      name: (firstName + ' ' + lastName).trim(),
+      company: '',
+      type: 'affiliate'
+    };
+    sessionStorage.setItem('lum_user', JSON.stringify(user));
+    sessionStorage.setItem('lum_goto', 'affiliate');
+
+    setTimeout(() => { window.location.href = 'dashboard.html'; }, 1500);
   }, 1200);
 }
 </script>
