@@ -1,13 +1,26 @@
 {
   "version": 2,
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "builds": [
+    {
+      "src": "api/**/*.js",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "**/*.html",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "**/*.{jpg,jpeg,png,gif,svg,avif,webp,ico,css,js}",
+      "use": "@vercel/static"
+    }
+  ],
   "routes": [
     { "src": "/api/checkout", "dest": "/api/checkout.js" },
     { "src": "/api/webhook", "dest": "/api/webhook.js" },
-    { "src": "/success", "dest": "/success.html" },
-    { "src": "/login", "dest": "/login.html" },
-    { "src": "/affiliate", "dest": "/affiliate.html" },
-    { "src": "/blog", "dest": "/blog.html" },
-    { "src": "/articles/(.*)", "dest": "/articles/$1" },
-    { "src": "/", "dest": "/index.html" }
+    { "src": "/", "dest": "/index.html" },
+    { "src": "/(.*)", "dest": "/$1.html" }
   ]
 }
+
