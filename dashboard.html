@@ -4,606 +4,303 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Dashboard — Luminous</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 :root{--red:#C8102E;--rd:#9B0B22;--blk:#0A0A0A;--drk:#111;--d2:#181818;--d3:#222;--gr:#2E2E2E;--g2:#3A3A3A;--sv:#8A8A8A;--lt:#D4D4D4;--wh:#F5F5F5;}
 *{margin:0;padding:0;box-sizing:border-box;}
-body{background:var(--blk);color:var(--wh);font-family:'DM Sans',sans-serif;min-height:100vh;display:flex;flex-direction:column;}
+body{background:var(--blk);color:var(--wh);font-family:system-ui,sans-serif;min-height:100vh;display:flex;flex-direction:column;}
 body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(200,16,46,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(200,16,46,0.025) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;z-index:0;}
-
-/* ── TOPBAR ── */
-.topbar{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:14px 36px;background:rgba(10,10,10,0.97);border-bottom:1px solid rgba(255,255,255,0.06);backdrop-filter:blur(4px);}
-.topbar-logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
-.topbar-right{display:flex;align-items:center;gap:16px;}
-.user-pill{display:flex;align-items:center;gap:9px;background:var(--d2);border:1px solid var(--gr);border-radius:20px;padding:6px 14px 6px 8px;}
-.user-avatar{width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,var(--rd),var(--g2));display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:600;color:#fff;flex-shrink:0;}
-.user-name{font-size:.76rem;color:var(--lt);}
-.btn-logout{font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--sv);background:none;border:none;cursor:pointer;font-family:inherit;transition:color .3s;padding:4px 0;}
+.topbar{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:13px 32px;background:rgba(10,10,10,0.97);border-bottom:1px solid rgba(255,255,255,0.06);backdrop-filter:blur(4px);}
+.topbar-right{display:flex;align-items:center;gap:14px;}
+.user-pill{display:flex;align-items:center;gap:8px;background:var(--d2);border:1px solid var(--gr);border-radius:20px;padding:5px 12px 5px 7px;}
+.avatar{width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,var(--rd),var(--g2));display:flex;align-items:center;justify-content:center;font-size:.68rem;font-weight:600;color:#fff;flex-shrink:0;}
+.uname{font-size:.74rem;color:var(--lt);}
+.btn-logout{font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;color:var(--sv);background:none;border:none;cursor:pointer;font-family:inherit;transition:color .3s;}
 .btn-logout:hover{color:var(--red);}
-
-/* ── LAYOUT ── */
-.dash-layout{display:flex;flex:1;position:relative;z-index:1;}
-
-/* ── SIDEBAR ── */
-.sidebar{width:220px;flex-shrink:0;background:var(--drk);border-right:1px solid rgba(255,255,255,0.05);padding:28px 0;position:sticky;top:57px;height:calc(100vh - 57px);overflow-y:auto;}
-.sidebar-section{padding:0 16px;margin-bottom:8px;}
-.sidebar-label{font-size:.58rem;letter-spacing:.16em;text-transform:uppercase;color:var(--g2);padding:8px 8px 6px;margin-bottom:2px;}
-.nav-item{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:3px;cursor:pointer;transition:all .25s;font-size:.82rem;color:var(--sv);text-decoration:none;}
-.nav-item:hover{background:rgba(255,255,255,0.04);color:var(--lt);}
-.nav-item.active{background:rgba(200,16,46,0.1);color:var(--wh);}
-.nav-item.active .nav-icon{color:var(--red);}
-.nav-icon{width:16px;height:16px;flex-shrink:0;opacity:.7;}
-.nav-item.active .nav-icon{opacity:1;}
-.nav-badge{margin-left:auto;background:var(--red);color:#fff;font-size:.58rem;padding:2px 7px;border-radius:10px;font-weight:600;}
-.sidebar-divider{height:1px;background:rgba(255,255,255,0.05);margin:12px 16px;}
-
-/* ── MAIN ── */
-.main-content{flex:1;padding:36px 40px;overflow-y:auto;}
-
-/* ── HEADER ── */
-.page-header{margin-bottom:32px;}
-.page-eyebrow{font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:var(--red);margin-bottom:8px;display:flex;align-items:center;gap:8px;}
-.page-eyebrow::before{content:'';width:16px;height:1px;background:var(--red);}
-.page-title{font-family:'Cormorant Garamond',serif;font-size:1.9rem;font-weight:400;color:var(--wh);}
-.page-sub{font-size:.8rem;color:var(--sv);margin-top:6px;}
-
-/* ── PANELS ── */
+.layout{display:flex;flex:1;position:relative;z-index:1;}
+.sidebar{width:210px;flex-shrink:0;background:var(--drk);border-right:1px solid rgba(255,255,255,0.05);padding:24px 0;position:sticky;top:51px;height:calc(100vh - 51px);overflow-y:auto;}
+.sb-sec{padding:0 14px;margin-bottom:6px;}
+.sb-lbl{font-size:.56rem;letter-spacing:.16em;text-transform:uppercase;color:var(--g2);padding:8px 8px 5px;}
+.ni{display:flex;align-items:center;gap:9px;padding:9px 10px;border-radius:3px;cursor:pointer;transition:all .22s;font-size:.8rem;color:var(--sv);text-decoration:none;border:none;background:none;font-family:inherit;width:100%;}
+.ni:hover{background:rgba(255,255,255,0.04);color:var(--lt);}
+.ni.act{background:rgba(200,16,46,0.1);color:var(--wh);}
+.ni.act svg{color:var(--red);}
+.ni svg{width:15px;height:15px;flex-shrink:0;opacity:.65;}
+.ni.act svg{opacity:1;}
+.sb-div{height:1px;background:rgba(255,255,255,0.05);margin:10px 14px;}
+.main{flex:1;padding:32px 36px;overflow-y:auto;}
 .panel{display:none;}
-.panel.active{display:block;}
+.panel.act{display:block;animation:fadeIn .3s ease both;}
+.ph{margin-bottom:28px;}
+.pey{font-size:.58rem;letter-spacing:.18em;text-transform:uppercase;color:var(--red);margin-bottom:7px;display:flex;align-items:center;gap:7px;}
+.pey::before{content:'';width:14px;height:1px;background:var(--red);}
+.ptitle{font-size:1.8rem;font-weight:400;color:var(--wh);}
+.psub{font-size:.78rem;color:var(--sv);margin-top:5px;}
 
-/* ── STATUS BANNER ── */
-.status-banner{display:flex;align-items:center;gap:14px;background:var(--d2);border:1px solid rgba(200,16,46,0.25);border-radius:4px;padding:16px 20px;margin-bottom:28px;}
-.status-dot{width:8px;height:8px;border-radius:50%;background:var(--red);animation:pulse 2s infinite;flex-shrink:0;}
-.status-text{font-size:.82rem;color:var(--lt);}
-.status-badge-pill{margin-left:auto;padding:4px 12px;border-radius:2px;font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;}
-.badge-active{background:rgba(50,200,100,0.12);color:#3cc468;}
-.badge-pending{background:rgba(200,16,46,0.12);color:var(--red);}
-.badge-review{background:rgba(200,150,0,0.12);color:#c89600;}
+/* STATUS BANNER */
+.banner{display:flex;align-items:center;flex-wrap:wrap;gap:12px;background:var(--d2);border:1px solid var(--gr);border-radius:4px;padding:14px 18px;margin-bottom:24px;}
+.b-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
+.b-dot.active{background:var(--red);animation:pulse 2s infinite;}
+.b-dot.inactive{background:var(--sv);}
+.b-txt{font-size:.8rem;color:var(--lt);flex:1;min-width:160px;}
+.b-pill{padding:3px 10px;border-radius:2px;font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;flex-shrink:0;}
+.pill-pend{background:rgba(200,16,46,0.12);color:var(--red);}
+.pill-ok{background:rgba(50,200,100,0.1);color:#3cc468;}
+.pill-rev{background:rgba(200,150,0,0.1);color:#c89600;}
 
-/* ── PROGRESS ── */
-.progress-list{display:flex;flex-direction:column;gap:2px;margin-bottom:32px;}
-.progress-item{display:flex;align-items:center;gap:16px;padding:16px 18px;background:var(--d2);border-radius:3px;position:relative;}
-.progress-item::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;border-radius:3px 0 0 3px;}
-.progress-item.done::before{background:#3cc468;}
-.progress-item.inprogress::before{background:var(--red);}
-.progress-item.pending::before{background:var(--gr);}
-.progress-step-icon{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.8rem;flex-shrink:0;}
-.done .progress-step-icon{background:rgba(50,200,100,0.12);color:#3cc468;}
-.inprogress .progress-step-icon{background:rgba(200,16,46,0.12);color:var(--red);}
-.pending .progress-step-icon{background:var(--d3);color:var(--sv);}
-.progress-step-info{flex:1;}
-.progress-step-name{font-size:.85rem;font-weight:500;color:var(--wh);margin-bottom:4px;}
-.inprogress .progress-step-name{color:var(--wh);}
-.pending .progress-step-name{color:var(--sv);}
-.progress-step-desc{font-size:.74rem;color:var(--sv);}
-.progress-step-status{font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;margin-left:auto;flex-shrink:0;}
-.done .progress-step-status{color:#3cc468;}
-.inprogress .progress-step-status{color:var(--red);}
-.pending .progress-step-status{color:var(--g2);}
-.progress-bar-wrap{margin-top:8px;}
-.progress-track{height:3px;background:var(--gr);border-radius:2px;overflow:hidden;margin-top:4px;}
-.progress-fill{height:100%;background:linear-gradient(to right,var(--rd),var(--red));border-radius:2px;transition:width 1.2s ease;}
+/* PROGRESS STEPS */
+.prog-list{display:flex;flex-direction:column;gap:2px;margin-bottom:24px;}
+.pi{display:flex;align-items:center;gap:14px;padding:14px 16px;background:var(--d2);border-radius:3px;position:relative;}
+.pi::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;border-radius:3px 0 0 3px;}
+.pi.done::before{background:#3cc468;}
+.pi.prog::before{background:var(--red);}
+.pi.wait::before{background:var(--gr);}
+.pi-ico{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.78rem;flex-shrink:0;}
+.done .pi-ico{background:rgba(50,200,100,0.12);color:#3cc468;}
+.prog .pi-ico{background:rgba(200,16,46,0.12);color:var(--red);}
+.wait .pi-ico{background:var(--d3);color:var(--sv);}
+.pi-info{flex:1;}
+.pi-name{font-size:.83rem;font-weight:500;color:var(--wh);margin-bottom:3px;}
+.wait .pi-name{color:var(--sv);}
+.pi-desc{font-size:.72rem;color:var(--sv);}
+.pi-stat{font-size:.66rem;letter-spacing:.07em;text-transform:uppercase;flex-shrink:0;}
+.done .pi-stat{color:#3cc468;}
+.prog .pi-stat{color:var(--red);}
+.wait .pi-stat{color:var(--g2);}
 
-/* ── DOCS GRID ── */
-.docs-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:32px;}
-.doc-card{background:var(--d2);border:1px solid var(--gr);border-radius:4px;padding:18px;display:flex;align-items:center;gap:14px;transition:all .3s;cursor:pointer;}
-.doc-card:hover{border-color:rgba(200,16,46,0.35);transform:translateY(-1px);}
-.doc-card-icon{width:40px;height:40px;background:rgba(200,16,46,0.08);border:1px solid rgba(200,16,46,0.15);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;}
-.doc-card-name{font-size:.82rem;font-weight:500;color:var(--wh);margin-bottom:5px;}
-.doc-card-meta{font-size:.7rem;color:var(--sv);}
-.doc-status-pill{margin-left:auto;padding:3px 9px;border-radius:2px;font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;flex-shrink:0;}
-.pill-done{background:rgba(50,200,100,0.1);color:#3cc468;}
-.pill-prep{background:rgba(200,150,0,0.1);color:#c89600;}
-.pill-pend{background:rgba(200,16,46,0.1);color:var(--red);}
+/* DOCS */
+.docs-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:24px;}
+.dc{background:var(--d2);border:1px solid var(--gr);border-radius:4px;padding:16px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:all .3s;}
+.dc:hover{border-color:rgba(200,16,46,0.3);}
+.dc-ico{width:36px;height:36px;background:rgba(200,16,46,0.08);border:1px solid rgba(200,16,46,0.14);border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;}
+.dc-name{font-size:.8rem;font-weight:500;color:var(--wh);margin-bottom:4px;}
+.dc-meta{font-size:.68rem;color:var(--sv);}
+.dpill{margin-left:auto;padding:3px 8px;border-radius:2px;font-size:.58rem;letter-spacing:.07em;text-transform:uppercase;flex-shrink:0;}
 
-/* ── UPLOAD ZONE ── */
-.upload-section{margin-bottom:28px;}
-.upload-title{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--sv);margin-bottom:14px;}
-.upload-list{display:flex;flex-direction:column;gap:8px;}
-.upload-item{display:flex;align-items:center;gap:14px;padding:14px 18px;background:var(--d2);border:1px solid var(--gr);border-radius:4px;cursor:pointer;transition:all .3s;}
-.upload-item:hover{border-color:rgba(200,16,46,0.3);}
-.upload-item-icon{width:34px;height:34px;background:rgba(200,16,46,0.08);border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:.95rem;flex-shrink:0;}
-.upload-item-name{font-size:.82rem;font-weight:500;color:var(--wh);flex:1;}
-.upload-item-status{font-size:.7rem;color:var(--sv);}
-.upload-btn{background:rgba(200,16,46,0.12);border:1px solid rgba(200,16,46,0.25);color:var(--red);padding:5px 14px;border-radius:2px;font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;font-family:inherit;transition:all .3s;flex-shrink:0;}
-.upload-btn:hover{background:rgba(200,16,46,0.2);}
+/* UPLOADS */
+.up-list{display:flex;flex-direction:column;gap:8px;margin-bottom:20px;}
+.ui{display:flex;align-items:center;gap:12px;padding:13px 16px;background:var(--d2);border:1px solid var(--gr);border-radius:4px;transition:all .3s;}
+.ui-ico{width:32px;height:32px;background:rgba(200,16,46,0.07);border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:.9rem;flex-shrink:0;}
+.ui-name{font-size:.8rem;font-weight:500;color:var(--wh);flex:1;}
+.ui-sub{font-size:.68rem;color:var(--sv);}
+.up-btn{background:rgba(200,16,46,0.1);border:1px solid rgba(200,16,46,0.22);color:var(--red);padding:5px 12px;border-radius:2px;font-size:.66rem;letter-spacing:.07em;text-transform:uppercase;cursor:pointer;font-family:inherit;transition:all .3s;flex-shrink:0;}
+.up-btn:hover{background:rgba(200,16,46,0.18);}
+.up-btn.done-btn{background:rgba(50,200,100,0.08);border-color:rgba(50,200,100,0.2);color:#3cc468;cursor:default;}
 
-/* ── AFFILIATE ── */
-.aff-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:28px;}
-.aff-stat{background:var(--d2);border:1px solid var(--gr);border-radius:4px;padding:20px;}
-.aff-stat-num{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:600;color:var(--wh);line-height:1;}
-.aff-stat-num.red{color:var(--red);}
-.aff-stat-label{font-size:.64rem;letter-spacing:.1em;text-transform:uppercase;color:var(--sv);margin-top:6px;}
-.aff-link-box{background:var(--d2);border:1px solid rgba(200,16,46,0.25);border-radius:4px;padding:22px;margin-bottom:20px;}
-.aff-link-label{font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:var(--red);margin-bottom:10px;}
-.aff-link-row{display:flex;gap:10px;align-items:center;}
-.aff-link-code{font-size:.82rem;color:var(--red);background:rgba(200,16,46,0.07);padding:10px 16px;border-radius:2px;flex:1;font-family:monospace;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-.btn-copy{background:var(--red);color:#fff;padding:9px 18px;border-radius:2px;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;border:none;cursor:pointer;font-family:inherit;transition:background .3s;white-space:nowrap;}
-.btn-copy:hover{background:var(--rd);}
-.aff-table{width:100%;border-collapse:collapse;}
-.aff-table th{font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--sv);padding:10px 14px;text-align:left;border-bottom:1px solid var(--gr);}
-.aff-table td{font-size:.8rem;color:var(--lt);padding:12px 14px;border-bottom:1px solid rgba(255,255,255,0.04);}
-.aff-table tr:hover td{background:rgba(255,255,255,0.02);}
-.aff-status{padding:2px 8px;border-radius:2px;font-size:.62rem;letter-spacing:.06em;text-transform:uppercase;}
+/* AFFILIATE */
+.aff-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:22px;}
+.as{background:var(--d2);border:1px solid var(--gr);border-radius:4px;padding:18px;}
+.as-num{font-size:1.9rem;font-weight:600;color:var(--wh);line-height:1;}
+.as-num.r{color:var(--red);}
+.as-lbl{font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--sv);margin-top:6px;}
+.link-box{background:var(--d2);border:1px solid rgba(200,16,46,0.22);border-radius:4px;padding:18px;margin-bottom:18px;}
+.link-lbl{font-size:.58rem;letter-spacing:.13em;text-transform:uppercase;color:var(--red);margin-bottom:9px;}
+.link-row{display:flex;gap:9px;align-items:center;}
+.link-code{font-size:.8rem;color:var(--red);background:rgba(200,16,46,0.07);padding:9px 14px;border-radius:2px;flex:1;font-family:monospace;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.copy-btn{background:var(--red);color:#fff;padding:9px 16px;border-radius:2px;font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;border:none;cursor:pointer;font-family:inherit;transition:background .3s;white-space:nowrap;}
+.copy-btn:hover{background:var(--rd);}
 
-/* ── REVENUE ── */
-.rev-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:28px;}
-.rev-card{background:var(--d2);border:1px solid var(--gr);border-radius:4px;padding:22px;}
-.rev-card.highlight{border-color:rgba(200,16,46,0.3);background:linear-gradient(135deg,var(--d2),#1a0a0d);}
-.rev-card-label{font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--sv);margin-bottom:10px;}
-.rev-card-amount{font-family:'Cormorant Garamond',serif;font-size:2.2rem;font-weight:600;color:var(--wh);line-height:1;}
-.rev-card-amount span{color:var(--red);}
-.rev-card-sub{font-size:.72rem;color:var(--sv);margin-top:6px;}
-.rev-history{background:var(--d2);border:1px solid var(--gr);border-radius:4px;overflow:hidden;}
-.rev-history-header{display:flex;justify-content:space-between;align-items:center;padding:16px 20px;border-bottom:1px solid var(--gr);}
-.rev-history-title{font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--sv);}
-.rev-row{display:flex;align-items:center;gap:14px;padding:14px 20px;border-bottom:1px solid rgba(255,255,255,0.04);}
-.rev-row:last-child{border:none;}
-.rev-row-icon{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.8rem;flex-shrink:0;}
-.rev-paid{background:rgba(50,200,100,0.1);}
-.rev-pending-bg{background:rgba(200,150,0,0.1);}
-.rev-row-info{flex:1;}
-.rev-row-name{font-size:.82rem;color:var(--wh);margin-bottom:2px;}
-.rev-row-date{font-size:.7rem;color:var(--sv);}
-.rev-row-amount{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:600;color:var(--wh);}
-.rev-row-amount.green{color:#3cc468;}
-.rev-row-amount.yellow{color:#c89600;}
+/* REVENUE */
+.rev-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:22px;}
+.rc{background:var(--d2);border:1px solid var(--gr);border-radius:4px;padding:20px;}
+.rc.hl{border-color:rgba(200,16,46,0.28);background:linear-gradient(135deg,var(--d2),#1a0a0d);}
+.rc-lbl{font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--sv);margin-bottom:9px;}
+.rc-num{font-size:2rem;font-weight:600;color:var(--wh);line-height:1;}
+.rc-num span{color:var(--red);}
+.rc-sub{font-size:.7rem;color:var(--sv);margin-top:5px;}
 
-/* ── MISC ── */
-.section-card{background:var(--d2);border:1px solid var(--gr);border-radius:4px;overflow:hidden;margin-bottom:20px;}
-.section-card-header{padding:16px 20px;border-bottom:1px solid var(--gr);display:flex;justify-content:space-between;align-items:center;}
-.section-card-title{font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--sv);}
-.section-card-body{padding:20px;}
-.empty-state{text-align:center;padding:48px 20px;color:var(--sv);}
-.empty-icon{font-size:2.5rem;opacity:.3;margin-bottom:12px;}
-.empty-text{font-size:.82rem;}
+/* TABLES */
+.stbl{width:100%;border-collapse:collapse;}
+.stbl th{font-size:.6rem;letter-spacing:.11em;text-transform:uppercase;color:var(--sv);padding:9px 12px;text-align:left;border-bottom:1px solid var(--gr);}
+.stbl td{font-size:.78rem;color:var(--lt);padding:11px 12px;border-bottom:1px solid rgba(255,255,255,0.04);}
+.stbl tr:hover td{background:rgba(255,255,255,0.02);}
+.empty-row{text-align:center;padding:32px;color:var(--sv);font-size:.8rem;}
 
-@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(1.3)}}
-@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
-.panel.active{animation:fadeIn .3s ease both;}
+/* CARD WRAPPER */
+.scard{background:var(--d2);border:1px solid var(--gr);border-radius:4px;overflow:hidden;margin-bottom:18px;}
+.scard-hd{display:flex;justify-content:space-between;align-items:center;padding:14px 18px;border-bottom:1px solid var(--gr);}
+.scard-title{font-size:.68rem;letter-spacing:.11em;text-transform:uppercase;color:var(--sv);}
+.scard-body{padding:18px;}
 
+/* ORDER CTA */
+.order-cta{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;background:linear-gradient(135deg,var(--d2),#1a0a0d);border:1px solid rgba(200,16,46,0.25);border-radius:4px;padding:18px 22px;margin-bottom:22px;}
+.order-cta-txt{font-size:.82rem;color:var(--lt);}
+.order-cta-link{background:var(--red);color:#fff;padding:9px 18px;border-radius:2px;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;white-space:nowrap;transition:background .3s;}
+.order-cta-link:hover{background:var(--rd);}
+
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 @media(max-width:768px){
   .sidebar{display:none;}
-  .main-content{padding:20px 16px;}
-  .docs-grid{grid-template-columns:1fr;}
+  .main{padding:18px 14px;}
+  .docs-grid,.rev-cards{grid-template-columns:1fr;}
   .aff-stats{grid-template-columns:1fr 1fr;}
-  .rev-cards{grid-template-columns:1fr;}
-  .topbar{padding:12px 16px;}
 }
 </style>
 </head>
 <body>
 
-<!-- TOPBAR -->
 <div class="topbar">
-  <a href="index.html" class="topbar-logo">
-    <svg viewBox="0 0 280 88" xmlns="http://www.w3.org/2000/svg" style="height:34px;width:auto;">
-      <g transform="translate(5,5)">
-        <g transform="translate(38,38)">
-          <ellipse cx="0" cy="3" rx="34" ry="10" fill="none" stroke="white" stroke-width="2.2" transform="rotate(-22)"/>
-          <path d="M1.5,0 L1.5,-21 A21,21 0 0,1 22,0 Z" fill="white"/>
-          <path d="M-1.5,0 L-1.5,21 A21,21 0 0,1 -22,0 Z" fill="white"/>
-          <line x1="0" y1="-24" x2="0" y2="24" stroke="#0A0A0A" stroke-width="2.5"/>
-          <line x1="-24" y1="0" x2="24" y2="0" stroke="#0A0A0A" stroke-width="2.5"/>
-        </g>
-        <text x="84" y="34" font-family="DM Sans,Arial,sans-serif" font-size="35" font-weight="300" fill="white" letter-spacing="-0.3">Luminos</text>
-        <text x="85" y="64" font-family="Noto Sans SC,PingFang SC,sans-serif" font-size="20" font-weight="300" fill="white" letter-spacing="5">徕米诺</text>
-      </g>
-    </svg>
+  <a href="index.html" style="text-decoration:none;">
+    <svg viewBox="0 0 280 88" xmlns="http://www.w3.org/2000/svg" style="height:32px;width:auto;"><g transform="translate(5,5)"><g transform="translate(38,38)"><ellipse cx="0" cy="3" rx="34" ry="10" fill="none" stroke="white" stroke-width="2.2" transform="rotate(-22)"/><path d="M1.5,0 L1.5,-21 A21,21 0 0,1 22,0 Z" fill="white"/><path d="M-1.5,0 L-1.5,21 A21,21 0 0,1 -22,0 Z" fill="white"/><line x1="0" y1="-24" x2="0" y2="24" stroke="#0A0A0A" stroke-width="2.5"/><line x1="-24" y1="0" x2="24" y2="0" stroke="#0A0A0A" stroke-width="2.5"/></g><text x="84" y="34" font-family="system-ui,sans-serif" font-size="35" font-weight="300" fill="white" letter-spacing="-0.3">Luminos</text><text x="85" y="64" font-family="system-ui,sans-serif" font-size="20" font-weight="300" fill="white" letter-spacing="5">徕米诺</text></g></svg>
   </a>
   <div class="topbar-right">
     <div class="user-pill">
-      <div class="user-avatar" id="userInitials">JD</div>
-      <span class="user-name" id="userName">John Doe</span>
+      <div class="avatar" id="uAvatar">?</div>
+      <span class="uname" id="uName">Loading...</span>
     </div>
-    <button class="btn-logout" onclick="logout()">
-      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:inline;vertical-align:middle;margin-right:4px"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
-      Logout
-    </button>
+    <button class="btn-logout" onclick="logout()">Logout</button>
   </div>
 </div>
 
-<div class="dash-layout">
-
-  <!-- SIDEBAR -->
+<div class="layout">
   <aside class="sidebar">
-    <div class="sidebar-section">
-      <div class="sidebar-label">My file</div>
-      <a class="nav-item active" onclick="showPanel('process')">
-        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-        Progress
-      </a>
-      <a class="nav-item" onclick="showPanel('documents')">
-        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-        My documents
-      </a>
-      <a class="nav-item" onclick="showPanel('uploads')">
-        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"/></svg>
-        Upload files
-      </a>
+    <div class="sb-sec">
+      <div class="sb-lbl">My file</div>
+      <button class="ni act" onclick="show('process')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Progress
+      </button>
+      <button class="ni" onclick="show('documents')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Documents
+      </button>
+      <button class="ni" onclick="show('uploads')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"/></svg>Upload files
+      </button>
     </div>
-    <div class="sidebar-divider"></div>
-    <div class="sidebar-section">
-      <div class="sidebar-label">Affiliate</div>
-      <a class="nav-item" onclick="showPanel('affiliate')">
-        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
-        My link
-      </a>
-      <a class="nav-item" onclick="showPanel('revenue')">
-        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
-        Revenue
-        <span class="nav-badge">$298</span>
-      </a>
+    <div class="sb-div"></div>
+    <div class="sb-sec">
+      <div class="sb-lbl">Affiliate</div>
+      <button class="ni" onclick="show('affiliate')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>My link
+      </button>
+      <button class="ni" onclick="show('revenue')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>Revenue
+      </button>
     </div>
-    <div class="sidebar-divider"></div>
-    <div class="sidebar-section">
-      <a class="nav-item" href="index.html">
-        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-        Main site
+    <div class="sb-div"></div>
+    <div class="sb-sec">
+      <a class="ni" href="index.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>Main site
       </a>
     </div>
   </aside>
 
-  <!-- MAIN -->
-  <main class="main-content">
+  <main class="main">
 
-    <!-- ── PANEL: PROCESS ── -->
-    <div class="panel active" id="panel-process">
-      <div class="page-header">
-        <div class="page-eyebrow">My file</div>
-        <div class="page-title">Company Formation Progress</div>
-        <div class="page-sub" id="companyName">Complete your order to start the incorporation process</div>
+    <!-- PROCESS -->
+    <div class="panel act" id="panel-process">
+      <div class="ph">
+        <div class="pey">My file</div>
+        <div class="ptitle">Company Formation Progress</div>
+        <div class="psub" id="p-company">Loading your file...</div>
       </div>
-
-      <div class="status-banner" style="flex-wrap:wrap;gap:12px;">
-        <div class="status-dot" style="background:var(--sv);animation:none;flex-shrink:0;"></div>
-        <div class="status-text" style="flex:1;min-width:200px;">No active order yet. Place your order to begin the process — your file will be updated in real time.</div>
-        <a href="index.html#pricing" style="background:var(--red);color:#fff;padding:8px 18px;border-radius:2px;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;white-space:nowrap;flex-shrink:0;">Order now →</a>
-      </div>
-
-      <div class="progress-list">
-        <div class="progress-item pending">
-          <div class="progress-step-icon">○</div>
-          <div class="progress-step-info">
-            <div class="progress-step-name">Payment</div>
-            <div class="progress-step-desc">Complete your order to start the incorporation</div>
-          </div>
-          <div class="progress-step-status">Waiting</div>
-        </div>
-        <div class="progress-item pending">
-          <div class="progress-step-icon">○</div>
-          <div class="progress-step-info">
-            <div class="progress-step-name">Document verification</div>
-            <div class="progress-step-desc">Passport and proof of address</div>
-          </div>
-          <div class="progress-step-status">Waiting</div>
-        </div>
-        <div class="progress-item pending">
-          <div class="progress-step-icon">○</div>
-          <div class="progress-step-info">
-            <div class="progress-step-name">Registration filing</div>
-            <div class="progress-step-desc">Submission to the Hong Kong Companies Registry</div>
-          </div>
-          <div class="progress-step-status">Waiting</div>
-        </div>
-        <div class="progress-item pending">
-          <div class="progress-step-icon">○</div>
-          <div class="progress-step-info">
-            <div class="progress-step-name">Certificate of Incorporation</div>
-            <div class="progress-step-desc">Official CR certificate from the Companies Registry</div>
-          </div>
-          <div class="progress-step-status">Waiting</div>
-        </div>
-        <div class="progress-item pending">
-          <div class="progress-step-icon">○</div>
-          <div class="progress-step-info">
-            <div class="progress-step-name">Bank account opening</div>
-            <div class="progress-step-desc">Multi-currency account with partner bank</div>
-          </div>
-          <div class="progress-step-status">Waiting</div>
-        </div>
-        <div class="progress-item pending">
-          <div class="progress-step-icon">○</div>
-          <div class="progress-step-info">
-            <div class="progress-step-name">Documents delivered</div>
-            <div class="progress-step-desc">All official documents available in your dashboard</div>
-          </div>
-          <div class="progress-step-status">Waiting</div>
-        </div>
-      </div>
-
-      <div class="section-card">
-        <div class="section-card-header">
-          <div class="section-card-title">Company details</div>
-        </div>
-        <div class="section-card-body" style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
-          <div>
-            <div style="font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--sv);margin-bottom:4px;">Company name</div>
-            <div style="font-size:.88rem;color:var(--wh);" id="coName">—</div>
-          </div>
-          <div>
-            <div style="font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--sv);margin-bottom:4px;">Jurisdiction</div>
-            <div style="font-size:.88rem;color:var(--wh);">Hong Kong SAR</div>
-          </div>
-          <div>
-            <div style="font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--sv);margin-bottom:4px;">Type</div>
-            <div style="font-size:.88rem;color:var(--wh);">Private Limited Company</div>
-          </div>
-          <div>
-            <div style="font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--sv);margin-bottom:4px;">Order date</div>
-            <div style="font-size:.88rem;color:var(--wh);" id="orderDate">—</div>
-          </div>
+      <div id="p-banner"></div>
+      <div class="prog-list" id="p-steps"></div>
+      <div class="scard">
+        <div class="scard-hd"><div class="scard-title">Company details</div></div>
+        <div class="scard-body" style="display:grid;grid-template-columns:1fr 1fr;gap:14px;" id="p-details">
+          <div><div style="font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--sv);margin-bottom:3px;">Status</div><div style="font-size:.85rem;color:var(--wh);">Loading...</div></div>
         </div>
       </div>
     </div>
 
-    <!-- ── PANEL: DOCUMENTS ── -->
+    <!-- DOCUMENTS -->
     <div class="panel" id="panel-documents">
-      <div class="page-header">
-        <div class="page-eyebrow">Documents</div>
-        <div class="page-title">Official Company Documents</div>
-        <div class="page-sub">Your incorporation documents — available once processing is complete</div>
+      <div class="ph">
+        <div class="pey">Documents</div>
+        <div class="ptitle">Official Company Documents</div>
+        <div class="psub">Your documents — available as your file progresses</div>
       </div>
-
       <div class="docs-grid">
-        <div class="doc-card" onclick="alert('Document not yet available — in preparation')">
-          <div class="doc-card-icon">📄</div>
-          <div style="flex:1;">
-            <div class="doc-card-name">Certificate of Incorporation</div>
-            <div class="doc-card-meta">Issued by Companies Registry HK</div>
-          </div>
-          <div class="doc-status-pill pill-pend">Pending</div>
-        </div>
-        <div class="doc-card" onclick="alert('Document not yet available — in preparation')">
-          <div class="doc-card-icon">📋</div>
-          <div style="flex:1;">
-            <div class="doc-card-name">Articles of Association</div>
-            <div class="doc-card-meta">Memorandum & Articles of Association</div>
-          </div>
-          <div class="doc-status-pill pill-pend">Pending</div>
-        </div>
-        <div class="doc-card" onclick="alert('Document not yet available')">
-          <div class="doc-card-icon">🏦</div>
-          <div style="flex:1;">
-            <div class="doc-card-name">Bank Account Confirmation</div>
-            <div class="doc-card-meta">Multi-currency account details</div>
-          </div>
-          <div class="doc-status-pill pill-pend">Pending</div>
-        </div>
-        <div class="doc-card">
-          <div class="doc-card-icon">✅</div>
-          <div style="flex:1;">
-            <div class="doc-card-name">Payment Confirmation</div>
-            <div class="doc-card-meta">Available after payment</div>
-          </div>
-          <div class="doc-status-pill pill-pend">Pending</div>
-        </div>
-        <div class="doc-card" onclick="alert('Document not yet available')">
-          <div class="doc-card-icon">🗂️</div>
-          <div style="flex:1;">
-            <div class="doc-card-name">Business Registration Certificate</div>
-            <div class="doc-card-meta">Annual business licence</div>
-          </div>
-          <div class="doc-status-pill pill-pend">Pending</div>
-        </div>
-        <div class="doc-card" onclick="alert('Document not yet available')">
-          <div class="doc-card-icon">📊</div>
-          <div style="flex:1;">
-            <div class="doc-card-name">Register of Directors</div>
-            <div class="doc-card-meta">Official register of company officers</div>
-          </div>
-          <div class="doc-status-pill pill-pend">Pending</div>
-        </div>
+        <div class="dc"><div class="dc-ico">📄</div><div style="flex:1"><div class="dc-name">Certificate of Incorporation</div><div class="dc-meta">Issued by Companies Registry HK</div></div><div class="dpill pill-pend">Pending</div></div>
+        <div class="dc"><div class="dc-ico">📋</div><div style="flex:1"><div class="dc-name">Articles of Association</div><div class="dc-meta">Memorandum & Articles</div></div><div class="dpill pill-pend">Pending</div></div>
+        <div class="dc"><div class="dc-ico">🏦</div><div style="flex:1"><div class="dc-name">Bank Account Confirmation</div><div class="dc-meta">Multi-currency account details</div></div><div class="dpill pill-pend">Pending</div></div>
+        <div class="dc"><div class="dc-ico">🗂️</div><div style="flex:1"><div class="dc-name">Business Registration Certificate</div><div class="dc-meta">Annual business licence</div></div><div class="dpill pill-pend">Pending</div></div>
+        <div class="dc"><div class="dc-ico">📊</div><div style="flex:1"><div class="dc-name">Register of Directors</div><div class="dc-meta">Official register of company officers</div></div><div class="dpill pill-pend">Pending</div></div>
+        <div class="dc"><div class="dc-ico">✅</div><div style="flex:1"><div class="dc-name">Payment Confirmation</div><div class="dc-meta">Available after order</div></div><div class="dpill pill-pend">Pending</div></div>
       </div>
     </div>
 
-    <!-- ── PANEL: UPLOADS ── -->
+    <!-- UPLOADS -->
     <div class="panel" id="panel-uploads">
-      <div class="page-header">
-        <div class="page-eyebrow">My files</div>
-        <div class="page-title">Document Upload</div>
-        <div class="page-sub">Upload the required documents to process your incorporation</div>
+      <div class="ph">
+        <div class="pey">My files</div>
+        <div class="ptitle">Document Upload</div>
+        <div class="psub">Upload your documents so we can process your incorporation</div>
       </div>
-
-      <div class="upload-section">
-        <div class="upload-title">Required documents</div>
-        <div class="upload-list">
-          <div class="upload-item">
-            <div class="upload-item-icon">🛂</div>
-            <div style="flex:1;">
-              <div class="upload-item-name">Passport (copy)</div>
-              <div class="upload-item-status">All pages containing personal data</div>
-            </div>
-            <div class="doc-status-pill pill-done">Received ✓</div>
-          </div>
-          <div class="upload-item">
-            <div class="upload-item-icon">🤳</div>
-            <div style="flex:1;">
-              <div class="upload-item-name">Selfie with passport</div>
-              <div class="upload-item-status">Photo of you holding your open passport</div>
-            </div>
-            <div class="doc-status-pill pill-done">Received ✓</div>
-          </div>
-          <div class="upload-item" onclick="triggerUpload('address')">
-            <div class="upload-item-icon">🏠</div>
-            <div style="flex:1;">
-              <div class="upload-item-name">Proof of address</div>
-              <div class="upload-item-status">Utility bill or bank statement — less than 3 months</div>
-            </div>
-            <button class="upload-btn" onclick="triggerUpload('address')">Upload →</button>
-          </div>
-        </div>
+      <div style="font-size:.68rem;letter-spacing:.13em;text-transform:uppercase;color:var(--sv);margin-bottom:12px;">Required documents</div>
+      <div class="up-list" id="upload-list">
+        <div class="ui"><div class="ui-ico">🛂</div><div style="flex:1"><div class="ui-name">Passport (copy)</div><div class="ui-sub">All pages with personal data</div></div><button class="up-btn" onclick="triggerUpload('passport','Passport')">Upload →</button></div>
+        <div class="ui"><div class="ui-ico">🤳</div><div style="flex:1"><div class="ui-name">Selfie with passport</div><div class="ui-sub">Photo holding your open passport</div></div><button class="up-btn" onclick="triggerUpload('selfie','Selfie with passport')">Upload →</button></div>
+        <div class="ui"><div class="ui-ico">🏠</div><div style="flex:1"><div class="ui-name">Proof of address</div><div class="ui-sub">Utility bill or bank statement — under 3 months</div></div><button class="up-btn" onclick="triggerUpload('address_proof','Proof of address')">Upload →</button></div>
       </div>
-
-      <div class="upload-section">
-        <div class="upload-title">Optional documents</div>
-        <div class="upload-list">
-          <div class="upload-item" onclick="triggerUpload('contract')">
-            <div class="upload-item-icon">📝</div>
-            <div style="flex:1;">
-              <div class="upload-item-name">Sample client contract</div>
-              <div class="upload-item-status">Helps with bank account approval</div>
-            </div>
-            <button class="upload-btn">Upload →</button>
-          </div>
-          <div class="upload-item" onclick="triggerUpload('bank')">
-            <div class="upload-item-icon">🏦</div>
-            <div style="flex:1;">
-              <div class="upload-item-name">Personal bank statements</div>
-              <div class="upload-item-status">Last 3 months — strengthens banking application</div>
-            </div>
-            <button class="upload-btn">Upload →</button>
-          </div>
-        </div>
+      <div style="font-size:.68rem;letter-spacing:.13em;text-transform:uppercase;color:var(--sv);margin-bottom:12px;margin-top:6px;">Optional (helps with bank approval)</div>
+      <div class="up-list">
+        <div class="ui"><div class="ui-ico">📝</div><div style="flex:1"><div class="ui-name">Sample client contract</div><div class="ui-sub">Strengthens your banking application</div></div><button class="up-btn" onclick="triggerUpload('contract','Client contract')">Upload →</button></div>
+        <div class="ui"><div class="ui-ico">🏦</div><div style="flex:1"><div class="ui-name">Personal bank statements</div><div class="ui-sub">Last 3 months</div></div><button class="up-btn" onclick="triggerUpload('bank_statement','Bank statements')">Upload →</button></div>
       </div>
-
-      <input type="file" id="fileInput" style="display:none" onchange="handleFileUpload(this)">
+      <input type="file" id="fileInput" style="display:none" onchange="handleUpload(this)">
     </div>
 
-    <!-- ── PANEL: AFFILIATE ── -->
+    <!-- AFFILIATE -->
     <div class="panel" id="panel-affiliate">
-      <div class="page-header">
-        <div class="page-eyebrow">Affiliate Programme</div>
-        <div class="page-title">My Referral Link</div>
-        <div class="page-sub">Share your link and earn $149–$250 per confirmed referral</div>
+      <div class="ph">
+        <div class="pey">Affiliate Programme</div>
+        <div class="ptitle">My Referral Link</div>
+        <div class="psub">Share your link and earn $149–$250 per confirmed referral</div>
       </div>
-
       <div class="aff-stats">
-        <div class="aff-stat">
-          <div class="aff-stat-num" id="stat-clicks">0</div>
-          <div class="aff-stat-label">Link clicks</div>
-        </div>
-        <div class="aff-stat">
-          <div class="aff-stat-num" id="stat-leads">0</div>
-          <div class="aff-stat-label">Leads generated</div>
-        </div>
-        <div class="aff-stat">
-          <div class="aff-stat-num" id="stat-conv">0</div>
-          <div class="aff-stat-label">Conversions</div>
-        </div>
-        <div class="aff-stat">
-          <div class="aff-stat-num red" id="stat-earned">$0</div>
-          <div class="aff-stat-label">Total earned</div>
+        <div class="as"><div class="as-num" id="a-clicks">0</div><div class="as-lbl">Link clicks</div></div>
+        <div class="as"><div class="as-num" id="a-leads">0</div><div class="as-lbl">Leads</div></div>
+        <div class="as"><div class="as-num" id="a-conv">0</div><div class="as-lbl">Conversions</div></div>
+        <div class="as"><div class="as-num r" id="a-earned">$0</div><div class="as-lbl">Total earned</div></div>
+      </div>
+      <div class="link-box">
+        <div class="link-lbl">Your unique referral link</div>
+        <div class="link-row">
+          <div class="link-code" id="aff-link">Loading...</div>
+          <button class="copy-btn" onclick="copyLink()">Copy</button>
         </div>
       </div>
-
-      <div class="aff-link-box">
-        <div class="aff-link-label">Your unique referral link</div>
-        <div class="aff-link-row">
-          <div class="aff-link-code" id="affLink">https://luminous.hk/ref/JOHN2025</div>
-          <button class="btn-copy" onclick="copyLink()">Copy link</button>
-        </div>
-      </div>
-
-      <div class="section-card">
-        <div class="section-card-header">
-          <div class="section-card-title">Commission structure</div>
-        </div>
-        <div class="section-card-body">
-          <table class="aff-table">
-            <thead>
-              <tr>
-                <th>Monthly volume</th>
-                <th>Commission per formation</th>
-                <th>Your tier</th>
-              </tr>
-            </thead>
+      <div class="scard">
+        <div class="scard-hd"><div class="scard-title">Commission structure</div></div>
+        <div class="scard-body">
+          <table class="stbl">
+            <thead><tr><th>Monthly volume</th><th>Commission</th><th>Your tier</th></tr></thead>
             <tbody>
-              <tr>
-                <td>1–3 referrals / month</td>
-                <td style="color:var(--wh);font-weight:500;">$149</td>
-                <td><span class="aff-status badge-active">Current</span></td>
-              </tr>
-              <tr>
-                <td>4–9 referrals / month</td>
-                <td style="color:var(--wh);font-weight:500;">$199</td>
-                <td><span class="aff-status" style="color:var(--sv);">Locked</span></td>
-              </tr>
-              <tr>
-                <td>10+ referrals / month</td>
-                <td style="color:var(--wh);font-weight:500;">$250</td>
-                <td><span class="aff-status" style="color:var(--sv);">Locked</span></td>
-              </tr>
+              <tr><td>1–3 referrals/month</td><td style="color:var(--wh);font-weight:500;">$149</td><td><span class="dpill pill-ok">Current</span></td></tr>
+              <tr><td>4–9 referrals/month</td><td style="color:var(--wh);font-weight:500;">$199</td><td><span style="color:var(--sv);font-size:.75rem;">Locked</span></td></tr>
+              <tr><td>10+ referrals/month</td><td style="color:var(--wh);font-weight:500;">$250</td><td><span style="color:var(--sv);font-size:.75rem;">Locked</span></td></tr>
             </tbody>
           </table>
         </div>
       </div>
-
-      <div class="section-card">
-        <div class="section-card-header">
-          <div class="section-card-title">Recent referrals</div>
-        </div>
-        <div class="section-card-body">
-          <table class="aff-table">
-            <thead>
-              <tr><th>Name</th><th>Date</th><th>Status</th><th>Commission</th></tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td colspan="4" style="text-align:center;padding:32px;color:var(--sv);font-size:.82rem;">
-                  No referrals yet — share your link to start earning
-                </td>
-              </tr>
-            </tbody>
+      <div class="scard">
+        <div class="scard-hd"><div class="scard-title">Recent referrals</div></div>
+        <div class="scard-body">
+          <table class="stbl">
+            <thead><tr><th>Contact</th><th>Date</th><th>Status</th><th>Commission</th></tr></thead>
+            <tbody id="ref-table"><tr><td colspan="4" class="empty-row">No referrals yet — share your link to start earning</td></tr></tbody>
           </table>
         </div>
       </div>
     </div>
 
-    <!-- ── PANEL: REVENUE ── -->
+    <!-- REVENUE -->
     <div class="panel" id="panel-revenue">
-      <div class="page-header">
-        <div class="page-eyebrow">Revenue</div>
-        <div class="page-title">My Earnings</div>
-        <div class="page-sub">Track your affiliate commissions and payout history</div>
+      <div class="ph">
+        <div class="pey">Revenue</div>
+        <div class="ptitle">My Earnings</div>
+        <div class="psub">Your affiliate commissions and payout history</div>
       </div>
-
       <div class="rev-cards">
-        <div class="rev-card highlight">
-          <div class="rev-card-label">Total earned</div>
-          <div class="rev-card-amount"><span>$</span>0</div>
-          <div class="rev-card-sub">No earnings yet</div>
-        </div>
-        <div class="rev-card">
-          <div class="rev-card-label">Pending payout</div>
-          <div class="rev-card-amount">$0</div>
-          <div class="rev-card-sub">No pending payout</div>
-        </div>
-        <div class="rev-card">
-          <div class="rev-card-label">Already paid</div>
-          <div class="rev-card-amount">$0</div>
-          <div class="rev-card-sub">No payments yet</div>
-        </div>
+        <div class="rc hl"><div class="rc-lbl">Total earned</div><div class="rc-num"><span>$</span><span id="r-total">0</span></div><div class="rc-sub" id="r-total-sub">No earnings yet</div></div>
+        <div class="rc"><div class="rc-lbl">Pending payout</div><div class="rc-num">$<span id="r-pending">0</span></div><div class="rc-sub" id="r-pending-sub">Nothing pending</div></div>
+        <div class="rc"><div class="rc-lbl">Already paid</div><div class="rc-num">$<span id="r-paid">0</span></div><div class="rc-sub">Wire transfer</div></div>
       </div>
-
-      <div class="rev-history">
-        <div class="rev-history-header">
-          <div class="rev-history-title">Payment history</div>
-        </div>
-        <div style="text-align:center;padding:40px 20px;color:var(--sv);font-size:.82rem;">
-          No transactions yet — your earnings will appear here after your first conversion
-        </div>
-      </div>
-
-      <div class="section-card" style="margin-top:20px;">
-        <div class="section-card-header">
-          <div class="section-card-title">Payout settings</div>
-        </div>
-        <div class="section-card-body" style="display:flex;flex-direction:column;gap:14px;">
-          <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid rgba(255,255,255,0.05);">
-            <div>
-              <div style="font-size:.82rem;color:var(--wh);margin-bottom:3px;">Payment method</div>
-              <div style="font-size:.74rem;color:var(--sv);">Wire transfer (SWIFT)</div>
-            </div>
-            <button onclick="alert('Contact us on WhatsApp to update your payment details')" style="font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--red);background:none;border:none;cursor:pointer;font-family:inherit;">Edit →</button>
-          </div>
-          <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 0;">
-            <div>
-              <div style="font-size:.82rem;color:var(--wh);margin-bottom:3px;">Payout frequency</div>
-              <div style="font-size:.74rem;color:var(--sv);">Monthly — 1st of the month</div>
-            </div>
-            <button onclick="alert('Contact us on WhatsApp to update your payout schedule')" style="font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--red);background:none;border:none;cursor:pointer;font-family:inherit;">Edit →</button>
-          </div>
+      <div class="scard">
+        <div class="scard-hd"><div class="scard-title">Payment history</div></div>
+        <div id="r-history" style="padding:0 18px;">
+          <div style="text-align:center;padding:36px;color:var(--sv);font-size:.8rem;">No transactions yet — your earnings will appear here after your first conversion</div>
         </div>
       </div>
     </div>
@@ -611,79 +308,188 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
   </main>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-// ── AUTH CHECK ──
-const user = JSON.parse(sessionStorage.getItem('lum_user') || 'null');
-if (!user) { window.location.href = 'login.html'; }
-else {
-  const initials = user.name.split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2);
-  document.getElementById('userInitials').textContent = initials;
-  document.getElementById('userName').textContent = user.name;
-  // Set affiliate link
-  const slug = user.name.replace(/\s+/g,'').toUpperCase().slice(0,8) + '2025';
-  document.getElementById('affLink').textContent = 'https://luminous.hk/ref/' + slug;
-  // Set company details
-  if (user.company) {
-    document.getElementById('coName').textContent = user.company;
-    document.getElementById('companyName').textContent = user.company + ' · Registration in progress';
+const SB = supabase.createClient(
+  'https://nyqmhhtxqszlffqwjumw.supabase.co',
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im55cW1oaHR4cXN6bGZmcXdqdW13Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQyNjExMjMsImV4cCI6MjA4OTgzNzEyM30.ukSPu2axVpGkJ_op42qdROwjmvo0ml83QStPwixU7ls'
+);
+
+let currentUser = null;
+let profile = null;
+let dossier = null;
+let affiliate = null;
+let uploadType = '';
+let uploadName = '';
+
+const STEPS = [
+  {key:'pending',       label:'Order placed',           desc:'Waiting for payment confirmation'},
+  {key:'payment_confirmed', label:'Payment confirmed',  desc:'Full payment received'},
+  {key:'docs_verified', label:'Documents verified',     desc:'Passport and proof of address validated'},
+  {key:'filing',        label:'Registration filing',    desc:'Application submitted to Companies Registry HK'},
+  {key:'certificate_issued', label:'Certificate issued',desc:'Certificate of Incorporation issued'},
+  {key:'bank_opened',   label:'Bank account opened',    desc:'Multi-currency account activated'},
+  {key:'completed',     label:'File completed',         desc:'All documents delivered'}
+];
+const STATUS_ORDER = STEPS.map(s=>s.key);
+
+// ── INIT ──
+async function init() {
+  const {data:{session}} = await SB.auth.getSession();
+  if (!session) { window.location.href = 'login.html'; return; }
+  currentUser = session.user;
+
+  // Load profile
+  const {data:p} = await SB.from('profiles').select('*').eq('id', currentUser.id).single();
+  profile = p;
+
+  if (profile) {
+    const name = profile.full_name || currentUser.email;
+    const initials = name.split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2);
+    document.getElementById('uAvatar').textContent = initials;
+    document.getElementById('uName').textContent = name;
   }
-  document.getElementById('orderDate').textContent = new Date().toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'});
+
+  // Load dossier
+  const {data:d} = await SB.from('dossiers').select('*').eq('user_id', currentUser.id).single();
+  dossier = d;
+  renderProcess();
+
+  // Load affiliate
+  const {data:a} = await SB.from('affiliates').select('*').eq('user_id', currentUser.id).single();
+  affiliate = a;
+  if (!affiliate) {
+    // Create affiliate record
+    const code = (profile?.full_name||'USER').replace(/\s+/g,'').toUpperCase().slice(0,8) + Math.random().toString(36).slice(2,6).toUpperCase();
+    const {data:na} = await SB.from('affiliates').insert({user_id:currentUser.id, referral_code:code}).select().single();
+    affiliate = na;
+  }
+  renderAffiliate();
+
+  // Check goto
+  const goto = sessionStorage.getItem('lum_goto');
+  if (goto) { sessionStorage.removeItem('lum_goto'); show(goto); }
 }
 
-// ── NAVIGATION ──
-function showPanel(name) {
-  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-  document.getElementById('panel-' + name).classList.add('active');
-  // Find matching nav item
-  document.querySelectorAll('.nav-item').forEach(n => {
-    if (n.getAttribute('onclick') && n.getAttribute('onclick').includes("'" + name + "'")) {
-      n.classList.add('active');
+function renderProcess() {
+  const status = dossier?.status || 'pending';
+  const statusIdx = STATUS_ORDER.indexOf(status);
+  const company = dossier?.company_name || '—';
+
+  document.getElementById('p-company').textContent = company + ' · ' + (status === 'pending' ? 'No active order' : 'In progress');
+
+  // Banner
+  const banner = document.getElementById('p-banner');
+  if (status === 'pending') {
+    banner.innerHTML = `<div class="order-cta"><div class="order-cta-txt">No active order yet. Place your order to begin the incorporation process.</div><a href="index.html#pricing" class="order-cta-link">Order now →</a></div>`;
+  } else {
+    const labels = {payment_confirmed:'Payment confirmed — file in progress',filing:'Registration filing in progress',certificate_issued:'Certificate issued',bank_opened:'Bank account opened',completed:'File completed'};
+    banner.innerHTML = `<div class="banner"><div class="b-dot ${status==='completed'?'inactive':'active'}"></div><div class="b-txt">${labels[status]||'File in progress'}</div><div class="b-pill ${status==='completed'?'pill-ok':'pill-rev'}">${status==='completed'?'Completed':'In progress'}</div></div>`;
+  }
+
+  // Steps
+  const stepsEl = document.getElementById('p-steps');
+  stepsEl.innerHTML = STEPS.map((s,i) => {
+    const isDone = i < statusIdx;
+    const isProg = i === statusIdx && status !== 'pending';
+    const cls = isDone ? 'done' : isProg ? 'prog' : 'wait';
+    const ico = isDone ? '✓' : isProg ? '⟳' : '○';
+    const stat = isDone ? 'Done' : isProg ? 'In progress' : 'Waiting';
+    return `<div class="pi ${cls}"><div class="pi-ico">${ico}</div><div class="pi-info"><div class="pi-name">${s.label}</div><div class="pi-desc">${s.desc}</div></div><div class="pi-stat">${stat}</div></div>`;
+  }).join('');
+
+  // Details
+  document.getElementById('p-details').innerHTML = `
+    <div><div style="font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--sv);margin-bottom:3px;">Company name</div><div style="font-size:.85rem;color:var(--wh);">${company}</div></div>
+    <div><div style="font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--sv);margin-bottom:3px;">Jurisdiction</div><div style="font-size:.85rem;color:var(--wh);">Hong Kong SAR</div></div>
+    <div><div style="font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--sv);margin-bottom:3px;">Type</div><div style="font-size:.85rem;color:var(--wh);">Private Limited Company</div></div>
+    <div><div style="font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--sv);margin-bottom:3px;">Account created</div><div style="font-size:.85rem;color:var(--wh);">${new Date(dossier?.order_date||Date.now()).toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'})}</div></div>
+  `;
+}
+
+function renderAffiliate() {
+  if (!affiliate) return;
+  const code = affiliate.referral_code || 'LOADING';
+  document.getElementById('aff-link').textContent = 'https://luminous.hk/ref/' + code;
+  document.getElementById('a-earned').textContent = '$' + (affiliate.total_earned || 0);
+  document.getElementById('r-total').textContent = affiliate.total_earned || 0;
+  document.getElementById('r-pending').textContent = affiliate.pending_payout || 0;
+  document.getElementById('r-paid').textContent = affiliate.paid_out || 0;
+}
+
+// ── UPLOAD ──
+function triggerUpload(type, name) {
+  uploadType = type;
+  uploadName = name;
+  document.getElementById('fileInput').click();
+}
+
+async function handleUpload(input) {
+  if (!input.files.length) return;
+  const file = input.files[0];
+  const btn = document.querySelector(`[onclick="triggerUpload('${uploadType}','${uploadName}')"]`);
+
+  // Read as base64
+  const reader = new FileReader();
+  reader.onload = async (e) => {
+    const base64 = e.target.result;
+    // Save to DB
+    const {error} = await SB.from('documents').insert({
+      user_id: currentUser.id,
+      dossier_id: dossier?.id,
+      name: uploadName,
+      type: uploadType,
+      file_name: file.name,
+      file_size: file.size,
+      file_data: base64,
+      status: 'received'
+    });
+    if (!error) {
+      // Notify admin
+      await SB.from('notifications').insert({
+        type: 'new_document',
+        user_id: currentUser.id,
+        title: 'New document uploaded',
+        message: (profile?.full_name||'A client') + ' uploaded: ' + uploadName + ' (' + file.name + ')'
+      });
+      if (btn) { btn.textContent = 'Received ✓'; btn.classList.add('done-btn'); }
+      alert('✓ ' + uploadName + ' uploaded successfully. Our team will review it shortly.');
+    } else {
+      alert('Upload failed: ' + error.message);
     }
-  });
-  window.scrollTo(0, 0);
-}
-
-// ── LOGOUT ──
-function logout() {
-  sessionStorage.removeItem('lum_user');
-  window.location.href = 'login.html';
+  };
+  reader.readAsDataURL(file);
+  input.value = '';
 }
 
 // ── COPY LINK ──
 function copyLink() {
-  const link = document.getElementById('affLink').textContent;
+  const link = document.getElementById('aff-link').textContent;
   navigator.clipboard.writeText(link).then(() => {
-    const btn = document.querySelector('.btn-copy');
+    const btn = document.querySelector('.copy-btn');
     btn.textContent = 'Copied ✓';
-    btn.style.background = '#1a6b34';
-    setTimeout(() => { btn.textContent = 'Copy link'; btn.style.background = ''; }, 2000);
+    setTimeout(() => btn.textContent = 'Copy', 2000);
   });
 }
 
-// ── FILE UPLOAD ──
-let uploadTarget = '';
-function triggerUpload(type) {
-  uploadTarget = type;
-  document.getElementById('fileInput').click();
-}
-function handleFileUpload(input) {
-  if (input.files.length) {
-    alert('✓ File "' + input.files[0].name + '" uploaded successfully.\nOur team will review it shortly.');
-    input.value = '';
-  }
+// ── NAV ──
+function show(name) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('act'));
+  document.querySelectorAll('.ni').forEach(n => n.classList.remove('act'));
+  document.getElementById('panel-' + name).classList.add('act');
+  document.querySelectorAll('.ni').forEach(n => {
+    if (n.getAttribute('onclick') === `show('${name}')`) n.classList.add('act');
+  });
+  window.scrollTo(0,0);
 }
 
-// ── DOC DOWNLOAD (demo) ──
-function downloadDoc(type) {
-  alert('Downloading ' + type + '...\n\n(In production this will download your official document)');
+// ── LOGOUT ──
+async function logout() {
+  await SB.auth.signOut();
+  window.location.href = 'login.html';
 }
 
-// ── Auto-show affiliate panel if coming from affiliate page ──
-if (sessionStorage.getItem('lum_goto') === 'affiliate') {
-  sessionStorage.removeItem('lum_goto');
-  showPanel('affiliate');
-}
+init();
 </script>
 </body>
 </html>

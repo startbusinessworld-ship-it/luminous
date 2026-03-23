@@ -4,166 +4,164 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Login — Luminous</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-:root{--red:#C8102E;--red-dark:#9B0B22;--black:#0A0A0A;--dark:#111111;--dark2:#181818;--dark3:#222222;--grey:#2E2E2E;--grey2:#3A3A3A;--silver:#8A8A8A;--light:#D4D4D4;--white:#F5F5F5;}
+:root{--red:#C8102E;--rd:#9B0B22;--blk:#0A0A0A;--d2:#181818;--d3:#222;--gr:#2E2E2E;--g2:#3A3A3A;--sv:#8A8A8A;--lt:#D4D4D4;--wh:#F5F5F5;}
 *{margin:0;padding:0;box-sizing:border-box;}
-body{background:var(--black);color:var(--white);font-family:'DM Sans',sans-serif;min-height:100vh;display:flex;flex-direction:column;}
+body{background:var(--blk);color:var(--wh);font-family:system-ui,sans-serif;min-height:100vh;display:flex;flex-direction:column;}
 body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(200,16,46,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(200,16,46,0.03) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;}
 body::after{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 50% 60% at 50% 0%,rgba(200,16,46,0.07),transparent 70%);pointer-events:none;}
-
-/* NAV */
-nav{padding:20px 40px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,0.05);position:relative;z-index:10;}
-.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
-.logo-svg{width:28px;height:28px;}
-.nav-logo-text{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:600;color:var(--white);}
-.nav-back{font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--silver);text-decoration:none;display:flex;align-items:center;gap:8px;transition:color .3s;}
-.nav-back:hover{color:var(--white);}
-.nav-back svg{transition:transform .3s;}
-.nav-back:hover svg{transform:translateX(-3px);}
-
-/* MAIN */
+nav{padding:18px 40px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,0.05);position:relative;z-index:10;}
+.nav-back{font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--sv);text-decoration:none;display:flex;align-items:center;gap:7px;transition:color .3s;}
+.nav-back:hover{color:var(--wh);}
 main{flex:1;display:flex;align-items:center;justify-content:center;padding:40px 20px;position:relative;z-index:1;}
-.login-card{background:var(--dark2);border:1px solid var(--grey);border-radius:6px;width:100%;max-width:440px;overflow:hidden;}
-.login-card-top{padding:40px 40px 32px;border-bottom:1px solid var(--grey);}
-.login-eyebrow{font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;color:var(--red);margin-bottom:12px;display:flex;align-items:center;gap:10px;}
-.login-eyebrow::before{content:'';width:20px;height:1px;background:var(--red);}
-.login-title{font-family:'Cormorant Garamond',serif;font-size:1.9rem;font-weight:400;color:var(--white);line-height:1.15;}
-.login-sub{font-size:.8rem;color:var(--silver);margin-top:10px;line-height:1.6;font-weight:300;}
-.login-card-body{padding:36px 40px;}
-.form-group{display:flex;flex-direction:column;gap:7px;margin-bottom:18px;}
-.form-label{font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--silver);}
-.form-input{background:var(--dark3);border:1px solid var(--grey);color:var(--white);padding:13px 16px;font-size:.85rem;font-family:inherit;border-radius:2px;outline:none;transition:border-color .3s;width:100%;}
-.form-input:focus{border-color:var(--red);}
-.form-input::placeholder{color:var(--grey2);}
-.forgot{font-size:.72rem;color:var(--silver);text-decoration:none;text-align:right;display:block;margin-top:-10px;margin-bottom:28px;transition:color .3s;}
-.forgot:hover{color:var(--red);}
-.btn-login{width:100%;background:var(--red);color:#fff;padding:14px;font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;border:none;cursor:pointer;border-radius:2px;font-family:inherit;transition:all .3s;display:flex;align-items:center;justify-content:center;gap:10px;}
-.btn-login:hover{background:var(--red-dark);box-shadow:0 6px 20px rgba(200,16,46,0.3);}
-.login-footer{text-align:center;margin-top:24px;font-size:.75rem;color:var(--silver);}
-.login-footer a{color:var(--light);text-decoration:none;border-bottom:1px solid var(--grey);transition:all .3s;}
-.login-footer a:hover{color:var(--white);border-color:var(--red);}
-
-/* ERROR / SUCCESS */
-.alert{padding:12px 16px;border-radius:2px;font-size:.78rem;margin-bottom:18px;display:none;}
+.card{background:var(--d2);border:1px solid var(--gr);border-radius:6px;width:100%;max-width:420px;overflow:hidden;animation:fadeUp .5s ease both;}
+.card-top{padding:36px 36px 28px;border-bottom:1px solid var(--gr);}
+.eyebrow{font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--red);margin-bottom:12px;display:flex;align-items:center;gap:8px;}
+.eyebrow::before{content:'';width:16px;height:1px;background:var(--red);}
+h1{font-size:1.8rem;font-weight:400;color:var(--wh);line-height:1.15;}
+.sub{font-size:.78rem;color:var(--sv);margin-top:8px;line-height:1.6;}
+.card-body{padding:28px 36px;}
+.tabs{display:flex;margin-bottom:24px;border-bottom:1px solid var(--gr);}
+.tab{flex:1;padding:9px;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--sv);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;transition:all .3s;background:none;border-left:none;border-right:none;border-top:none;font-family:inherit;text-align:center;}
+.tab.active{color:var(--red);border-bottom-color:var(--red);}
+.tab-panel{display:none;}
+.tab-panel.active{display:block;}
+.fg{display:flex;flex-direction:column;gap:6px;margin-bottom:14px;}
+.flbl{font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:var(--sv);}
+.finp{background:var(--d3);border:1px solid var(--gr);color:var(--wh);padding:11px 14px;font-size:.84rem;font-family:inherit;border-radius:2px;outline:none;transition:border-color .3s;width:100%;}
+.finp:focus{border-color:var(--red);}
+.finp::placeholder{color:var(--g2);}
+.btn{width:100%;background:var(--red);color:#fff;padding:13px;font-size:.76rem;letter-spacing:.12em;text-transform:uppercase;border:none;cursor:pointer;border-radius:2px;font-family:inherit;transition:all .3s;margin-top:6px;display:flex;align-items:center;justify-content:center;gap:8px;}
+.btn:hover{background:var(--rd);}
+.btn:disabled{opacity:.6;cursor:not-allowed;}
+.alert{padding:11px 14px;border-radius:2px;font-size:.78rem;margin-bottom:14px;display:none;}
 .alert.show{display:block;}
-.alert-error{background:rgba(200,16,46,0.12);border:1px solid rgba(200,16,46,0.3);color:#ff6b6b;}
-.alert-success{background:rgba(50,200,100,0.1);border:1px solid rgba(50,200,100,0.3);color:#3cc468;}
-
-/* SPINNER */
-.spinner{width:16px;height:16px;border:2px solid rgba(255,255,255,0.3);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;display:none;}
-.btn-login.loading .spinner{display:block;}
-.btn-login.loading .btn-text{opacity:0.6;}
+.alert-err{background:rgba(200,16,46,0.12);border:1px solid rgba(200,16,46,0.3);color:#ff7070;}
+.alert-ok{background:rgba(50,200,100,0.1);border:1px solid rgba(50,200,100,0.25);color:#3cc468;}
+.forgot{font-size:.7rem;color:var(--sv);text-decoration:none;display:block;text-align:right;margin-top:-6px;margin-bottom:14px;transition:color .3s;}
+.forgot:hover{color:var(--red);}
+.spinner{width:14px;height:14px;border:2px solid rgba(255,255,255,0.3);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;display:none;}
+.btn.loading .spinner{display:block;}
+.btn.loading .btn-txt{opacity:.6;}
+footer{padding:18px 40px;text-align:center;font-size:.64rem;color:var(--g2);border-top:1px solid rgba(255,255,255,0.04);position:relative;z-index:1;}
 @keyframes spin{to{transform:rotate(360deg)}}
-@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
-.login-card{animation:fadeUp .5s ease both;}
-
-footer{padding:20px 40px;text-align:center;font-size:.65rem;color:var(--grey2);border-top:1px solid rgba(255,255,255,0.04);position:relative;z-index:1;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
 </style>
 </head>
 <body>
-
 <nav>
-  <a href="index.html" class="nav-logo">
-    <svg viewBox="0 0 280 88" xmlns="http://www.w3.org/2000/svg" style="height:40px;width:auto;">
-      <g transform="translate(5,5)">
-        <g transform="translate(38,38)">
-          <ellipse cx="0" cy="3" rx="34" ry="10" fill="none" stroke="white" stroke-width="2.2" transform="rotate(-22)"/>
-          <path d="M1.5,0 L1.5,-21 A21,21 0 0,1 22,0 Z" fill="white"/>
-          <path d="M-1.5,0 L-1.5,21 A21,21 0 0,1 -22,0 Z" fill="white"/>
-          <line x1="0" y1="-24" x2="0" y2="24" stroke="#0A0A0A" stroke-width="2.5"/>
-          <line x1="-24" y1="0" x2="24" y2="0" stroke="#0A0A0A" stroke-width="2.5"/>
-        </g>
-        <text x="84" y="34" font-family="DM Sans,Helvetica Neue,Arial,sans-serif" font-size="35" font-weight="300" fill="white" letter-spacing="-0.3">Luminos</text>
-        <text x="85" y="64" font-family="Noto Sans SC,PingFang SC,Microsoft YaHei,sans-serif" font-size="20" font-weight="300" fill="white" letter-spacing="5">徕米诺</text>
-      </g>
-    </svg>
+  <a href="index.html" style="text-decoration:none;">
+    <svg viewBox="0 0 280 88" xmlns="http://www.w3.org/2000/svg" style="height:34px;width:auto;"><g transform="translate(5,5)"><g transform="translate(38,38)"><ellipse cx="0" cy="3" rx="34" ry="10" fill="none" stroke="white" stroke-width="2.2" transform="rotate(-22)"/><path d="M1.5,0 L1.5,-21 A21,21 0 0,1 22,0 Z" fill="white"/><path d="M-1.5,0 L-1.5,21 A21,21 0 0,1 -22,0 Z" fill="white"/><line x1="0" y1="-24" x2="0" y2="24" stroke="#0A0A0A" stroke-width="2.5"/><line x1="-24" y1="0" x2="24" y2="0" stroke="#0A0A0A" stroke-width="2.5"/></g><text x="84" y="34" font-family="system-ui,sans-serif" font-size="35" font-weight="300" fill="white" letter-spacing="-0.3">Luminos</text><text x="85" y="64" font-family="system-ui,sans-serif" font-size="20" font-weight="300" fill="white" letter-spacing="5">徕米诺</text></g></svg>
   </a>
   <a href="index.html" class="nav-back">
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
     Back to site
   </a>
 </nav>
 
 <main>
-  <div class="login-card">
-    <div class="login-card-top">
-      <div class="login-eyebrow">Client Portal</div>
-      <h1 class="login-title">Welcome back</h1>
-      <p class="login-sub">Sign in to access your dashboard, track your company's progress, and manage your documents.</p>
+  <div class="card">
+    <div class="card-top">
+      <div class="eyebrow">Client Portal</div>
+      <h1>Welcome to Luminous</h1>
+      <p class="sub">Sign in to track your company formation or create an account to get started.</p>
     </div>
-    <div class="login-card-body">
-      <div class="alert alert-error" id="alertError">Invalid email or password. Please try again.</div>
-      <div class="alert alert-success" id="alertSuccess">Login successful — redirecting to your dashboard...</div>
-
-      <div class="form-group">
-        <label class="form-label">Email address</label>
-        <input class="form-input" type="email" id="emailInput" placeholder="john@example.com" autocomplete="email">
+    <div class="card-body">
+      <div class="tabs">
+        <button class="tab active" onclick="switchTab('login')">Sign in</button>
+        <button class="tab" onclick="switchTab('signup')">Create account</button>
       </div>
-      <div class="form-group">
-        <label class="form-label">Password</label>
-        <input class="form-input" type="password" id="passwordInput" placeholder="••••••••" autocomplete="current-password">
+      <div class="tab-panel active" id="tp-login">
+        <div class="alert alert-err" id="login-err"></div>
+        <div class="alert alert-ok" id="login-ok">Redirecting to your dashboard...</div>
+        <div class="fg"><label class="flbl">Email</label><input class="finp" type="email" id="login-email" placeholder="john@example.com"></div>
+        <div class="fg"><label class="flbl">Password</label><input class="finp" type="password" id="login-pass" placeholder="••••••••"></div>
+        <a href="#" class="forgot" onclick="forgotPwd(event)">Forgot password?</a>
+        <button class="btn" id="login-btn" onclick="doLogin()"><span class="btn-txt">Sign in</span><div class="spinner"></div></button>
       </div>
-      <a href="#" class="forgot">Forgot password?</a>
-
-      <button class="btn-login" id="loginBtn" onclick="handleLogin()">
-        <span class="btn-text">Sign in to Dashboard</span>
-        <div class="spinner"></div>
-      </button>
-
-      <div class="login-footer">
-        Not a client yet? <a href="index.html#pricing">Get started</a>
+      <div class="tab-panel" id="tp-signup">
+        <div class="alert alert-err" id="signup-err"></div>
+        <div class="alert alert-ok" id="signup-ok">Account created! Please check your email to confirm, then sign in.</div>
+        <div class="fg"><label class="flbl">Full name</label><input class="finp" type="text" id="signup-name" placeholder="John Smith"></div>
+        <div class="fg"><label class="flbl">Email</label><input class="finp" type="email" id="signup-email" placeholder="john@example.com"></div>
+        <div class="fg"><label class="flbl">Password</label><input class="finp" type="password" id="signup-pass" placeholder="Min. 8 characters"></div>
+        <div class="fg"><label class="flbl">Country of residence</label><input class="finp" type="text" id="signup-country" placeholder="France, UAE, China..."></div>
+        <button class="btn" id="signup-btn" onclick="doSignup()"><span class="btn-txt">Create my account</span><div class="spinner"></div></button>
       </div>
     </div>
   </div>
 </main>
-
 <footer>© 2025 Luminous · Hong Kong Corporate Services</footer>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-function handleLogin() {
-  const email = document.getElementById('emailInput').value.trim();
-  const password = document.getElementById('passwordInput').value;
-  const btn = document.getElementById('loginBtn');
-  const errAlert = document.getElementById('alertError');
-  const okAlert = document.getElementById('alertSuccess');
+const SB = supabase.createClient(
+  'https://nyqmhhtxqszlffqwjumw.supabase.co',
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im55cW1oaHR4cXN6bGZmcXdqdW13Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQyNjExMjMsImV4cCI6MjA4OTgzNzEyM30.ukSPu2axVpGkJ_op42qdROwjmvo0ml83QStPwixU7ls'
+);
 
-  errAlert.classList.remove('show');
-  okAlert.classList.remove('show');
+SB.auth.getSession().then(({data:{session}})=>{ if(session) window.location.href='dashboard.html'; });
 
-  if (!email || !password) {
-    errAlert.textContent = 'Please fill in all fields.';
-    errAlert.classList.add('show');
-    return;
-  }
+function switchTab(t){
+  document.querySelectorAll('.tab').forEach((el,i)=>el.classList.toggle('active',(i===0&&t==='login')||(i===1&&t==='signup')));
+  document.getElementById('tp-login').classList.toggle('active',t==='login');
+  document.getElementById('tp-signup').classList.toggle('active',t==='signup');
+}
+function loading(id,on){const b=document.getElementById(id);b.classList.toggle('loading',on);b.disabled=on;}
+function err(id,msg){const e=document.getElementById(id);e.textContent=msg;e.classList.add('show');}
+function clearErr(id){document.getElementById(id).classList.remove('show');}
+function ok(id){document.getElementById(id).classList.add('show');}
 
-  btn.classList.add('loading');
-  btn.disabled = true;
-
-  // Demo auth — replace with real API in production
-  setTimeout(() => {
-    btn.classList.remove('loading');
-    btn.disabled = false;
-
-    // Extract name from email for demo
-    const namePart = email.split('@')[0].replace(/[._]/g,' ');
-    const name = namePart.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
-
-    // Save user to sessionStorage
-    const user = {
-      email: email,
-      name: name,
-      company: name.split(' ')[0] + ' International Ltd.',
-      type: 'client'  // or 'affiliate'
-    };
-    sessionStorage.setItem('lum_user', JSON.stringify(user));
-
-    okAlert.classList.add('show');
-    setTimeout(() => { window.location.href = 'dashboard.html'; }, 1200);
-  }, 1200);
+async function doLogin(){
+  const email=document.getElementById('login-email').value.trim();
+  const pass=document.getElementById('login-pass').value;
+  clearErr('login-err');
+  if(!email||!pass){err('login-err','Please fill in all fields.');return;}
+  loading('login-btn',true);
+  const{error}=await SB.auth.signInWithPassword({email,password:pass});
+  loading('login-btn',false);
+  if(error){err('login-err',error.message);return;}
+  ok('login-ok');
+  setTimeout(()=>window.location.href='dashboard.html',1000);
 }
 
-document.addEventListener('keydown', e => { if(e.key === 'Enter') handleLogin(); });
+async function doSignup(){
+  const name=document.getElementById('signup-name').value.trim();
+  const email=document.getElementById('signup-email').value.trim();
+  const pass=document.getElementById('signup-pass').value;
+  const country=document.getElementById('signup-country').value.trim();
+  clearErr('signup-err');
+  if(!name||!email||!pass){err('signup-err','Please fill in all required fields.');return;}
+  if(pass.length<8){err('signup-err','Password must be at least 8 characters.');return;}
+  loading('signup-btn',true);
+  const{data,error}=await SB.auth.signUp({email,password:pass,options:{data:{full_name:name}}});
+  if(error){loading('signup-btn',false);err('signup-err',error.message);return;}
+  if(data.user){
+    await SB.from('profiles').insert({id:data.user.id,email,full_name:name,country,type:'client'});
+    await SB.from('dossiers').insert({user_id:data.user.id,company_name:name.split(' ')[0]+' International Ltd.',status:'pending'});
+    await SB.from('notifications').insert({type:'new_client',user_id:data.user.id,title:'New client registered',message:name+' ('+email+') from '+(country||'unknown')+' just created an account.'});
+  }
+  loading('signup-btn',false);
+  ok('signup-ok');
+}
+
+async function forgotPwd(e){
+  e.preventDefault();
+  const email=document.getElementById('login-email').value.trim();
+  if(!email){err('login-err','Enter your email address first.');return;}
+  const{error}=await SB.auth.resetPasswordForEmail(email,{redirectTo:window.location.origin+'/dashboard.html'});
+  if(error){err('login-err',error.message);return;}
+  clearErr('login-err');
+  document.getElementById('login-ok').textContent='Password reset email sent — check your inbox.';
+  ok('login-ok');
+}
+
+document.addEventListener('keydown',e=>{
+  if(e.key==='Enter'){
+    if(document.getElementById('tp-login').classList.contains('active'))doLogin();
+    else doSignup();
+  }
+});
 </script>
 </body>
 </html>

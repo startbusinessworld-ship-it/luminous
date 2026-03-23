@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin — Luminous</title>
+<style>
+:root{--red:#C8102E;--rd:#9B0B22;--blk:#0A0A0A;--drk:#111;--d2:#181818;--d3:#222;--gr:#2E2E2E;--g2:#3A3A3A;--sv:#8A8A8A;--lt:#D4D4D4;--wh:#F5F5F5;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--blk);color:var(--wh);font-family:system-ui,sans-serif;min-height:100vh;display:flex;flex-direction:column;}
+body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(200,16,46,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(200,16,46,0.025) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;z-index:0;}
+
+/* LOGIN SCREEN */
+#login-screen{position:fixed;inset:0;z-index:999;background:var(--blk);display:flex;align-items:center;justify-content:center;}
+.lcard{background:var(--d2);border:1px solid var(--gr);border-radius:6px;width:360px;padding:36px;}
+.lcard-eye{font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:var(--red);margin-bottom:12px;display:flex;align-items:center;gap:8px;}
+.lcard-eye::before{content:'';width:14px;height:1px;background:var(--red);}
+.lcard h2{font-size:1.6rem;font-weight:400;color:var(--wh);margin-bottom:6px;}
+.lcard-sub{font-size:.75rem;color:var(--sv);margin-bottom:24px;}
+.lfinp{background:var(--d3);border:1px solid var(--gr);color:var(--wh);padding:11px 14px;font-size:.84rem;font-family:inherit;border-radius:2px;outline:none;transition:border-color .3s;width:100%;margin-bottom:12px;}
+.lfinp:focus{border-color:var(--red);}
+.lbtn{width:100%;background:var(--red);color:#fff;padding:12px;font-size:.74rem;letter-spacing:.12em;text-transform:uppercase;border:none;cursor:pointer;border-radius:2px;font-family:inherit;transition:background .3s;}
+.lbtn:hover{background:var(--rd);}
+.lerr{font-size:.76rem;color:#ff7070;margin-top:10px;display:none;}
+.lerr.show{display:block;}
+
+/* TOPBAR */
+.topbar{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:13px 32px;background:rgba(10,10,10,0.97);border-bottom:1px solid rgba(255,255,255,0.06);}
+.admin-badge{display:flex;align-items:center;gap:8px;font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--red);background:rgba(200,16,46,0.1);border:1px solid rgba(200,16,46,0.2);padding:5px 12px;border-radius:2px;}
+.tbtn{font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;color:var(--sv);background:none;border:none;cursor:pointer;font-family:inherit;transition:color .3s;}
+.tbtn:hover{color:var(--red);}
+
+/* LAYOUT */
+.layout{display:flex;flex:1;position:relative;z-index:1;}
+.sidebar{width:200px;flex-shrink:0;background:var(--drk);border-right:1px solid rgba(255,255,255,0.05);padding:22px 0;position:sticky;top:51px;height:calc(100vh - 51px);overflow-y:auto;}
+.sb-lbl{font-size:.54rem;letter-spacing:.15em;text-transform:uppercase;color:var(--g2);padding:8px 14px 5px;}
+.ni{display:flex;align-items:center;gap:9px;padding:9px 14px;cursor:pointer;transition:all .22s;font-size:.79rem;color:var(--sv);background:none;border:none;font-family:inherit;width:100%;text-align:left;}
+.ni:hover{background:rgba(255,255,255,0.04);color:var(--lt);}
+.ni.act{background:rgba(200,16,46,0.1);color:var(--wh);}
+.ni.act svg{color:var(--red);}
+.ni svg{width:14px;height:14px;flex-shrink:0;opacity:.65;}
+.ni.act svg{opacity:1;}
+.notif-dot{width:7px;height:7px;border-radius:50%;background:var(--red);margin-left:auto;animation:pulse 2s infinite;display:none;}
+.sb-div{height:1px;background:rgba(255,255,255,0.05);margin:8px 14px;}
+
+/* MAIN */
+.main{flex:1;padding:30px 34px;overflow-y:auto;}
+.panel{display:none;}
+.panel.act{display:block;animation:fadeIn .3s ease both;}
+.ph{margin-bottom:24px;}
+.pey{font-size:.57rem;letter-spacing:.18em;text-transform:uppercase;color:var(--red);margin-bottom:6px;display:flex;align-items:center;gap:7px;}
+.pey::before{content:'';width:13px;height:1px;background:var(--red);}
+.ptitle{font-size:1.7rem;font-weight:400;color:var(--wh);}
+.psub{font-size:.76rem;color:var(--sv);margin-top:4px;}
+
+/* STATS ROW */
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:22px;}
+.stat{background:var(--d2);border:1px solid var(--gr);border-radius:4px;padding:18px;}
+.stat-num{font-size:1.9rem;font-weight:600;color:var(--wh);line-height:1;}
+.stat-num.r{color:var(--red);}
+.stat-lbl{font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--sv);margin-top:5px;}
+
+/* NOTIFICATIONS */
+.notif-list{display:flex;flex-direction:column;gap:2px;margin-bottom:22px;}
+.notif{display:flex;align-items:flex-start;gap:12px;padding:13px 16px;background:var(--d2);border:1px solid var(--gr);border-radius:3px;transition:all .3s;}
+.notif.unread{border-color:rgba(200,16,46,0.25);background:rgba(200,16,46,0.04);}
+.notif-ico{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.85rem;flex-shrink:0;}
+.ico-client{background:rgba(50,100,200,0.12);}
+.ico-doc{background:rgba(200,150,0,0.1);}
+.ico-aff{background:rgba(50,200,100,0.1);}
+.notif-body{flex:1;}
+.notif-title{font-size:.82rem;font-weight:500;color:var(--wh);margin-bottom:3px;}
+.notif.unread .notif-title{color:var(--wh);}
+.notif-msg{font-size:.74rem;color:var(--sv);line-height:1.5;}
+.notif-time{font-size:.66rem;color:var(--g2);margin-top:3px;}
+.notif-mark{font-size:.64rem;letter-spacing:.08em;text-transform:uppercase;color:var(--sv);background:none;border:none;cursor:pointer;font-family:inherit;flex-shrink:0;transition:color .3s;margin-top:4px;}
+.notif-mark:hover{color:var(--red);}
+
+/* TABLES */
+.tbl-wrap{overflow-x:auto;}
+table{width:100%;border-collapse:collapse;}
+th{font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--sv);padding:10px 12px;text-align:left;border-bottom:1px solid var(--gr);}
+td{font-size:.78rem;color:var(--lt);padding:11px 12px;border-bottom:1px solid rgba(255,255,255,0.04);vertical-align:middle;}
+tr:hover td{background:rgba(255,255,255,0.02);}
+.empty{text-align:center;padding:32px;color:var(--sv);font-size:.8rem;}
+
+/* STATUS SELECT */
+.status-sel{background:var(--d3);border:1px solid var(--gr);color:var(--wh);padding:5px 8px;border-radius:2px;font-size:.72rem;font-family:inherit;cursor:pointer;outline:none;}
+.status-sel:focus{border-color:var(--red);}
+option{background:var(--d3);}
+
+/* PILLS */
+.pill{display:inline-block;padding:3px 8px;border-radius:2px;font-size:.6rem;letter-spacing:.07em;text-transform:uppercase;}
+.pill-pend{background:rgba(200,16,46,0.12);color:var(--red);}
+.pill-ok{background:rgba(50,200,100,0.1);color:#3cc468;}
+.pill-rev{background:rgba(200,150,0,0.1);color:#c89600;}
+
+/* SCARD */
+.scard{background:var(--d2);border:1px solid var(--gr);border-radius:4px;overflow:hidden;margin-bottom:18px;}
+.scard-hd{display:flex;justify-content:space-between;align-items:center;padding:13px 18px;border-bottom:1px solid var(--gr);}
+.scard-title{font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;color:var(--sv);}
+
+/* DOC VIEWER */
+#doc-modal{position:fixed;inset:0;z-index:500;background:rgba(0,0,0,0.9);display:none;align-items:center;justify-content:center;padding:20px;}
+#doc-modal.open{display:flex;}
+.doc-box{background:var(--d2);border:1px solid var(--gr);border-radius:6px;max-width:800px;width:100%;max-height:90vh;overflow:hidden;display:flex;flex-direction:column;}
+.doc-box-hd{display:flex;justify-content:space-between;align-items:center;padding:16px 22px;border-bottom:1px solid var(--gr);}
+.doc-box-title{font-size:.8rem;font-weight:500;color:var(--wh);}
+.close-btn{background:none;border:none;color:var(--sv);font-size:1.3rem;cursor:pointer;transition:color .3s;}
+.close-btn:hover{color:var(--red);}
+.doc-box-body{flex:1;overflow-y:auto;padding:20px;text-align:center;}
+#doc-preview{max-width:100%;max-height:60vh;border-radius:4px;}
+.dl-btn{display:inline-block;margin-top:16px;background:var(--red);color:#fff;padding:10px 22px;border-radius:2px;font-size:.74rem;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;transition:background .3s;}
+.dl-btn:hover{background:var(--rd);}
+
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+</style>
+</head>
+<body>
+
+<!-- ADMIN LOGIN -->
+<div id="login-screen">
+  <div class="lcard">
+    <div class="lcard-eye">Admin Portal</div>
+    <h2>Luminous Admin</h2>
+    <p class="lcard-sub">Access restricted to authorised administrators.</p>
+    <input class="lfinp" type="password" id="admin-pwd" placeholder="Admin password" onkeydown="if(event.key==='Enter')checkAdmin()">
+    <button class="lbtn" onclick="checkAdmin()">Sign in</button>
+    <div class="lerr" id="admin-err">Incorrect password</div>
+  </div>
+</div>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <a href="index.html" style="text-decoration:none;">
+    <svg viewBox="0 0 280 88" xmlns="http://www.w3.org/2000/svg" style="height:30px;width:auto;"><g transform="translate(5,5)"><g transform="translate(38,38)"><ellipse cx="0" cy="3" rx="34" ry="10" fill="none" stroke="white" stroke-width="2.2" transform="rotate(-22)"/><path d="M1.5,0 L1.5,-21 A21,21 0 0,1 22,0 Z" fill="white"/><path d="M-1.5,0 L-1.5,21 A21,21 0 0,1 -22,0 Z" fill="white"/><line x1="0" y1="-24" x2="0" y2="24" stroke="#0A0A0A" stroke-width="2.5"/><line x1="-24" y1="0" x2="24" y2="0" stroke="#0A0A0A" stroke-width="2.5"/></g><text x="84" y="34" font-family="system-ui" font-size="35" font-weight="300" fill="white" letter-spacing="-0.3">Luminos</text><text x="85" y="64" font-family="system-ui" font-size="20" font-weight="300" fill="white" letter-spacing="5">徕米诺</text></g></svg>
+  </a>
+  <div style="display:flex;align-items:center;gap:14px;">
+    <div class="admin-badge">⚙️ Admin Panel</div>
+    <button class="tbtn" onclick="adminLogout()">Logout</button>
+  </div>
+</div>
+
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sb-lbl">Overview</div>
+    <button class="ni act" onclick="show('notifications')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+      Notifications
+      <div class="notif-dot" id="nb-dot"></div>
+    </button>
+    <button class="ni" onclick="show('clients')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      Clients
+    </button>
+    <div class="sb-div"></div>
+    <div class="sb-lbl">Documents</div>
+    <button class="ni" onclick="show('documents')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+      Documents
+    </button>
+    <div class="sb-div"></div>
+    <div class="sb-lbl">Affiliate</div>
+    <button class="ni" onclick="show('affiliates')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+      Affiliates
+    </button>
+    <button class="ni" onclick="show('referrals')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+      Commissions
+    </button>
+  </aside>
+
+  <main class="main">
+
+    <!-- NOTIFICATIONS -->
+    <div class="panel act" id="panel-notifications">
+      <div class="ph">
+        <div class="pey">Admin</div>
+        <div class="ptitle">Notifications</div>
+        <div class="psub">New registrations, documents and affiliates</div>
+      </div>
+      <div class="stats-row" id="admin-stats">
+        <div class="stat"><div class="stat-num" id="s-clients">—</div><div class="stat-lbl">Total clients</div></div>
+        <div class="stat"><div class="stat-num" id="s-docs">—</div><div class="stat-lbl">Documents received</div></div>
+        <div class="stat"><div class="stat-num" id="s-aff">—</div><div class="stat-lbl">Affiliates</div></div>
+        <div class="stat"><div class="stat-num r" id="s-notif">—</div><div class="stat-lbl">Unread notifications</div></div>
+      </div>
+      <div class="notif-list" id="notif-list">
+        <div style="text-align:center;padding:32px;color:var(--sv);font-size:.8rem;">Loading notifications...</div>
+      </div>
+    </div>
+
+    <!-- CLIENTS -->
+    <div class="panel" id="panel-clients">
+      <div class="ph">
+        <div class="pey">Clients</div>
+        <div class="ptitle">All clients</div>
+        <div class="psub">Manage client files and update dossier statuses</div>
+      </div>
+      <div class="scard">
+        <div class="scard-hd"><div class="scard-title">Client list</div></div>
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr><th>Name</th><th>Email</th><th>Country</th><th>Company</th><th>Status</th><th>Registered</th><th>Update status</th></tr></thead>
+            <tbody id="clients-table"><tr><td colspan="7" class="empty">Loading...</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- DOCUMENTS -->
+    <div class="panel" id="panel-documents">
+      <div class="ph">
+        <div class="pey">Documents</div>
+        <div class="ptitle">Uploaded documents</div>
+        <div class="psub">View and download all client documents</div>
+      </div>
+      <div class="scard">
+        <div class="scard-hd"><div class="scard-title">All documents</div></div>
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr><th>Client</th><th>Document</th><th>File</th><th>Size</th><th>Uploaded</th><th>Status</th><th>Action</th></tr></thead>
+            <tbody id="docs-table"><tr><td colspan="7" class="empty">Loading...</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- AFFILIATES -->
+    <div class="panel" id="panel-affiliates">
+      <div class="ph">
+        <div class="pey">Affiliate</div>
+        <div class="ptitle">Affiliates</div>
+        <div class="psub">All affiliate partners and their performance</div>
+      </div>
+      <div class="scard">
+        <div class="scard-hd"><div class="scard-title">Affiliate list</div></div>
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr><th>Name</th><th>Email</th><th>Referral code</th><th>Total earned</th><th>Pending</th><th>Paid out</th><th>Joined</th></tr></thead>
+            <tbody id="aff-table"><tr><td colspan="7" class="empty">Loading...</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- REFERRALS / COMMISSIONS -->
+    <div class="panel" id="panel-referrals">
+      <div class="ph">
+        <div class="pey">Commissions</div>
+        <div class="ptitle">Referrals & commissions</div>
+        <div class="psub">Track all referrals and update commission statuses</div>
+      </div>
+      <div class="scard">
+        <div class="scard-hd"><div class="scard-title">All referrals</div></div>
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr><th>Affiliate</th><th>Referred email</th><th>Status</th><th>Commission</th><th>Date</th><th>Update</th></tr></thead>
+            <tbody id="ref-table"><tr><td colspan="6" class="empty">Loading...</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- DOC MODAL -->
+<div id="doc-modal">
+  <div class="doc-box">
+    <div class="doc-box-hd">
+      <div class="doc-box-title" id="doc-modal-title">Document</div>
+      <button class="close-btn" onclick="closeDoc()">×</button>
+    </div>
+    <div class="doc-box-body">
+      <img id="doc-preview" src="" alt="Document preview" style="display:none;">
+      <div id="doc-pdf-msg" style="color:var(--sv);font-size:.82rem;display:none;">PDF document — use the download button below to view it.</div>
+      <a id="doc-dl" href="#" class="dl-btn" download>Download document</a>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const SB = supabase.createClient(
+  'https://nyqmhhtxqszlffqwjumw.supabase.co',
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im55cW1oaHR4cXN6bGZmcXdqdW13Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQyNjExMjMsImV4cCI6MjA4OTgzNzEyM30.ukSPu2axVpGkJ_op42qdROwjmvo0ml83QStPwixU7ls'
+);
+const ADMIN_PWD = 'Luminos@!';
+
+// ── AUTH ──
+function checkAdmin() {
+  const pwd = document.getElementById('admin-pwd').value;
+  if (pwd === ADMIN_PWD) {
+    document.getElementById('login-screen').style.display = 'none';
+    sessionStorage.setItem('lum_admin', '1');
+    loadAll();
+  } else {
+    document.getElementById('admin-err').classList.add('show');
+  }
+}
+function adminLogout() {
+  sessionStorage.removeItem('lum_admin');
+  document.getElementById('login-screen').style.display = 'flex';
+  document.getElementById('admin-pwd').value = '';
+  document.getElementById('admin-err').classList.remove('show');
+}
+if (sessionStorage.getItem('lum_admin') === '1') {
+  document.getElementById('login-screen').style.display = 'none';
+  document.addEventListener('DOMContentLoaded', loadAll);
+}
+
+// ── LOAD ALL ──
+async function loadAll() {
+  await Promise.all([loadStats(), loadNotifications(), loadClients(), loadDocuments(), loadAffiliates(), loadReferrals()]);
+}
+
+async function loadStats() {
+  const [cl, dc, af, nt] = await Promise.all([
+    SB.from('profiles').select('id', {count:'exact'}),
+    SB.from('documents').select('id', {count:'exact'}),
+    SB.from('affiliates').select('id', {count:'exact'}),
+    SB.from('notifications').select('id', {count:'exact'}).eq('read', false)
+  ]);
+  document.getElementById('s-clients').textContent = cl.count || 0;
+  document.getElementById('s-docs').textContent = dc.count || 0;
+  document.getElementById('s-aff').textContent = af.count || 0;
+  document.getElementById('s-notif').textContent = nt.count || 0;
+  if ((nt.count||0) > 0) document.getElementById('nb-dot').style.display = 'block';
+}
+
+async function loadNotifications() {
+  const {data} = await SB.from('notifications').select('*').order('created_at', {ascending:false}).limit(50);
+  const el = document.getElementById('notif-list');
+  if (!data?.length) { el.innerHTML = '<div style="text-align:center;padding:32px;color:var(--sv);font-size:.8rem;">No notifications yet</div>'; return; }
+  const icons = {new_client:'👤', new_document:'📄', new_affiliate:'🤝', new_referral:'🔗'};
+  const icoClass = {new_client:'ico-client', new_document:'ico-doc', new_affiliate:'ico-aff', new_referral:'ico-aff'};
+  el.innerHTML = data.map(n => `
+    <div class="notif ${n.read?'':'unread'}" id="notif-${n.id}">
+      <div class="notif-ico ${icoClass[n.type]||'ico-client'}">${icons[n.type]||'🔔'}</div>
+      <div class="notif-body">
+        <div class="notif-title">${n.title}</div>
+        <div class="notif-msg">${n.message}</div>
+        <div class="notif-time">${new Date(n.created_at).toLocaleString('en-GB')}</div>
+      </div>
+      ${!n.read?`<button class="notif-mark" onclick="markRead('${n.id}')">Mark read</button>`:''}
+    </div>`).join('');
+}
+
+async function markRead(id) {
+  await SB.from('notifications').update({read:true}).eq('id',id);
+  const el = document.getElementById('notif-' + id);
+  if (el) { el.classList.remove('unread'); el.querySelector('.notif-mark')?.remove(); }
+  loadStats();
+}
+
+async function loadClients() {
+  const {data:profiles} = await SB.from('profiles').select('*').order('created_at',{ascending:false});
+  const {data:dossiers} = await SB.from('dossiers').select('*');
+  const tb = document.getElementById('clients-table');
+  if (!profiles?.length) { tb.innerHTML = '<tr><td colspan="7" class="empty">No clients yet</td></tr>'; return; }
+  const dos = Object.fromEntries((dossiers||[]).map(d=>[d.user_id,d]));
+  tb.innerHTML = profiles.map(p => {
+    const d = dos[p.id];
+    return `<tr>
+      <td style="font-weight:500;color:var(--wh);">${p.full_name||'—'}</td>
+      <td>${p.email}</td>
+      <td>${p.country||'—'}</td>
+      <td>${d?.company_name||'—'}</td>
+      <td><span class="pill ${d?.status==='completed'?'pill-ok':d?.status==='pending'?'pill-pend':'pill-rev'}">${d?.status||'—'}</span></td>
+      <td style="color:var(--sv);">${new Date(p.created_at).toLocaleDateString('en-GB')}</td>
+      <td>${d?`<select class="status-sel" onchange="updateStatus('${d.id}',this.value)">
+        <option value="pending" ${d.status==='pending'?'selected':''}>Pending</option>
+        <option value="payment_confirmed" ${d.status==='payment_confirmed'?'selected':''}>Payment confirmed</option>
+        <option value="docs_verified" ${d.status==='docs_verified'?'selected':''}>Docs verified</option>
+        <option value="filing" ${d.status==='filing'?'selected':''}>Filing</option>
+        <option value="certificate_issued" ${d.status==='certificate_issued'?'selected':''}>Certificate issued</option>
+        <option value="bank_opened" ${d.status==='bank_opened'?'selected':''}>Bank opened</option>
+        <option value="completed" ${d.status==='completed'?'selected':''}>Completed</option>
+      </select>`:'—'}</td>
+    </tr>`;
+  }).join('');
+}
+
+async function updateStatus(dossierId, newStatus) {
+  const {error} = await SB.from('dossiers').update({status:newStatus, updated_at:new Date().toISOString()}).eq('id',dossierId);
+  if (error) alert('Error: ' + error.message);
+  else {
+    // Show brief confirmation
+    const sel = document.querySelector(`[onchange="updateStatus('${dossierId}',this.value)"]`);
+    if (sel) { const orig = sel.style.borderColor; sel.style.borderColor='#3cc468'; setTimeout(()=>sel.style.borderColor=orig,1500); }
+  }
+}
+
+async function loadDocuments() {
+  const {data:docs} = await SB.from('documents').select('*, profiles(full_name,email)').order('uploaded_at',{ascending:false});
+  const tb = document.getElementById('docs-table');
+  if (!docs?.length) { tb.innerHTML = '<tr><td colspan="7" class="empty">No documents uploaded yet</td></tr>'; return; }
+  tb.innerHTML = docs.map(d => `<tr>
+    <td style="color:var(--wh);">${d.profiles?.full_name||'—'}<div style="font-size:.68rem;color:var(--sv);">${d.profiles?.email||''}</div></td>
+    <td>${d.name}</td>
+    <td style="color:var(--sv);font-size:.74rem;">${d.file_name||'—'}</td>
+    <td style="color:var(--sv);">${d.file_size?Math.round(d.file_size/1024)+' KB':'—'}</td>
+    <td style="color:var(--sv);">${new Date(d.uploaded_at).toLocaleDateString('en-GB')}</td>
+    <td><span class="pill ${d.status==='verified'?'pill-ok':d.status==='rejected'?'pill-pend':'pill-rev'}">${d.status}</span></td>
+    <td>
+      ${d.file_data?`<button onclick="viewDoc('${d.id}','${d.name}','${d.file_name||''}')" style="font-size:.66rem;letter-spacing:.08em;text-transform:uppercase;color:var(--red);background:none;border:none;cursor:pointer;font-family:inherit;">View →</button>`:'—'}
+      <select class="status-sel" style="margin-left:6px;" onchange="updateDocStatus('${d.id}',this.value)">
+        <option value="received" ${d.status==='received'?'selected':''}>Received</option>
+        <option value="verified" ${d.status==='verified'?'selected':''}>Verified</option>
+        <option value="rejected" ${d.status==='rejected'?'selected':''}>Rejected</option>
+      </select>
+    </td>
+  </tr>`).join('');
+}
+
+// Store docs for viewing
+let docsCache = {};
+async function viewDoc(id, name, filename) {
+  if (!docsCache[id]) {
+    const {data} = await SB.from('documents').select('file_data,file_name').eq('id',id).single();
+    docsCache[id] = data;
+  }
+  const doc = docsCache[id];
+  if (!doc?.file_data) { alert('File not available'); return; }
+  document.getElementById('doc-modal-title').textContent = name + (filename?' — '+filename:'');
+  const preview = document.getElementById('doc-preview');
+  const pdfMsg = document.getElementById('doc-pdf-msg');
+  const dl = document.getElementById('doc-dl');
+  dl.href = doc.file_data;
+  dl.download = doc.file_name || name;
+  if (doc.file_data.startsWith('data:image')) {
+    preview.src = doc.file_data; preview.style.display='block'; pdfMsg.style.display='none';
+  } else {
+    preview.style.display='none'; pdfMsg.style.display='block';
+  }
+  document.getElementById('doc-modal').classList.add('open');
+}
+function closeDoc() { document.getElementById('doc-modal').classList.remove('open'); }
+
+async function updateDocStatus(docId, status) {
+  await SB.from('documents').update({status}).eq('id',docId);
+}
+
+async function loadAffiliates() {
+  const {data} = await SB.from('affiliates').select('*, profiles(full_name,email)').order('created_at',{ascending:false});
+  const tb = document.getElementById('aff-table');
+  if (!data?.length) { tb.innerHTML = '<tr><td colspan="7" class="empty">No affiliates yet</td></tr>'; return; }
+  tb.innerHTML = data.map(a => `<tr>
+    <td style="font-weight:500;color:var(--wh);">${a.profiles?.full_name||'—'}</td>
+    <td>${a.profiles?.email||'—'}</td>
+    <td style="font-family:monospace;color:var(--red);">${a.referral_code}</td>
+    <td style="color:#3cc468;font-weight:500;">$${a.total_earned||0}</td>
+    <td style="color:#c89600;">$${a.pending_payout||0}</td>
+    <td style="color:var(--sv);">$${a.paid_out||0}</td>
+    <td style="color:var(--sv);">${new Date(a.created_at).toLocaleDateString('en-GB')}</td>
+  </tr>`).join('');
+}
+
+async function loadReferrals() {
+  const {data} = await SB.from('referrals').select('*, affiliates(referral_code, profiles(full_name))').order('created_at',{ascending:false});
+  const tb = document.getElementById('ref-table');
+  if (!data?.length) { tb.innerHTML = '<tr><td colspan="6" class="empty">No referrals yet</td></tr>'; return; }
+  tb.innerHTML = data.map(r => `<tr>
+    <td style="color:var(--wh);">${r.affiliates?.profiles?.full_name||'—'}<div style="font-size:.68rem;color:var(--sv);">${r.affiliates?.referral_code||''}</div></td>
+    <td>${r.referred_email||'—'}</td>
+    <td><span class="pill ${r.status==='paid'?'pill-ok':r.status==='converted'?'pill-rev':'pill-pend'}">${r.status}</span></td>
+    <td style="color:#3cc468;font-weight:500;">$${r.commission||149}</td>
+    <td style="color:var(--sv);">${new Date(r.created_at).toLocaleDateString('en-GB')}</td>
+    <td>
+      <select class="status-sel" onchange="updateReferral('${r.id}',this.value)">
+        <option value="pending" ${r.status==='pending'?'selected':''}>Pending</option>
+        <option value="converted" ${r.status==='converted'?'selected':''}>Converted</option>
+        <option value="paid" ${r.status==='paid'?'selected':''}>Paid</option>
+      </select>
+    </td>
+  </tr>`).join('');
+}
+
+async function updateReferral(id, status) {
+  await SB.from('referrals').update({status}).eq('id',id);
+  if (status === 'paid') {
+    // Update affiliate totals
+    const {data:ref} = await SB.from('referrals').select('affiliate_id,commission').eq('id',id).single();
+    if (ref) {
+      const {data:aff} = await SB.from('affiliates').select('*').eq('id',ref.affiliate_id).single();
+      if (aff) {
+        await SB.from('affiliates').update({
+          paid_out: (aff.paid_out||0) + (ref.commission||149),
+          pending_payout: Math.max(0,(aff.pending_payout||0) - (ref.commission||149))
+        }).eq('id',aff.id);
+      }
+    }
+  }
+}
+
+// ── NAV ──
+function show(name) {
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('act'));
+  document.querySelectorAll('.ni').forEach(n=>n.classList.remove('act'));
+  document.getElementById('panel-'+name).classList.add('act');
+  document.querySelectorAll('.ni').forEach(n=>{if(n.getAttribute('onclick')===`show('${name}')`)n.classList.add('act');});
+}
+
+// Close modal on background click
+document.getElementById('doc-modal').addEventListener('click', e => { if(e.target===document.getElementById('doc-modal'))closeDoc(); });
+</script>
+</body>
+</html>
