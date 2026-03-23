@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blog — Luminous</title>
+<meta name="description" content="Insights on Hong Kong company formation, banking, and international business structure.">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{--red:#C8102E;--rd:#9B0B22;--blk:#0A0A0A;--drk:#111;--d2:#181818;--d3:#222;--gr:#2E2E2E;--g2:#3A3A3A;--sv:#8A8A8A;--lt:#D4D4D4;--wh:#F5F5F5;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--blk);color:var(--wh);font-family:'DM Sans',sans-serif;min-height:100vh;}
+body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(200,16,46,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(200,16,46,0.03) 1px,transparent 1px);background-size:70px 70px;pointer-events:none;z-index:0;}
+
+/* NAV */
+nav{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:18px 60px;background:rgba(10,10,10,0.97);border-bottom:1px solid rgba(255,255,255,0.05);backdrop-filter:blur(4px);}
+.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
+.nav-back{font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--sv);text-decoration:none;display:flex;align-items:center;gap:7px;transition:color .3s;}
+.nav-back:hover{color:var(--wh);}
+.nav-cta{background:var(--red);color:#fff;padding:8px 18px;border-radius:2px;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;transition:background .3s;}
+.nav-cta:hover{background:var(--rd);}
+
+/* HERO */
+.blog-hero{position:relative;padding:100px 60px 70px;border-bottom:1px solid var(--gr);overflow:hidden;}
+.blog-hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 50% 80% at 0% 50%,rgba(200,16,46,0.06),transparent 60%);z-index:0;}
+.blog-hero-inner{max-width:1100px;margin:0 auto;position:relative;z-index:1;}
+.eyebrow{font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;color:var(--red);margin-bottom:16px;display:flex;align-items:center;gap:10px;}
+.eyebrow::before{content:'';width:22px;height:1px;background:var(--red);}
+h1{font-family:'Cormorant Garamond',serif;font-size:clamp(2.2rem,4vw,3.6rem);font-weight:300;line-height:1.1;color:var(--wh);margin-bottom:16px;}
+.hero-sub{font-size:.88rem;color:var(--sv);font-weight:300;line-height:1.7;max-width:480px;}
+
+/* BLOG GRID */
+.blog-inner{max-width:1100px;margin:0 auto;padding:70px 60px;}
+.blog-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
+
+/* ARTICLE CARD */
+.article-card{background:var(--d2);border:1px solid var(--gr);border-radius:4px;overflow:hidden;text-decoration:none;display:flex;flex-direction:column;transition:all .35s;position:relative;}
+.article-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--red);transform:scaleX(0);transform-origin:left;transition:transform .4s;}
+.article-card:hover{border-color:rgba(200,16,46,0.35);transform:translateY(-4px);box-shadow:0 16px 48px rgba(0,0,0,0.4);}
+.article-card:hover::before{transform:scaleX(1);}
+.card-img{width:100%;height:180px;object-fit:cover;display:block;filter:brightness(0.75) saturate(0.7);}
+.card-img-placeholder{width:100%;height:180px;background:linear-gradient(135deg,var(--d3),var(--g2));display:flex;align-items:center;justify-content:center;font-size:2.5rem;flex-shrink:0;}
+.card-body{padding:28px 24px;display:flex;flex-direction:column;flex:1;}
+.card-category{font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;color:var(--red);margin-bottom:12px;}
+.card-title{font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:600;color:var(--wh);line-height:1.3;margin-bottom:12px;}
+.card-excerpt{font-size:.8rem;color:var(--sv);line-height:1.7;font-weight:300;flex:1;margin-bottom:20px;}
+.card-meta{display:flex;align-items:center;justify-content:space-between;padding-top:16px;border-top:1px solid rgba(255,255,255,0.06);}
+.card-date{font-size:.68rem;color:var(--g2);letter-spacing:.06em;}
+.card-read{font-size:.68rem;color:var(--red);letter-spacing:.08em;text-transform:uppercase;}
+
+/* FEATURED CARD */
+.article-card.featured{grid-column:1/span 2;}
+.article-card.featured .card-title{font-size:1.65rem;}
+.article-card.featured .card-body{padding:36px 32px;}
+
+/* EMPTY STATE */
+.empty{text-align:center;padding:80px 0;color:var(--sv);}
+.empty-icon{font-size:3rem;margin-bottom:16px;opacity:.4;}
+.empty-text{font-size:.88rem;line-height:1.7;}
+
+/* FOOTER */
+footer{border-top:1px solid var(--gr);padding:32px 60px;display:flex;justify-content:space-between;align-items:center;position:relative;z-index:1;}
+.footer-logo{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:600;color:var(--wh);}
+.footer-copy{font-size:.65rem;color:var(--g2);}
+.footer-link{font-size:.65rem;color:var(--sv);text-decoration:none;letter-spacing:.08em;text-transform:uppercase;transition:color .3s;}
+.footer-link:hover{color:var(--red);}
+
+@media(max-width:900px){
+  nav,.blog-hero,.blog-inner,footer{padding-left:24px;padding-right:24px;}
+  .blog-grid{grid-template-columns:1fr;}
+  .article-card.featured{grid-column:auto;}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">
+    <svg viewBox="0 0 280 88" xmlns="http://www.w3.org/2000/svg" style="height:38px;width:auto;">
+      <g transform="translate(5,5)">
+        <g transform="translate(38,38)">
+          <ellipse cx="0" cy="3" rx="34" ry="10" fill="none" stroke="white" stroke-width="2.2" transform="rotate(-22)"/>
+          <path d="M1.5,0 L1.5,-21 A21,21 0 0,1 22,0 Z" fill="white"/>
+          <path d="M-1.5,0 L-1.5,21 A21,21 0 0,1 -22,0 Z" fill="white"/>
+          <line x1="0" y1="-24" x2="0" y2="24" stroke="#0A0A0A" stroke-width="2.5"/>
+          <line x1="-24" y1="0" x2="24" y2="0" stroke="#0A0A0A" stroke-width="2.5"/>
+        </g>
+        <text x="84" y="34" font-family="DM Sans,Arial,sans-serif" font-size="35" font-weight="300" fill="white" letter-spacing="-0.3">Luminos</text>
+        <text x="85" y="64" font-family="Noto Sans SC,PingFang SC,sans-serif" font-size="20" font-weight="300" fill="white" letter-spacing="5">徕米诺</text>
+      </g>
+    </svg>
+  </a>
+  <div style="display:flex;align-items:center;gap:20px;">
+    <a href="index.html" class="nav-back">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+      Back to site
+    </a>
+    <a href="index.html#contact" class="nav-cta">Get Started</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="blog-hero">
+  <div class="blog-hero-bg"></div>
+  <div class="blog-hero-inner">
+    <div class="eyebrow">Insights & Guides</div>
+    <h1>Hong Kong Business<br>Knowledge Base</h1>
+    <p class="hero-sub">Everything you need to know about company formation, banking, and operating an international business from Hong Kong.</p>
+  </div>
+</div>
+
+<!-- ARTICLES -->
+<div class="blog-inner">
+  <div class="blog-grid" id="articleGrid">
+
+    <!-- ============================================================
+         ARTICLES — Pour ajouter un article, copiez un bloc
+         <a class="article-card"> ... </a> et modifiez son contenu.
+         Pour le premier article de la page, ajoutez class="featured"
+         ============================================================ -->
+
+    <a href="articles/why-hong-kong.html" class="article-card featured">
+      <div class="card-img-placeholder">🏙️</div>
+      <div class="card-body">
+        <div class="card-category">Company Formation</div>
+        <div class="card-title">Why Hong Kong is the world's best jurisdiction for your international company</div>
+        <div class="card-excerpt">Hong Kong combines a zero-tax policy on offshore income, a world-class banking system, and a common law framework — making it the ideal base for entrepreneurs worldwide.</div>
+        <div class="card-meta">
+          <span class="card-date">March 2025</span>
+          <span class="card-read">5 min read →</span>
+        </div>
+      </div>
+    </a>
+
+    <a href="articles/bank-account-guide.html" class="article-card">
+      <div class="card-img-placeholder">🏦</div>
+      <div class="card-body">
+        <div class="card-category">Banking</div>
+        <div class="card-title">How to open a Hong Kong business bank account remotely</div>
+        <div class="card-excerpt">A step-by-step guide to opening your HK corporate account without traveling — what banks look for and how to maximise your chances of approval.</div>
+        <div class="card-meta">
+          <span class="card-date">February 2025</span>
+          <span class="card-read">4 min read →</span>
+        </div>
+      </div>
+    </a>
+
+    <a href="articles/hk-vs-singapore.html" class="article-card">
+      <div class="card-img-placeholder">⚖️</div>
+      <div class="card-body">
+        <div class="card-category">Comparison</div>
+        <div class="card-title">Hong Kong vs Singapore: which jurisdiction for your company?</div>
+        <div class="card-excerpt">Two world-class financial hubs, two very different structures. We compare taxes, banking, costs and regulatory requirements.</div>
+        <div class="card-meta">
+          <span class="card-date">January 2025</span>
+          <span class="card-read">6 min read →</span>
+        </div>
+      </div>
+    </a>
+
+  </div>
+</div>
+
+<footer>
+  <div class="footer-logo">Luminous</div>
+  <div class="footer-copy">© 2025 Luminous · Hong Kong Corporate Services</div>
+  <a href="index.html" class="footer-link">← Main site</a>
+</footer>
+
+</body>
+</html>

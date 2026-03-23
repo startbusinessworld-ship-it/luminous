@@ -6,6 +6,8 @@
     { "src": "/success", "dest": "/success.html" },
     { "src": "/login", "dest": "/login.html" },
     { "src": "/affiliate", "dest": "/affiliate.html" },
+    { "src": "/blog", "dest": "/blog.html" },
+    { "src": "/articles/(.*)", "dest": "/articles/$1" },
     { "src": "/", "dest": "/index.html" }
   ]
 }
