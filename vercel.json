@@ -1,26 +1,8 @@
 {
-  "version": 2,
   "cleanUrls": true,
   "trailingSlash": false,
-  "builds": [
-    {
-      "src": "api/**/*.js",
-      "use": "@vercel/node"
-    },
-    {
-      "src": "**/*.html",
-      "use": "@vercel/static"
-    },
-    {
-      "src": "**/*.{jpg,jpeg,png,gif,svg,avif,webp,ico,css,js}",
-      "use": "@vercel/static"
-    }
-  ],
-  "routes": [
-    { "src": "/api/checkout", "dest": "/api/checkout.js" },
-    { "src": "/api/webhook", "dest": "/api/webhook.js" },
-    { "src": "/", "dest": "/index.html" },
-    { "src": "/(.*)", "dest": "/$1.html" }
+  "rewrites": [
+    { "source": "/api/checkout", "destination": "/api/checkout.js" },
+    { "source": "/api/webhook", "destination": "/api/webhook.js" }
   ]
 }
-
