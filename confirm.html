@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Confirming your account — Luminous</title>
+<style>
+:root{--red:#C8102E;--blk:#0A0A0A;--d2:#181818;--gr:#2E2E2E;--sv:#8A8A8A;--wh:#F5F5F5;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--blk);color:var(--wh);font-family:system-ui,sans-serif;min-height:100vh;display:flex;align-items:center;justify-content:center;}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 50% 60% at 50% 0%,rgba(200,16,46,0.07),transparent 70%);pointer-events:none;}
+.card{background:var(--d2);border:1px solid var(--gr);border-radius:6px;width:100%;max-width:400px;padding:40px;text-align:center;position:relative;z-index:1;animation:fadeUp .5s ease both;}
+.icon{font-size:2.5rem;margin-bottom:16px;}
+h1{font-size:1.5rem;font-weight:400;color:var(--wh);margin-bottom:10px;}
+.sub{font-size:.82rem;color:var(--sv);line-height:1.65;margin-bottom:24px;}
+.status{font-size:.78rem;color:var(--sv);padding:10px;background:rgba(255,255,255,0.04);border-radius:3px;margin-bottom:20px;}
+.btn{display:inline-block;background:var(--red);color:#fff;padding:12px 28px;border-radius:2px;font-size:.74rem;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;transition:background .3s;}
+.btn:hover{background:#9B0B22;}
+.spinner{display:inline-block;width:20px;height:20px;border:2px solid rgba(255,255,255,0.2);border-top-color:var(--red);border-radius:50%;animation:spin .8s linear infinite;margin-bottom:16px;}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+</style>
+</head>
+<body>
+<div class="card" id="card">
+  <div class="spinner" id="spinner"></div>
+  <h1 id="title">Confirming your account...</h1>
+  <p class="sub" id="sub">Please wait while we verify your email address.</p>
+  <div class="status" id="status" style="display:none;"></div>
+  <div id="action"></div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const SB = supabase.createClient(
+  'https://nyqmhhtxqszlffqwjumw.supabase.co',
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im55cW1oaHR4cXN6bGZmcXdqdW13Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQyNjExMjMsImV4cCI6MjA4OTgzNzEyM30.ukSPu2axVpGkJ_op42qdROwjmvo0ml83QStPwixU7ls'
+);
+
+async function handleConfirmation() {
+  // Supabase puts the tokens in the URL hash or query params
+  const hash = window.location.hash;
+  const params = new URLSearchParams(window.location.search);
+
+  // Try to get session from URL (Supabase sets it automatically)
+  const { data: { session }, error } = await SB.auth.getSession();
+
+  if (session) {
+    // Already confirmed and logged in
+    success();
+    return;
+  }
+
+  // Handle hash-based tokens (Supabase v2 format)
+  if (hash) {
+    const hashParams = new URLSearchParams(hash.substring(1));
+    const accessToken = hashParams.get('access_token');
+    const refreshToken = hashParams.get('refresh_token');
+    const type = hashParams.get('type');
+
+    if (accessToken && type === 'signup') {
+      const { error: setErr } = await SB.auth.setSession({
+        access_token: accessToken,
+        refresh_token: refreshToken
+      });
+      if (!setErr) { success(); return; }
+    }
+
+    if (type === 'recovery' && accessToken) {
+      // Password reset flow
+      document.getElementById('spinner').style.display = 'none';
+      document.getElementById('title').textContent = 'Set a new password';
+      document.getElementById('sub').textContent = 'Your identity has been verified.';
+      document.getElementById('action').innerHTML = '<a href="login.html" class="btn">Go to login →</a>';
+      return;
+    }
+  }
+
+  // If no session and no token, show error
+  showError();
+}
+
+function success() {
+  document.getElementById('spinner').style.display = 'none';
+  document.getElementById('card').querySelector('.spinner')?.remove();
+  document.getElementById('title').textContent = '✓ Email confirmed!';
+  document.getElementById('sub').textContent = 'Your account is now active. You will be redirected to your dashboard in a moment.';
+  document.getElementById('action').innerHTML = '<a href="dashboard.html" class="btn">Go to Dashboard →</a>';
+  // Auto-redirect
+  setTimeout(() => window.location.href = 'dashboard.html', 2000);
+}
+
+function showError() {
+  document.getElementById('spinner').style.display = 'none';
+  document.getElementById('title').textContent = 'Confirmation link expired';
+  document.getElementById('sub').textContent = 'This link has already been used or has expired. Please sign in directly — your account may already be active.';
+  document.getElementById('status').style.display = 'block';
+  document.getElementById('status').textContent = 'If you just created your account, try signing in directly.';
+  document.getElementById('action').innerHTML = '<a href="login.html" class="btn">Sign in →</a>';
+}
+
+// Listen for auth state changes (Supabase handles the token exchange automatically)
+SB.auth.onAuthStateChange((event, session) => {
+  if (event === 'SIGNED_IN' && session) {
+    success();
+  }
+});
+
+handleConfirmation();
+</script>
+</body>
+</html>

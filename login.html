@@ -134,15 +134,35 @@ async function doSignup(){
   if(!name||!email||!pass){err('signup-err','Please fill in all required fields.');return;}
   if(pass.length<8){err('signup-err','Password must be at least 8 characters.');return;}
   loading('signup-btn',true);
-  const{data,error}=await SB.auth.signUp({email,password:pass,options:{data:{full_name:name}}});
+
+  const redirectUrl = window.location.origin + '/dashboard.html';
+  const{data,error}=await SB.auth.signUp({
+    email, password:pass,
+    options:{
+      data:{full_name:name},
+      emailRedirectTo: redirectUrl
+    }
+  });
   if(error){loading('signup-btn',false);err('signup-err',error.message);return;}
+
   if(data.user){
-    await SB.from('profiles').insert({id:data.user.id,email,full_name:name,country,type:'client'});
-    await SB.from('dossiers').insert({user_id:data.user.id,company_name:name.split(' ')[0]+' International Ltd.',status:'pending'});
+    // Save profile even before email confirmation
+    await SB.from('profiles').upsert({id:data.user.id,email,full_name:name,country,type:'client'});
+    await SB.from('dossiers').upsert({user_id:data.user.id,company_name:name.split(' ')[0]+' International Ltd.',status:'pending'},{onConflict:'user_id'});
     await SB.from('notifications').insert({type:'new_client',user_id:data.user.id,title:'New client registered',message:name+' ('+email+') from '+(country||'unknown')+' just created an account.'});
   }
+
   loading('signup-btn',false);
-  ok('signup-ok');
+
+  // If session exists directly (email confirmation disabled), go to dashboard
+  if(data.session){
+    ok('login-ok');
+    setTimeout(()=>window.location.href='dashboard.html',1000);
+  } else {
+    // Email confirmation required
+    document.getElementById('signup-ok').textContent='Account created! Check your email and click the confirmation link. Then come back here to sign in.';
+    ok('signup-ok');
+  }
 }
 
 async function forgotPwd(e){
