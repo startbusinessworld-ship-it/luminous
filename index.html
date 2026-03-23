@@ -27,23 +27,21 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
 
 /* LANG SWITCHER */
 .lang-switcher{position:relative;}
-.lang-btn{display:flex;align-items:center;gap:7px;background:rgba(255,255,255,0.05);border:1px solid var(--grey);color:var(--light);padding:7px 14px;border-radius:2px;cursor:pointer;font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;font-family:'DM Sans',sans-serif;transition:all .3s;}
-.lang-btn:hover{border-color:rgba(200,16,46,0.5);color:var(--white);}
-.lang-flag{font-size:.9rem;}
-.lang-arrow{font-size:.55rem;opacity:.6;transition:transform .3s;}
+.lang-btn{display:flex;align-items:center;gap:5px;background:transparent;border:1px solid var(--grey);color:var(--light);padding:5px 9px;border-radius:2px;cursor:pointer;font-size:.82rem;font-family:'DM Sans',sans-serif;transition:all .3s;line-height:1;}
+.lang-btn:hover{border-color:rgba(200,16,46,0.5);}
+.lang-flag{font-size:1rem;line-height:1;}
+.lang-arrow{font-size:.48rem;opacity:.5;transition:transform .3s;}
 .lang-switcher.open .lang-arrow{transform:rotate(180deg);}
-.lang-dropdown{position:absolute;top:calc(100% + 8px);right:0;background:var(--dark2);border:1px solid var(--grey);border-radius:4px;min-width:164px;overflow:hidden;opacity:0;transform:translateY(-6px);pointer-events:none;transition:all .25s;z-index:200;}
+.lang-dropdown{position:absolute;top:calc(100% + 6px);right:0;background:var(--dark2);border:1px solid var(--grey);border-radius:4px;min-width:150px;overflow:hidden;opacity:0;transform:translateY(-6px);pointer-events:none;transition:all .25s;z-index:200;}
 .lang-switcher.open .lang-dropdown{opacity:1;transform:translateY(0);pointer-events:auto;}
-.lang-option{display:flex;align-items:center;gap:10px;padding:11px 16px;cursor:pointer;font-size:.78rem;color:var(--silver);transition:all .2s;border-bottom:1px solid rgba(255,255,255,0.04);}
+.lang-option{display:flex;align-items:center;gap:9px;padding:10px 14px;cursor:pointer;font-size:.76rem;color:var(--silver);transition:all .2s;border-bottom:1px solid rgba(255,255,255,0.04);}
 .lang-option:last-child{border:none;}
 .lang-option:hover{background:rgba(200,16,46,0.08);color:var(--white);}
 .lang-option.active{color:var(--red);}
 .lang-option-name{font-weight:500;}
-.lang-option-label{font-size:.65rem;color:var(--silver);opacity:.7;margin-left:auto;}
-.nav-cta{background:var(--red);color:#fff;padding:9px 22px;border-radius:2px;font-size:.74rem;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;transition:background .3s;white-space:nowrap;}
-.nav-cta:hover{background:var(--red-dark);}
-.nav-login{display:flex;align-items:center;gap:7px;color:var(--silver);text-decoration:none;font-size:.74rem;letter-spacing:.08em;text-transform:uppercase;border:1px solid var(--grey);padding:8px 16px;border-radius:2px;transition:all .3s;white-space:nowrap;}
-.nav-login:hover{color:var(--white);border-color:var(--silver);}
+.lang-option-label{font-size:.63rem;color:var(--silver);opacity:.6;margin-left:auto;}
+.nav-login-red{background:var(--red);color:#fff;padding:8px 18px;border-radius:2px;font-size:.74rem;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;transition:background .3s;white-space:nowrap;display:flex;align-items:center;gap:7px;}
+.nav-login-red:hover{background:var(--red-dark);}
 
 /* HERO */
 #hero{position:relative;min-height:100vh;display:flex;align-items:center;padding:0 60px;overflow:hidden;}
@@ -299,14 +297,9 @@ footer{background:var(--black);border-top:1px solid var(--grey);padding:44px 60p
     <li><a href="#faq">FAQ</a></li>
   </ul>
   <div class="nav-right">
-    <a href="login.html" class="nav-login" data-i18n="nav.login">
-      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
-      <span>Login</span>
-    </a>
     <div class="lang-switcher" id="langSwitcher">
       <button class="lang-btn" onclick="toggleLangDropdown()">
         <span class="lang-flag" id="currentFlag">🇬🇧</span>
-        <span id="currentLangCode">EN</span>
         <span class="lang-arrow">▼</span>
       </button>
       <div class="lang-dropdown" id="langDropdown">
@@ -316,7 +309,10 @@ footer{background:var(--black);border-top:1px solid var(--grey);padding:44px 60p
         <div class="lang-option" onclick="setLang('zh')"><span>🇨🇳</span><span class="lang-option-name">中文</span><span class="lang-option-label">ZH</span></div>
       </div>
     </div>
-    <a href="#contact" class="nav-cta" data-i18n="nav.cta">Get Started</a>
+    <a href="login.html" class="nav-login-red" data-i18n="nav.login">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+      <span>Login</span>
+    </a>
   </div>
 </nav>
 
@@ -606,7 +602,6 @@ function setLang(l){
   document.documentElement.lang=l;
   document.body.classList.toggle('lang-zh',l==='zh');
   document.getElementById('currentFlag').textContent=META[l].flag;
-  document.getElementById('currentLangCode').textContent=META[l].code;
   document.querySelectorAll('.lang-option').forEach(el=>{
     el.classList.toggle('active',el.getAttribute('onclick').includes("'"+l+"'"));
   });
