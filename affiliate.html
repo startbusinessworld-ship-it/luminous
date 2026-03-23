@@ -3,8 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Partner Program — Luminous</title>
-<meta name="robots" content="noindex, nofollow">
+<title>Affiliate Programme — Luminous</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 :root{--red:#C8102E;--red-dark:#9B0B22;--black:#0A0A0A;--dark:#111111;--dark2:#181818;--dark3:#222222;--grey:#2E2E2E;--grey2:#3A3A3A;--silver:#8A8A8A;--light:#D4D4D4;--white:#F5F5F5;}
@@ -107,12 +106,7 @@ footer{background:var(--black);border-top:1px solid rgba(255,255,255,0.05);paddi
 
 <nav>
   <a href="index.html" class="nav-logo">
-    <svg class="logo-svg" viewBox="0 0 34 34" fill="none">
-      <ellipse cx="17" cy="17" rx="16" ry="6" stroke="white" stroke-width="1.2" fill="none" transform="rotate(-20 17 17)"/>
-      <rect x="12" y="8" width="10" height="10" rx="1" fill="white" opacity="0.9"/>
-      <rect x="17" y="8" width="5" height="5" rx="0.5" fill="white" opacity="0.5"/>
-    </svg>
-    <span class="nav-logo-text">Luminous</span>
+    <img src="logo.avif" alt="Luminous" style="height:32px;width:auto;">
   </a>
   <a href="index.html" class="nav-back">
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
@@ -198,8 +192,12 @@ footer{background:var(--black);border-top:1px solid rgba(255,255,255,0.05);paddi
   <div class="form-inner">
     <div class="form-intro">
       <div class="section-label">Apply now</div>
-      <h2>Become a partner</h2>
-      <p>Tell us a little about yourself and how you plan to refer clients. Our team will review your application and get back to you within 24 hours.</p>
+      <h2>Create your affiliate account</h2>
+      <p>Fill in the form to register as an affiliate partner. Once approved, you'll receive access to your dashboard with your unique referral link.</p>
+      <div style="margin-top:28px;padding:16px 20px;background:rgba(200,16,46,0.06);border:1px solid rgba(200,16,46,0.2);border-radius:4px;">
+        <div style="font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--silver);margin-bottom:6px;">Already registered?</div>
+        <a href="login.html" style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:var(--white);text-decoration:none;display:flex;align-items:center;gap:8px;transition:color .3s;" onmouseover="this.style.color='var(--red)'" onmouseout="this.style.color='var(--white)'">Sign in to your Dashboard →</a>
+      </div>
     </div>
     <form class="affil-form" onsubmit="handleSubmit(event)">
       <div class="form-row">
@@ -233,7 +231,7 @@ footer{background:var(--black);border-top:1px solid rgba(255,255,255,0.05);paddi
           <option>PayPal</option>
         </select>
       </div>
-      <button type="submit" class="btn-primary">Submit my application →</button>
+      <button type="submit" class="btn-primary">Create my affiliate account →</button>
       <p class="form-note">By submitting this form, you agree to our partner program terms. Your information is processed confidentially and will not be shared with third parties.</p>
     </form>
   </div>
@@ -249,13 +247,14 @@ footer{background:var(--black);border-top:1px solid rgba(255,255,255,0.05);paddi
 function handleSubmit(e) {
   e.preventDefault();
   const btn = e.target.querySelector('button[type=submit]');
+  const orig = btn.textContent;
   btn.textContent = 'Submitting...';
   btn.style.pointerEvents = 'none';
   setTimeout(() => {
-    btn.textContent = '✓ Application received!';
+    btn.textContent = '✓ Application received — redirecting...';
     btn.style.background = '#1a6b34';
     btn.style.boxShadow = '0 6px 20px rgba(26,107,52,0.3)';
-    // In production: send form data to API
+    setTimeout(() => { window.location.href = 'login.html'; }, 1800);
   }, 1200);
 }
 </script>
