@@ -65,12 +65,12 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
 .btn-primary:hover{background:var(--red-dark);transform:translateY(-1px);box-shadow:0 8px 24px rgba(200,16,46,0.3);}
 .btn-secondary{background:transparent;color:var(--light);padding:13px 34px;font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;border:1px solid var(--grey);cursor:pointer;text-decoration:none;display:inline-block;border-radius:2px;transition:all .3s;font-family:inherit;}
 .btn-secondary:hover{border-color:var(--red);color:var(--red);}
-.hero-stats{position:absolute;bottom:60px;right:60px;z-index:2;display:flex;gap:48px;animation:fadeUp 1s ease .3s both;}
-.stat{text-align:right;}
+.hero-stats{position:relative;z-index:2;display:flex;gap:48px;margin-top:52px;padding-top:40px;border-top:1px solid rgba(255,255,255,0.07);}
+.stat{text-align:left;}
 .stat-num{font-family:'Cormorant Garamond',serif;font-size:2.2rem;font-weight:600;color:var(--white);line-height:1;}
 .stat-num span{color:var(--red);}
 .stat-label{font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--silver);margin-top:4px;}
-.hero-scroll{position:absolute;bottom:36px;left:60px;z-index:2;display:flex;align-items:center;gap:12px;font-size:.62rem;letter-spacing:.15em;text-transform:uppercase;color:var(--silver);}
+.hero-scroll{display:none;}
 .scroll-line{width:40px;height:1px;background:linear-gradient(to right,var(--red),transparent);}
 
 /* SECTIONS */
@@ -83,18 +83,18 @@ section{position:relative;z-index:1;}
 
 /* SERVICES */
 #services{background:var(--dark);}
-.services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;margin-top:64px;background:var(--grey);}
+.services-grid{display:grid;grid-template-columns:repeat(3,1fr);margin-top:64px;background:transparent;border:1px solid var(--grey);}
 .services-grid .service-card:nth-child(4){grid-column:1/span 1;}
 .services-grid .service-card:nth-child(5){grid-column:2/span 1;}
-@media(max-width:960px){.services-grid{grid-template-columns:1fr;}}.service-card{background:var(--dark);padding:44px 36px;position:relative;overflow:hidden;transition:all .4s;}
+@media(max-width:960px){.services-grid{grid-template-columns:1fr;}}.service-card{background:var(--dark);padding:44px 36px;position:relative;overflow:hidden;transition:all .4s;border-right:1px solid var(--grey);border-bottom:1px solid var(--grey);}
 .service-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--red);transform:scaleX(0);transform-origin:left;transition:transform .4s;}
 .service-card:hover{background:var(--dark2);}
 .service-card:hover::before{transform:scaleX(1);}
-.service-num{font-family:'Cormorant Garamond',serif;font-size:3rem;font-weight:300;color:rgba(200,16,46,0.15);line-height:1;margin-bottom:20px;transition:color .4s;}
-.service-card:hover .service-num{color:rgba(200,16,46,0.4);}
-.service-icon{width:40px;height:40px;background:rgba(200,16,46,0.1);border:1px solid rgba(200,16,46,0.2);border-radius:4px;display:flex;align-items:center;justify-content:center;margin-bottom:20px;font-size:1.1rem;}
+.service-num{font-family:'Cormorant Garamond',serif;font-size:3rem;font-weight:300;color:rgba(200,16,46,0.25);line-height:1;margin-bottom:20px;transition:color .4s;}
+.service-card:hover .service-num{color:rgba(200,16,46,0.5);}
+.service-icon{width:40px;height:40px;background:rgba(200,16,46,0.12);border:1px solid rgba(200,16,46,0.3);border-radius:4px;display:flex;align-items:center;justify-content:center;margin-bottom:20px;font-size:1.1rem;}
 .service-name{font-family:'Cormorant Garamond',serif;font-size:1.25rem;font-weight:600;color:var(--white);margin-bottom:12px;}
-.service-desc{font-size:.81rem;color:var(--silver);line-height:1.75;font-weight:300;}
+.service-desc{font-size:.81rem;color:#aaaaaa;line-height:1.75;font-weight:300;}
 
 /* PROCESS */
 #process{background:var(--black);}
@@ -305,13 +305,12 @@ footer{background:var(--black);border-top:1px solid var(--grey);padding:44px 60p
       <button onclick="startCheckout('creation')" class="btn-primary" data-i18n="hero.cta1">Start Now — $1,490</button>
       <a href="#process" class="btn-secondary" data-i18n="hero.cta2">How it works</a>
     </div>
+    <div class="hero-stats">
+      <div class="stat"><div class="stat-num">500<span>+</span></div><div class="stat-label" data-i18n="hero.stat1">Companies formed</div></div>
+      <div class="stat"><div class="stat-num">48<span>h</span></div><div class="stat-label" data-i18n="hero.stat2">Average turnaround</div></div>
+      <div class="stat"><div class="stat-num">98<span>%</span></div><div class="stat-label" data-i18n="hero.stat3">Satisfaction rate</div></div>
+    </div>
   </div>
-  <div class="hero-stats">
-    <div class="stat"><div class="stat-num">500<span>+</span></div><div class="stat-label" data-i18n="hero.stat1">Companies formed</div></div>
-    <div class="stat"><div class="stat-num">48<span>h</span></div><div class="stat-label" data-i18n="hero.stat2">Average turnaround</div></div>
-    <div class="stat"><div class="stat-num">98<span>%</span></div><div class="stat-label" data-i18n="hero.stat3">Satisfaction rate</div></div>
-  </div>
-  <div class="hero-scroll"><div class="scroll-line"></div><span data-i18n="hero.scroll">Discover</span></div>
 </section>
 
 <!-- SERVICES -->
