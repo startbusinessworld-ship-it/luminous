@@ -1028,9 +1028,15 @@ async function init() {
   }
   renderAffiliate();
 
-  // Check goto
-  const goto = sessionStorage.getItem('lum_goto');
-  if (goto) { sessionStorage.removeItem('lum_goto'); show(goto); }
+  // Check goto — URL param ?tab=uploads (from Stripe redirect) or sessionStorage
+  const urlParams = new URLSearchParams(window.location.search);
+  const tabParam = urlParams.get('tab');
+  const goto = tabParam || sessionStorage.getItem('lum_goto');
+  if (goto) {
+    sessionStorage.removeItem('lum_goto');
+    // Small delay to let everything render first
+    setTimeout(() => show(goto), 300);
+  }
 }
 
 function renderProcess() {
