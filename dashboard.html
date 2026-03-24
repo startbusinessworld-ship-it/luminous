@@ -173,8 +173,7 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
       <button onclick="setLangAll('zh')" data-lang="zh" class="lang-opt" style="background:none;border:1px solid var(--gr);color:var(--sv);padding:3px 8px;border-radius:2px;font-size:.6rem;letter-spacing:.08em;cursor:pointer;font-family:inherit;transition:all .2s;">中文</button>
     </div>
     <div class="user-pill">
-      <div class="avatar" id="uAvatar">?</div>
-      <span class="uname" id="uName">Loading...</span>
+      <span class="uname" id="uName" style="color:var(--lt);">Loading...</span>
     </div>
     <button class="btn-logout" onclick="logout()">Logout</button>
   </div>
@@ -953,30 +952,49 @@ async function init() {
   const {data:p} = await SB.from('profiles').select('*').eq('id', currentUser.id).single();
   profile = p;
 
-  if (profile) {
-    const name = profile.full_name || currentUser.email;
-    const initials = name.split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2);
-    document.getElementById('uAvatar').textContent = initials;
-    document.getElementById('uName').textContent = name;
+  // Display name — use profile name, or first part of email as fallback
+  const displayName = profile?.first_name || profile?.full_name?.split(' ')[0] || currentUser.email.split('@')[0];
+  document.getElementById('uName').textContent = displayName;
 
-    // Prefill email in Stripe links so webhook can match the account
-    const email = encodeURIComponent(currentUser.email);
-    document.getElementById('btn-create').href = `https://buy.stripe.com/eVq14m3Eu07Mg9K2bf33W04?prefilled_email=${email}`;
-    document.getElementById('btn-renew').href = `https://buy.stripe.com/00w4gyej8f2GcXycPT33W05?prefilled_email=${email}`;
+  // If no profile yet (old account), create one
+  if (!profile) {
+    await SB.from('profiles').upsert({
+      id: currentUser.id,
+      email: currentUser.email,
+      full_name: currentUser.user_metadata?.full_name || currentUser.email.split('@')[0],
+      type: 'client',
+      created_at: new Date().toISOString()
+    });
+    profile = { id: currentUser.id, email: currentUser.email, full_name: displayName };
   }
+
+  // Prefill email in Stripe links
+  const emailEnc = encodeURIComponent(currentUser.email);
+  const btnCreate = document.getElementById('btn-create');
+  const btnRenew = document.getElementById('btn-renew');
+  if (btnCreate) btnCreate.href = `https://buy.stripe.com/eVq14m3Eu07Mg9K2bf33W04?prefilled_email=${emailEnc}`;
+  if (btnRenew) btnRenew.href = `https://buy.stripe.com/00w4gyej8f2GcXycPT33W05?prefilled_email=${emailEnc}`;
 
   // Load dossier
   const {data:d} = await SB.from('dossiers').select('*').eq('user_id', currentUser.id).single();
   dossier = d;
   renderProcess();
 
-  // Load affiliate
+  // Load affiliate — create if doesn't exist
   const {data:a} = await SB.from('affiliates').select('*').eq('user_id', currentUser.id).single();
   affiliate = a;
   if (!affiliate) {
-    // Create affiliate record
-    const code = (profile?.full_name||'USER').replace(/\s+/g,'').toUpperCase().slice(0,8) + Math.random().toString(36).slice(2,6).toUpperCase();
-    const {data:na} = await SB.from('affiliates').insert({user_id:currentUser.id, referral_code:code}).select().single();
+    const baseName = (profile?.full_name || currentUser.email.split('@')[0])
+      .replace(/\s+/g,'').toUpperCase().slice(0,8);
+    const code = baseName + Math.random().toString(36).slice(2,6).toUpperCase();
+    const {data:na} = await SB.from('affiliates').insert({
+      user_id: currentUser.id,
+      referral_code: code,
+      total_earned: 0,
+      pending_payout: 0,
+      conversions: 0,
+      created_at: new Date().toISOString()
+    }).select().single();
     affiliate = na;
   }
   renderAffiliate();
