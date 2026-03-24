@@ -421,41 +421,54 @@ footer{background:var(--black);border-top:1px solid var(--grey);padding:44px 60p
 </section>
 
 <!-- PRICING -->
-<section id="pricing"><div class="section-inner">
+<section id="pricing" style="background:var(--dark);">
+<div class="section-inner">
   <div class="section-label" data-i18n="pricing.label">Pricing</div>
   <h2 class="section-title" data-i18n="pricing.title">Transparent. No surprises.</h2>
   <p class="section-sub" data-i18n="pricing.sub">Clear packages for formation and ongoing maintenance.</p>
-  <div class="pricing-grid">
-    <div class="price-card featured">
-      <div class="price-badge" data-i18n="pr.badge">Popular</div>
-      <div class="price-type" data-i18n="pr1.type">Formation</div>
-      <div class="price-name">Hong Kong Ltd.</div>
-      <div class="price-amount"><span class="price-currency">$</span><span class="price-num">1,490</span></div>
-      <p class="price-includes" data-i18n="pr1.inc">One-time payment — all inclusive</p>
-      <ul class="price-features">
-        <li data-i18n="pr1.f1">Company registration</li><li data-i18n="pr1.f2">Certificate of Incorporation</li>
-        <li data-i18n="pr1.f3">Articles of Association</li><li data-i18n="pr1.f4">1-year registered address</li>
-        <li data-i18n="pr1.f5">Bank account opening</li><li data-i18n="pr1.f6">Client dashboard</li>
-        <li data-i18n="pr1.f7">Dedicated WhatsApp support</li>
+
+  <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:24px;margin-top:52px;max-width:860px;margin-left:auto;margin-right:auto;">
+
+    <!-- CARD 1 -->
+    <div style="background:var(--dark2);border:1px solid var(--red);border-radius:4px;padding:40px 32px;display:flex;flex-direction:column;gap:16px;position:relative;">
+      <div style="position:absolute;top:-1px;left:50%;transform:translateX(-50%);background:var(--red);color:#fff;font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;padding:4px 14px;border-radius:0 0 4px 4px;" data-i18n="pr.badge">Popular</div>
+      <div style="font-size:.65rem;letter-spacing:.18em;text-transform:uppercase;color:var(--red);" data-i18n="pr1.type">Formation</div>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:1.4rem;color:var(--white);">Hong Kong Ltd.</div>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:3rem;color:var(--white);line-height:1;">$<span style="font-size:3.5rem;">1,490</span></div>
+      <div style="font-size:.72rem;color:var(--silver);" data-i18n="pr1.inc">One-time payment — all inclusive</div>
+      <ul style="list-style:none;display:flex;flex-direction:column;gap:8px;margin:8px 0;">
+        <li style="font-size:.76rem;color:var(--light);display:flex;gap:8px;align-items:center;"><span style="color:var(--red);">✓</span><span data-i18n="pr1.f1">Company registration</span></li>
+        <li style="font-size:.76rem;color:var(--light);display:flex;gap:8px;align-items:center;"><span style="color:var(--red);">✓</span><span data-i18n="pr1.f2">Certificate of Incorporation</span></li>
+        <li style="font-size:.76rem;color:var(--light);display:flex;gap:8px;align-items:center;"><span style="color:var(--red);">✓</span><span data-i18n="pr1.f3">Articles of Association</span></li>
+        <li style="font-size:.76rem;color:var(--light);display:flex;gap:8px;align-items:center;"><span style="color:var(--red);">✓</span><span data-i18n="pr1.f4">1-year registered address</span></li>
+        <li style="font-size:.76rem;color:var(--light);display:flex;gap:8px;align-items:center;"><span style="color:var(--red);">✓</span><span data-i18n="pr1.f5">Bank account opening</span></li>
+        <li style="font-size:.76rem;color:var(--light);display:flex;gap:8px;align-items:center;"><span style="color:var(--red);">✓</span><span data-i18n="pr1.f6">Client dashboard</span></li>
+        <li style="font-size:.76rem;color:var(--light);display:flex;gap:8px;align-items:center;"><span style="color:var(--red);">✓</span><span data-i18n="pr1.f7">Dedicated WhatsApp support</span></li>
       </ul>
-      <div class="pricing">
-      <a href="https://buy.stripe.com/eVq14m3Eu07Mg9K2bf33W04" target="_blank" class="btn-primary" style="width:100%;text-align:center;display:block;">Pay Now — $1,490</a>
+      <a href="https://buy.stripe.com/eVq14m3Eu07Mg9K2bf33W04" target="_blank" style="display:block;width:100%;text-align:center;background:#C8102E;color:#fff;padding:14px;font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;border-radius:2px;margin-top:auto;" data-i18n="pr1.cta">Pay Now — $1,490</a>
     </div>
-    <div class="price-card">
-      <div class="price-type" data-i18n="pr2.type">Renewal</div>
-      <div class="price-name" data-i18n="pr2.name">Annual Maintenance</div>
-      <div class="price-amount"><span class="price-currency">$</span><span class="price-num">990</span></div>
-      <p class="price-includes" data-i18n="pr2.inc">Per year — complete renewal</p>
-      <ul class="price-features">
-        <li data-i18n="pr2.f1">Annual return filing</li><li data-i18n="pr2.f2">Business licence renewal</li>
-        <li data-i18n="pr2.f3">Address renewal</li><li data-i18n="pr2.f4">Regulatory compliance</li>
-        <li data-i18n="pr2.f5">Updated documents</li><li data-i18n="pr2.f6">Dashboard refreshed</li>
-        <li data-i18n="pr2.f7">Dedicated WhatsApp support</li>
+
+    <!-- CARD 2 -->
+    <div style="background:var(--dark2);border:1px solid var(--grey);border-radius:4px;padding:40px 32px;display:flex;flex-direction:column;gap:16px;">
+      <div style="font-size:.65rem;letter-spacing:.18em;text-transform:uppercase;color:var(--silver);" data-i18n="pr2.type">Renewal</div>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:1.4rem;color:var(--white);" data-i18n="pr2.name">Annual Maintenance</div>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:3rem;color:var(--white);line-height:1;">$<span style="font-size:3.5rem;">990</span></div>
+      <div style="font-size:.72rem;color:var(--silver);" data-i18n="pr2.inc">Per year — complete renewal</div>
+      <ul style="list-style:none;display:flex;flex-direction:column;gap:8px;margin:8px 0;">
+        <li style="font-size:.76rem;color:var(--light);display:flex;gap:8px;align-items:center;"><span style="color:var(--red);">✓</span><span data-i18n="pr2.f1">Annual return filing</span></li>
+        <li style="font-size:.76rem;color:var(--light);display:flex;gap:8px;align-items:center;"><span style="color:var(--red);">✓</span><span data-i18n="pr2.f2">Business licence renewal</span></li>
+        <li style="font-size:.76rem;color:var(--light);display:flex;gap:8px;align-items:center;"><span style="color:var(--red);">✓</span><span data-i18n="pr2.f3">Address renewal</span></li>
+        <li style="font-size:.76rem;color:var(--light);display:flex;gap:8px;align-items:center;"><span style="color:var(--red);">✓</span><span data-i18n="pr2.f4">Regulatory compliance</span></li>
+        <li style="font-size:.76rem;color:var(--light);display:flex;gap:8px;align-items:center;"><span style="color:var(--red);">✓</span><span data-i18n="pr2.f5">Updated documents</span></li>
+        <li style="font-size:.76rem;color:var(--light);display:flex;gap:8px;align-items:center;"><span style="color:var(--red);">✓</span><span data-i18n="pr2.f6">Dashboard refreshed</span></li>
+        <li style="font-size:.76rem;color:var(--light);display:flex;gap:8px;align-items:center;"><span style="color:var(--red);">✓</span><span data-i18n="pr2.f7">Dedicated WhatsApp support</span></li>
       </ul>
-      <a href="https://buy.stripe.com/00w4gyej8f2GcXycPT33W05" target="_blank" class="btn-secondary" style="width:100%;text-align:center;display:block;">Renew — $990</a>
+      <a href="https://buy.stripe.com/00w4gyej8f2GcXycPT33W05" target="_blank" style="display:block;width:100%;text-align:center;background:transparent;color:var(--light);padding:14px;font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;border-radius:2px;border:1px solid var(--grey);margin-top:auto;" data-i18n="pr2.cta">Renew — $990</a>
     </div>
+
   </div>
-</div></section>
+</div>
+</section>
 
 <!-- TESTIMONIALS -->
 <section id="testimonials"><div class="section-inner">
