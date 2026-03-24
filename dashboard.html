@@ -129,11 +129,33 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
 @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+/* MOBILE NAV */
+.mobile-nav{display:none;position:fixed;bottom:0;left:0;right:0;z-index:200;background:var(--drk);border-top:1px solid rgba(255,255,255,0.08);padding:6px 0 env(safe-area-inset-bottom,6px);}
+.mobile-nav-inner{display:flex;justify-content:space-around;}
+.mn-btn{display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 14px;background:none;border:none;color:var(--sv);cursor:pointer;font-family:inherit;font-size:.52rem;letter-spacing:.06em;text-transform:uppercase;transition:color .2s;min-width:52px;}
+.mn-btn svg{width:20px;height:20px;flex-shrink:0;}
+.mn-btn.act{color:var(--red);}
+.mn-btn.act svg{opacity:1;}
+
 @media(max-width:768px){
   .sidebar{display:none;}
-  .main{padding:18px 14px;}
+  .mobile-nav{display:block;}
+  .main{padding:16px 14px 80px;}
+  .topbar{padding:10px 16px;}
   .docs-grid,.rev-cards{grid-template-columns:1fr;}
   .aff-stats{grid-template-columns:1fr 1fr;}
+  .prog-list .pi{flex-wrap:wrap;gap:8px;}
+  .pi-stat{font-size:.6rem;}
+  .scard-body[style*="grid-template-columns:1fr 1fr"]{display:flex!important;flex-direction:column!important;}
+  /* Pricing cards in dashboard */
+  #p-payment div[style*="display:flex"]{flex-direction:column!important;}
+  #p-payment a{width:100%!important;text-align:center!important;box-sizing:border-box;}
+  /* Upload section */
+  .up-list .ui{flex-wrap:wrap;gap:8px;}
+  .up-btn{width:100%;}
+  /* Affiliate stats */
+  .link-row{flex-direction:column;}
+  .copy-btn{width:100%;}
 }
 </style>
 </head>
@@ -1193,6 +1215,35 @@ async function logout() {
 
 initLang();
 init();
+</script>
+<!-- MOBILE NAV -->
+<nav class="mobile-nav">
+  <div class="mobile-nav-inner">
+    <button class="mn-btn act" id="mn-progress" onclick="show('process');setMobileNav('progress')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      Progress
+    </button>
+    <button class="mn-btn" id="mn-uploads" onclick="show('uploads');setMobileNav('uploads')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"/></svg>
+      Files
+    </button>
+    <button class="mn-btn" id="mn-documents" onclick="show('documents');setMobileNav('documents')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+      Docs
+    </button>
+    <button class="mn-btn" id="mn-affiliate" onclick="show('affiliate');setMobileNav('affiliate')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+      Affiliate
+    </button>
+  </div>
+</nav>
+
+<script>
+function setMobileNav(name) {
+  document.querySelectorAll('.mn-btn').forEach(b => b.classList.remove('act'));
+  const btn = document.getElementById('mn-' + name);
+  if (btn) btn.classList.add('act');
+}
 </script>
 </body>
 </html>
