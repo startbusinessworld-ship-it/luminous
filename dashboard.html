@@ -399,8 +399,8 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 
       <!-- STATS -->
       <div class="aff-stats">
+        <div class="as"><div class="as-num" id="a-clicks">0</div><div class="as-lbl">Link clicks</div></div>
         <div class="as"><div class="as-num" id="a-conv">0</div><div class="as-lbl">Conversions</div></div>
-        <div class="as"><div class="as-num" id="a-pending-count">0</div><div class="as-lbl">Pending</div></div>
         <div class="as"><div class="as-num r" id="a-earned">$0</div><div class="as-lbl">Total earned</div></div>
         <div class="as"><div class="as-num" id="a-pending-amt">$0</div><div class="as-lbl">Pending payout</div></div>
       </div>
@@ -1091,6 +1091,7 @@ function renderAffiliate() {
   document.getElementById('a-earned').textContent = '$' + (affiliate.total_earned || 0);
   document.getElementById('a-pending-amt').textContent = '$' + (affiliate.pending_payout || 0);
   document.getElementById('a-conv').textContent = affiliate.conversions || 0;
+  document.getElementById('a-clicks').textContent = affiliate.clicks || 0;
 
   // Highlight current tier
   const conv = affiliate.conversions || 0;

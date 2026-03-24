@@ -747,6 +747,12 @@ document.querySelectorAll('.service-card,.step,.testi-card,.price-card').forEach
     if (ref) {
       localStorage.setItem('lum_ref', ref);
       localStorage.setItem('lum_ref_ts', Date.now().toString());
+      // Track the click via API
+      fetch('/api/track', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ code: ref })
+      }).catch(()=>{});
     }
   } catch(e) {}
 })();
