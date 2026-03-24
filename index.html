@@ -322,7 +322,7 @@ footer{background:var(--black);border-top:1px solid var(--grey);padding:44px 60p
         <div class="lang-option" onclick="setLang('zh')"><span>🇨🇳</span><span class="lang-option-name">中文</span><span class="lang-option-label">ZH</span></div>
       </div>
     </div>
-    <a href="login.html" class="nav-login-red" data-i18n="nav.login">
+    <a href="login.html?mode=login" class="nav-login-red" data-i18n="nav.login">
       <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
       <span>Login</span>
     </a>
@@ -340,7 +340,7 @@ footer{background:var(--black);border-top:1px solid var(--grey);padding:44px 60p
     <h1 class="hero-title" data-i18n-html="hero.title">Create your<br>company in <em>Hong Kong</em><br>in days</h1>
     <p class="hero-sub" data-i18n="hero.sub">Luminous guides entrepreneurs worldwide through incorporating and managing their Hong Kong entity — bank account included.</p>
     <div class="hero-actions">
-      <a href="#pricing" class="btn-primary" data-i18n="hero.cta1">Start Now</a>
+      <a href="login.html" class="btn-primary" data-i18n="hero.cta1">Start Now</a>
       <a href="#process" class="btn-secondary" data-i18n="hero.cta2">How it works</a>
     </div>
     <div class="hero-stats">
@@ -413,7 +413,7 @@ footer{background:var(--black);border-top:1px solid var(--grey);padding:44px 60p
           </div>
         </div>
         <div style="margin-top:28px;">
-          <a href="#pricing" class="btn-primary" data-i18n="hero.cta1">Start Now</a>
+          <a href="login.html" class="btn-primary" data-i18n="hero.cta1">Start Now</a>
         </div>
       </div>
     </div>
@@ -735,6 +735,20 @@ document.querySelectorAll('.service-card,.step,.testi-card,.price-card').forEach
   let saved='en';
   try{saved=localStorage.getItem('lum_lang')||'en';}catch(e){}
   if(saved!=='en')setLang(saved);
+})();
+</script>
+
+<script>
+// Affiliate ref tracking
+(function(){
+  try {
+    const params = new URLSearchParams(window.location.search);
+    const ref = params.get('ref');
+    if (ref) {
+      localStorage.setItem('lum_ref', ref);
+      localStorage.setItem('lum_ref_ts', Date.now().toString());
+    }
+  } catch(e) {}
 })();
 </script>
 </body>

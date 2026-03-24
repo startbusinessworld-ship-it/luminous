@@ -395,39 +395,57 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
       <div class="ph">
         <div class="pey">Affiliate Programme</div>
         <div class="ptitle">My Referral Link</div>
-        <div class="psub">Share your link and earn $149–$250 per confirmed referral</div>
+        <div class="psub">Share your unique link — earn $150 to $250 per confirmed referral</div>
       </div>
+
+      <!-- STATS -->
       <div class="aff-stats">
-        <div class="as"><div class="as-num" id="a-clicks">0</div><div class="as-lbl">Link clicks</div></div>
-        <div class="as"><div class="as-num" id="a-leads">0</div><div class="as-lbl">Leads</div></div>
         <div class="as"><div class="as-num" id="a-conv">0</div><div class="as-lbl">Conversions</div></div>
+        <div class="as"><div class="as-num" id="a-pending-count">0</div><div class="as-lbl">Pending</div></div>
         <div class="as"><div class="as-num r" id="a-earned">$0</div><div class="as-lbl">Total earned</div></div>
+        <div class="as"><div class="as-num" id="a-pending-amt">$0</div><div class="as-lbl">Pending payout</div></div>
       </div>
+
+      <!-- LINK -->
       <div class="link-box">
         <div class="link-lbl">Your unique referral link</div>
         <div class="link-row">
           <div class="link-code" id="aff-link">Loading...</div>
           <button class="copy-btn" onclick="copyLink()">Copy</button>
         </div>
-      </div>
-      <div class="scard">
-        <div class="scard-hd"><div class="scard-title">Commission structure</div></div>
-        <div class="scard-body">
-          <table class="stbl">
-            <thead><tr><th>Monthly volume</th><th>Commission</th><th>Your tier</th></tr></thead>
-            <tbody>
-              <tr><td>1–3 referrals/month</td><td style="color:var(--wh);font-weight:500;">$149</td><td><span class="dpill pill-ok">Current</span></td></tr>
-              <tr><td>4–9 referrals/month</td><td style="color:var(--wh);font-weight:500;">$199</td><td><span style="color:var(--sv);font-size:.75rem;">Locked</span></td></tr>
-              <tr><td>10+ referrals/month</td><td style="color:var(--wh);font-weight:500;">$250</td><td><span style="color:var(--sv);font-size:.75rem;">Locked</span></td></tr>
-            </tbody>
-          </table>
+        <div style="font-size:.68rem;color:var(--sv);margin-top:10px;">
+          Share this link on social media, your website, or directly with contacts. Anyone who registers through it is tracked to your account.
         </div>
       </div>
-      <div class="scard">
-        <div class="scard-hd"><div class="scard-title">Recent referrals</div></div>
+
+      <!-- COMMISSION TIERS -->
+      <div class="scard" style="margin-bottom:18px;">
+        <div class="scard-hd"><div class="scard-title">Commission structure</div></div>
         <div class="scard-body">
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px;" id="tier-cards">
+            <div id="tier-1" style="background:var(--d3);border:1px solid var(--gr);border-radius:4px;padding:14px;text-align:center;">
+              <div style="font-size:1.4rem;font-weight:600;color:var(--wh);">$150</div>
+              <div style="font-size:.62rem;color:var(--sv);letter-spacing:.08em;text-transform:uppercase;margin-top:4px;">1–3 / month</div>
+            </div>
+            <div id="tier-2" style="background:var(--d3);border:1px solid var(--gr);border-radius:4px;padding:14px;text-align:center;">
+              <div style="font-size:1.4rem;font-weight:600;color:var(--wh);">$200</div>
+              <div style="font-size:.62rem;color:var(--sv);letter-spacing:.08em;text-transform:uppercase;margin-top:4px;">4–9 / month</div>
+            </div>
+            <div id="tier-3" style="background:var(--d3);border:1px solid var(--gr);border-radius:4px;padding:14px;text-align:center;">
+              <div style="font-size:1.4rem;font-weight:600;color:var(--wh);">$250</div>
+              <div style="font-size:.62rem;color:var(--sv);letter-spacing:.08em;text-transform:uppercase;margin-top:4px;">10+ / month</div>
+            </div>
+          </div>
+          <div style="font-size:.7rem;color:var(--sv);">+ <strong style="color:var(--lt);">$80</strong> per annual renewal referred · Payments monthly by wire or crypto</div>
+        </div>
+      </div>
+
+      <!-- REFERRALS TABLE -->
+      <div class="scard">
+        <div class="scard-hd"><div class="scard-title">My referrals</div></div>
+        <div class="scard-body" style="padding:0;">
           <table class="stbl">
-            <thead><tr><th>Contact</th><th>Date</th><th>Status</th><th>Commission</th></tr></thead>
+            <thead><tr><th>Email</th><th>Date</th><th>Status</th><th>Commission</th></tr></thead>
             <tbody id="ref-table"><tr><td colspan="4" class="empty-row">No referrals yet — share your link to start earning</td></tr></tbody>
           </table>
         </div>
@@ -1050,11 +1068,61 @@ function renderProcess() {
 function renderAffiliate() {
   if (!affiliate) return;
   const code = affiliate.referral_code || 'LOADING';
-  document.getElementById('aff-link').textContent = 'https://luminous.hk/ref/' + code;
+  const link = 'https://luminoscorp.com/?ref=' + code;
+  document.getElementById('aff-link').textContent = link;
   document.getElementById('a-earned').textContent = '$' + (affiliate.total_earned || 0);
-  document.getElementById('r-total').textContent = affiliate.total_earned || 0;
-  document.getElementById('r-pending').textContent = affiliate.pending_payout || 0;
-  document.getElementById('r-paid').textContent = affiliate.paid_out || 0;
+  document.getElementById('a-pending-amt').textContent = '$' + (affiliate.pending_payout || 0);
+  document.getElementById('a-conv').textContent = affiliate.conversions || 0;
+
+  // Highlight current tier
+  const conv = affiliate.conversions || 0;
+  const tier = conv >= 10 ? 3 : conv >= 4 ? 2 : 1;
+  for (let i = 1; i <= 3; i++) {
+    const el = document.getElementById('tier-' + i);
+    if (!el) continue;
+    if (i === tier) {
+      el.style.border = '1px solid rgba(200,16,46,0.5)';
+      el.style.background = 'rgba(200,16,46,0.08)';
+      el.innerHTML += '<div style="font-size:.58rem;color:var(--red);letter-spacing:.1em;text-transform:uppercase;margin-top:6px;">Your tier ✓</div>';
+    }
+  }
+
+  // Load referrals
+  loadReferrals();
+}
+
+async function loadReferrals() {
+  if (!affiliate) return;
+  const {data} = await SB.from('referrals')
+    .select('*')
+    .eq('affiliate_id', affiliate.id)
+    .order('created_at', {ascending:false});
+
+  const tb = document.getElementById('ref-table');
+  if (!tb) return;
+
+  // Update pending count
+  const pending = data?.filter(r => r.status === 'registered').length || 0;
+  const pendingEl = document.getElementById('a-pending-count');
+  if (pendingEl) pendingEl.textContent = pending;
+
+  if (!data?.length) {
+    tb.innerHTML = '<tr><td colspan="4" class="empty-row">No referrals yet — share your link to start earning</td></tr>';
+    return;
+  }
+
+  const statusColors = {
+    registered: '#c89600',
+    converted: '#3cc468',
+    paid: '#3cc468'
+  };
+
+  tb.innerHTML = data.map(r => `<tr>
+    <td style="color:var(--lt);">${r.referred_email || '—'}</td>
+    <td style="color:var(--sv);">${new Date(r.created_at).toLocaleDateString('en-GB')}</td>
+    <td><span style="font-size:.66rem;letter-spacing:.07em;text-transform:uppercase;color:${statusColors[r.status]||'var(--sv)'};">${r.status}</span></td>
+    <td style="color:var(--wh);font-weight:500;">${r.commission ? '$'+r.commission : r.status==='registered'?'Pending':'—'}</td>
+  </tr>`).join('');
 }
 
 // ── UPLOAD ──
@@ -1191,8 +1259,10 @@ function copyLink() {
   const link = document.getElementById('aff-link').textContent;
   navigator.clipboard.writeText(link).then(() => {
     const btn = document.querySelector('.copy-btn');
+    const orig = btn.textContent;
     btn.textContent = 'Copied ✓';
-    setTimeout(() => btn.textContent = 'Copy', 2000);
+    btn.style.background = '#3cc468';
+    setTimeout(() => { btn.textContent = orig; btn.style.background = ''; }, 2000);
   });
 }
 

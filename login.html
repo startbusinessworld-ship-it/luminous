@@ -639,6 +639,32 @@ async function register() {
   const {data, error} = await SB.auth.signUp({ email, password, options: { data: { full_name: fname+' '+lname, first_name: fname, last_name: lname, whatsapp } } });
   if (error) { showError('reg-alert', error.message); setLoading(btn, false); return; }
   await SB.from('profiles').upsert({ id: data.user.id, email, full_name: fname+' '+lname, first_name: fname, last_name: lname, whatsapp, type: 'client', created_at: new Date().toISOString() });
+
+  // Save referral code if present
+  try {
+    const refCode = localStorage.getItem('lum_ref');
+    const refTs = parseInt(localStorage.getItem('lum_ref_ts') || '0');
+    const thirtyDays = 30 * 24 * 60 * 60 * 1000;
+    if (refCode && (Date.now() - refTs) < thirtyDays) {
+      // Find affiliate with this code
+      const {data:aff} = await SB.from('affiliates').select('id,user_id').eq('referral_code', refCode).single();
+      if (aff && aff.user_id !== data.user.id) {
+        // Save referral
+        await SB.from('referrals').insert({
+          affiliate_id: aff.id,
+          referred_user_id: data.user.id,
+          referred_email: email,
+          status: 'registered',
+          created_at: new Date().toISOString()
+        });
+        // Update profile with referrer
+        await SB.from('profiles').update({ referred_by: aff.id }).eq('id', data.user.id);
+        localStorage.removeItem('lum_ref');
+        localStorage.removeItem('lum_ref_ts');
+      }
+    }
+  } catch(e) {}
+
   await SB.from('notifications').insert({ type: 'new_lead', message: 'New account: '+fname+' '+lname+' — '+email+' — WhatsApp: '+whatsapp, read: false, created_at: new Date().toISOString() });
   window.location.href = 'dashboard.html';
 }
