@@ -2,8 +2,14 @@
   "cleanUrls": true,
   "trailingSlash": false,
   "rewrites": [
-    { "source": "/api/checkout", "destination": "/api/checkout.js" },
-    { "source": "/api/webhook", "destination": "/api/webhook.js" }
+    {
+      "source": "/api/checkout",
+      "destination": "/api/checkout.js"
+    },
+    {
+      "source": "/api/webhook",
+      "destination": "/api/webhook.js"
+    }
   ],
   "headers": [
     {
