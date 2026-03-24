@@ -197,16 +197,27 @@ option{background:var(--d3);}
       <div class="ph">
         <div class="pey">Clients</div>
         <div class="ptitle">All clients</div>
-        <div class="psub">Manage client files and update dossier statuses</div>
+        <div class="psub">Manage client files, review documents and update statuses</div>
       </div>
       <div class="scard">
         <div class="scard-hd"><div class="scard-title">Client list</div></div>
         <div class="tbl-wrap">
           <table>
-            <thead><tr><th>Name</th><th>Email</th><th>Country</th><th>Company</th><th>Status</th><th>Registered</th><th>Update status</th></tr></thead>
+            <thead><tr><th>Name</th><th>Email</th><th>WhatsApp</th><th>Company (1st choice)</th><th>Status</th><th>Registered</th><th>Actions</th></tr></thead>
             <tbody id="clients-table"><tr><td colspan="7" class="empty">Loading...</td></tr></tbody>
           </table>
         </div>
+      </div>
+    </div>
+
+    <!-- CLIENT DETAIL MODAL -->
+    <div id="client-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.88);z-index:500;overflow-y:auto;padding:30px 20px;">
+      <div style="background:var(--d2);border:1px solid var(--gr);border-radius:6px;max-width:820px;margin:0 auto;overflow:hidden;">
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:18px 24px;border-bottom:1px solid var(--gr);">
+          <div style="font-size:.65rem;letter-spacing:.16em;text-transform:uppercase;color:var(--red);">Client Dossier</div>
+          <button onclick="closeClientModal()" style="background:none;border:none;color:var(--sv);font-size:1.6rem;cursor:pointer;line-height:1;">×</button>
+        </div>
+        <div id="client-detail" style="padding:24px;"></div>
       </div>
     </div>
 
@@ -367,21 +378,176 @@ async function loadClients() {
     return `<tr>
       <td style="font-weight:500;color:var(--wh);">${p.full_name||'—'}</td>
       <td>${p.email}</td>
-      <td>${p.country||'—'}</td>
+      <td style="color:var(--lt);">${p.whatsapp||'—'}</td>
       <td>${d?.company_name||'—'}</td>
-      <td><span class="pill ${d?.status==='completed'?'pill-ok':d?.status==='pending'?'pill-pend':'pill-rev'}">${d?.status||'—'}</span></td>
+      <td><span class="pill ${d?.status==='completed'?'pill-ok':d?.status==='pending'||!d?'pill-pend':'pill-rev'}">${d?.status||'no order'}</span></td>
       <td style="color:var(--sv);">${new Date(p.created_at).toLocaleDateString('en-GB')}</td>
-      <td>${d?`<select class="status-sel" onchange="updateStatus('${d.id}',this.value)">
-        <option value="pending" ${d.status==='pending'?'selected':''}>Pending</option>
-        <option value="payment_confirmed" ${d.status==='payment_confirmed'?'selected':''}>Payment confirmed</option>
-        <option value="docs_verified" ${d.status==='docs_verified'?'selected':''}>Docs verified</option>
-        <option value="filing" ${d.status==='filing'?'selected':''}>Filing</option>
-        <option value="certificate_issued" ${d.status==='certificate_issued'?'selected':''}>Certificate issued</option>
-        <option value="bank_opened" ${d.status==='bank_opened'?'selected':''}>Bank opened</option>
-        <option value="completed" ${d.status==='completed'?'selected':''}>Completed</option>
-      </select>`:'—'}</td>
+      <td style="display:flex;gap:6px;">
+        <button onclick="openClientModal('${p.id}')" style="font-size:.64rem;letter-spacing:.08em;text-transform:uppercase;color:var(--red);background:rgba(200,16,46,0.1);border:1px solid rgba(200,16,46,0.2);padding:4px 10px;border-radius:2px;cursor:pointer;font-family:inherit;white-space:nowrap;">Open →</button>
+        ${d?`<select class="status-sel" onchange="updateStatus('${d.id}',this.value)">
+          <option value="pending" ${d.status==='pending'?'selected':''}>Pending</option>
+          <option value="payment_confirmed" ${d.status==='payment_confirmed'?'selected':''}>Payment confirmed</option>
+          <option value="docs_submitted" ${d.status==='docs_submitted'?'selected':''}>Docs submitted</option>
+          <option value="docs_verified" ${d.status==='docs_verified'?'selected':''}>Docs verified</option>
+          <option value="filing" ${d.status==='filing'?'selected':''}>Filing</option>
+          <option value="certificate_issued" ${d.status==='certificate_issued'?'selected':''}>Certificate issued</option>
+          <option value="completed" ${d.status==='completed'?'selected':''}>Completed</option>
+        </select>`:'—'}
+      </td>
     </tr>`;
   }).join('');
+}
+
+// ── CLIENT MODAL ──
+let currentClientId = null;
+let currentDossierId = null;
+
+async function openClientModal(userId) {
+  currentClientId = userId;
+  document.getElementById('client-modal').style.display = 'block';
+  document.getElementById('client-detail').innerHTML = '<div style="color:var(--sv);text-align:center;padding:40px;">Loading...</div>';
+
+  const [{data:p}, {data:d}, {data:docs}, {data:officialDocs}] = await Promise.all([
+    SB.from('profiles').select('*').eq('id', userId).single(),
+    SB.from('dossiers').select('*').eq('user_id', userId).single(),
+    SB.from('documents').select('*').eq('user_id', userId).order('uploaded_at', {ascending:false}),
+    SB.from('official_documents').select('*').eq('user_id', userId)
+  ]);
+
+  currentDossierId = d?.id || null;
+
+  const docTypes = {
+    passport: '🛂 Passport',
+    selfie: '🤳 Selfie with passport',
+    address_proof: '🏠 Proof of address'
+  };
+
+  const officialDocTypes = [
+    {key:'certificate', label:'Certificate of Incorporation'},
+    {key:'articles', label:'Articles of Association'},
+    {key:'br_certificate', label:'Business Registration Certificate'},
+    {key:'directors_register', label:'Register of Directors'},
+    {key:'payment_confirmation', label:'Payment Confirmation'},
+  ];
+
+  document.getElementById('client-detail').innerHTML = `
+    <!-- CLIENT INFO -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:24px;">
+      <div style="background:var(--d3);border-radius:4px;padding:14px;">
+        <div style="font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;color:var(--sv);margin-bottom:4px;">Full name</div>
+        <div style="color:var(--wh);font-size:.88rem;">${p?.full_name||'—'}</div>
+      </div>
+      <div style="background:var(--d3);border-radius:4px;padding:14px;">
+        <div style="font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;color:var(--sv);margin-bottom:4px;">Email</div>
+        <div style="color:var(--wh);font-size:.88rem;">${p?.email||'—'}</div>
+      </div>
+      <div style="background:var(--d3);border-radius:4px;padding:14px;">
+        <div style="font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;color:var(--sv);margin-bottom:4px;">WhatsApp</div>
+        <div style="color:var(--red);font-size:.88rem;">${p?.whatsapp||'—'}</div>
+      </div>
+      <div style="background:var(--d3);border-radius:4px;padding:14px;">
+        <div style="font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;color:var(--sv);margin-bottom:4px;">Registered</div>
+        <div style="color:var(--wh);font-size:.88rem;">${p?.created_at?new Date(p.created_at).toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'}):'—'}</div>
+      </div>
+    </div>
+
+    <!-- DOSSIER INFO -->
+    ${d ? `
+    <div style="margin-bottom:24px;">
+      <div style="font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;color:var(--sv);margin-bottom:10px;">Company information</div>
+      <div style="background:var(--d3);border-radius:4px;padding:16px;display:flex;flex-direction:column;gap:10px;">
+        <div><span style="font-size:.64rem;color:var(--sv);letter-spacing:.08em;text-transform:uppercase;">1st choice: </span><span style="color:var(--wh);">${d.company_name||'—'}</span></div>
+        <div><span style="font-size:.64rem;color:var(--sv);letter-spacing:.08em;text-transform:uppercase;">2nd choice: </span><span style="color:var(--wh);">${d.company_name_2||'—'}</span></div>
+        <div><span style="font-size:.64rem;color:var(--sv);letter-spacing:.08em;text-transform:uppercase;">3rd choice: </span><span style="color:var(--wh);">${d.company_name_3||'—'}</span></div>
+        <div><span style="font-size:.64rem;color:var(--sv);letter-spacing:.08em;text-transform:uppercase;">Activity: </span><span style="color:var(--lt);">${d.business_activity||'—'}</span></div>
+      </div>
+    </div>` : '<div style="color:var(--sv);font-size:.8rem;margin-bottom:24px;">No dossier submitted yet.</div>'}
+
+    <!-- CLIENT DOCUMENTS -->
+    <div style="margin-bottom:24px;">
+      <div style="font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;color:var(--sv);margin-bottom:10px;">Documents uploaded by client</div>
+      ${docs?.length ? docs.map(doc => `
+        <div style="display:flex;align-items:center;gap:12px;padding:12px 14px;background:var(--d3);border-radius:3px;margin-bottom:6px;">
+          <div style="flex:1;">
+            <div style="font-size:.8rem;color:var(--wh);">${docTypes[doc.type]||doc.name}</div>
+            <div style="font-size:.68rem;color:var(--sv);">${doc.file_name||'—'} · ${doc.file_size?Math.round(doc.file_size/1024)+' KB':'—'} · ${new Date(doc.uploaded_at||doc.created_at).toLocaleDateString('en-GB')}</div>
+          </div>
+          <select class="status-sel" onchange="updateDocStatus('${doc.id}',this.value)" style="margin-right:6px;">
+            <option value="received" ${doc.status==='received'?'selected':''}>Received</option>
+            <option value="verified" ${doc.status==='verified'?'selected':''}>Verified ✓</option>
+            <option value="rejected" ${doc.status==='rejected'?'selected':''}>Rejected ✗</option>
+          </select>
+          <button onclick="viewDoc('${doc.id}','${doc.name}','${doc.file_name||''}')" style="font-size:.64rem;letter-spacing:.08em;text-transform:uppercase;color:var(--red);background:rgba(200,16,46,0.1);border:1px solid rgba(200,16,46,0.2);padding:5px 10px;border-radius:2px;cursor:pointer;font-family:inherit;white-space:nowrap;">View →</button>
+        </div>`).join('') : '<div style="color:var(--sv);font-size:.8rem;padding:14px;background:var(--d3);border-radius:3px;">No documents uploaded yet.</div>'}
+    </div>
+
+    <!-- UPLOAD OFFICIAL DOCS -->
+    <div>
+      <div style="font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;color:var(--sv);margin-bottom:10px;">Upload official documents to client</div>
+      <div style="display:flex;flex-direction:column;gap:8px;">
+        ${officialDocTypes.map(ot => {
+          const existing = officialDocs?.find(od => od.doc_type === ot.key);
+          return `<div style="display:flex;align-items:center;gap:12px;padding:12px 14px;background:var(--d3);border-radius:3px;">
+            <div style="flex:1;font-size:.8rem;color:var(--wh);">${ot.label}</div>
+            ${existing ? `<span style="font-size:.68rem;color:#3cc468;">✓ Uploaded — ${existing.file_name||''}</span>
+              <button onclick="deleteOfficialDoc('${existing.id}','${userId}')" style="font-size:.62rem;color:var(--sv);background:none;border:none;cursor:pointer;font-family:inherit;">Remove</button>` :
+              `<button onclick="triggerOfficialUpload('${userId}','${ot.key}','${ot.label}')" style="font-size:.64rem;letter-spacing:.08em;text-transform:uppercase;color:var(--wh);background:var(--gr);border:none;padding:6px 12px;border-radius:2px;cursor:pointer;font-family:inherit;white-space:nowrap;">Upload →</button>`
+            }
+          </div>`;
+        }).join('')}
+      </div>
+      <input type="file" id="official-file-input" style="display:none" accept="image/*,.pdf" onchange="handleOfficialUpload(this)">
+    </div>
+  `;
+}
+
+function closeClientModal() {
+  document.getElementById('client-modal').style.display = 'none';
+  currentClientId = null;
+  currentDossierId = null;
+}
+
+let officialUploadUserId = '';
+let officialUploadDocType = '';
+let officialUploadDocLabel = '';
+
+function triggerOfficialUpload(userId, docType, docLabel) {
+  officialUploadUserId = userId;
+  officialUploadDocType = docType;
+  officialUploadDocLabel = docLabel;
+  document.getElementById('official-file-input').click();
+}
+
+async function handleOfficialUpload(input) {
+  if (!input.files.length) return;
+  const file = input.files[0];
+  const reader = new FileReader();
+  reader.onload = async (e) => {
+    const base64 = e.target.result;
+    const {error} = await SB.from('official_documents').insert({
+      user_id: officialUploadUserId,
+      doc_type: officialUploadDocType,
+      name: officialUploadDocLabel,
+      file_name: file.name,
+      file_size: file.size,
+      file_data: base64,
+      created_at: new Date().toISOString()
+    });
+    if (!error) {
+      alert('✓ ' + officialUploadDocLabel + ' uploaded successfully. Client can now download it.');
+      openClientModal(officialUploadUserId); // Refresh modal
+    } else {
+      alert('Upload failed: ' + error.message);
+    }
+  };
+  reader.readAsDataURL(file);
+  input.value = '';
+}
+
+async function deleteOfficialDoc(docId, userId) {
+  if (!confirm('Remove this document?')) return;
+  await SB.from('official_documents').delete().eq('id', docId);
+  openClientModal(userId);
 }
 
 async function updateStatus(dossierId, newStatus) {

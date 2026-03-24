@@ -240,15 +240,23 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
       <div class="ph">
         <div class="pey">Documents</div>
         <div class="ptitle">Official Company Documents</div>
-        <div class="psub">Your documents — available as your file progresses</div>
+        <div class="psub">Your documents — available as your file progresses. Click to download.</div>
       </div>
-      <div class="docs-grid">
-        <div class="dc"><div class="dc-ico">📄</div><div style="flex:1"><div class="dc-name">Certificate of Incorporation</div><div class="dc-meta">Issued by Companies Registry HK</div></div><div class="dpill pill-pend">Pending</div></div>
-        <div class="dc"><div class="dc-ico">📋</div><div style="flex:1"><div class="dc-name">Articles of Association</div><div class="dc-meta">Memorandum & Articles</div></div><div class="dpill pill-pend">Pending</div></div>
-        <div class="dc"><div class="dc-ico">🏦</div><div style="flex:1"><div class="dc-name">Bank Account Confirmation</div><div class="dc-meta">Multi-currency account details</div></div><div class="dpill pill-pend">Pending</div></div>
-        <div class="dc"><div class="dc-ico">🗂️</div><div style="flex:1"><div class="dc-name">Business Registration Certificate</div><div class="dc-meta">Annual business licence</div></div><div class="dpill pill-pend">Pending</div></div>
-        <div class="dc"><div class="dc-ico">📊</div><div style="flex:1"><div class="dc-name">Register of Directors</div><div class="dc-meta">Official register of company officers</div></div><div class="dpill pill-pend">Pending</div></div>
-        <div class="dc"><div class="dc-ico">✅</div><div style="flex:1"><div class="dc-name">Payment Confirmation</div><div class="dc-meta">Available after order</div></div><div class="dpill pill-pend">Pending</div></div>
+
+      <!-- Processing banner -->
+      <div id="p-processing-banner" style="display:none;margin-bottom:20px;">
+        <div style="background:rgba(200,150,0,0.07);border:1px solid rgba(200,150,0,0.2);border-radius:4px;padding:14px 18px;display:flex;align-items:center;gap:12px;">
+          <div style="width:8px;height:8px;border-radius:50%;background:#c89600;animation:pulse 2s infinite;flex-shrink:0;"></div>
+          <div style="font-size:.78rem;color:var(--lt);">Your file is being processed. Documents will appear here as they are issued. We will notify you at each step.</div>
+        </div>
+      </div>
+
+      <div class="docs-grid" id="official-docs-grid">
+        <div class="dc" style="opacity:.6;"><div class="dc-ico">📄</div><div style="flex:1"><div class="dc-name">Certificate of Incorporation</div><div class="dc-meta">Issued by Companies Registry HK</div></div><div class="dpill pill-pend">Pending</div></div>
+        <div class="dc" style="opacity:.6;"><div class="dc-ico">📋</div><div style="flex:1"><div class="dc-name">Articles of Association</div><div class="dc-meta">Memorandum & Articles</div></div><div class="dpill pill-pend">Pending</div></div>
+        <div class="dc" style="opacity:.6;"><div class="dc-ico">🗂️</div><div style="flex:1"><div class="dc-name">Business Registration Certificate</div><div class="dc-meta">Annual business licence</div></div><div class="dpill pill-pend">Pending</div></div>
+        <div class="dc" style="opacity:.6;"><div class="dc-ico">📊</div><div style="flex:1"><div class="dc-name">Register of Directors</div><div class="dc-meta">Official register of company officers</div></div><div class="dpill pill-pend">Pending</div></div>
+        <div class="dc" style="opacity:.6;"><div class="dc-ico">✅</div><div style="flex:1"><div class="dc-name">Payment Confirmation</div><div class="dc-meta">Available after order</div></div><div class="dpill pill-pend">Pending</div></div>
       </div>
 
       <!-- AIRWALLEX SECTION -->
@@ -891,7 +899,6 @@ function getSTEPS(){const d=T[getLang()]||T['en'];return[
   {key:'docs_verified', label:d['step.docs'],       desc:d['step.docs.desc']},
   {key:'filing',        label:d['step.filing'],     desc:d['step.filing.desc']},
   {key:'certificate_issued', label:d['step.certificate'],desc:d['step.certificate.desc']},
-  {key:'bank_opened',   label:d['step.bank'],       desc:d['step.bank.desc']},
   {key:'completed',     label:d['step.completed'],  desc:d['step.completed.desc']}
 ];}
 const STATUS_ORDER = ['pending','payment_confirmed','docs_verified','filing','certificate_issued','bank_opened','completed'];
@@ -946,23 +953,53 @@ function renderProcess() {
   const d = T[getLang()]||T['en'];
   const company = dossier?.company_name || '—';
 
-  document.getElementById('p-company').textContent = company + ' · ' + (status === 'pending' ? 'No active order' : 'In progress');
+  document.getElementById('p-company').textContent = company !== '—' ? company + ' · In progress' : 'No active order';
 
-  // Show payment buttons only if not yet paid
-  const paid = status !== 'pending' && status !== 'docs_submitted';
-  document.getElementById('p-payment').style.display = paid ? 'none' : 'block';
+  // Lock/unlock sidebar tabs based on status
+  const hasPaid = status !== 'pending';
+  const hasSubmittedDocs = ['docs_submitted','docs_verified','filing','certificate_issued','completed'].includes(status);
+  document.querySelectorAll('.ni[onclick="show(\'uploads\')"]').forEach(el => {
+    el.style.opacity = hasPaid ? '1' : '.35';
+    el.style.pointerEvents = hasPaid ? 'auto' : 'none';
+    el.title = hasPaid ? '' : 'Payment required to access this section';
+  });
+  document.querySelectorAll('.ni[onclick="show(\'documents\')"]').forEach(el => {
+    el.style.opacity = hasSubmittedDocs ? '1' : '.35';
+    el.style.pointerEvents = hasSubmittedDocs ? 'auto' : 'none';
+    el.title = hasSubmittedDocs ? '' : 'Available after submitting your documents';
+  });
 
-  // Show "go to documents" prompt after payment
+  // Show/hide payment block
+  document.getElementById('p-payment').style.display = hasPaid ? 'none' : 'block';
+
+  // Show/hide docs prompt
   const docsPrompt = document.getElementById('p-docs-prompt');
-  if (docsPrompt) docsPrompt.style.display = paid ? 'block' : 'none';
+  if (docsPrompt) {
+    const showPrompt = hasPaid && !hasSubmittedDocs;
+    docsPrompt.style.display = showPrompt ? 'block' : 'none';
+  }
+
+  // Show processing banner if docs submitted
+  const processingBanner = document.getElementById('p-processing-banner');
+  if (processingBanner) {
+    processingBanner.style.display = hasSubmittedDocs ? 'block' : 'none';
+  }
 
   // Banner
   const banner = document.getElementById('p-banner');
   if (status === 'pending') {
-    banner.innerHTML = `<div class="order-cta"><div class="order-cta-txt">No active order yet. Place your order to begin the incorporation process.</div><a href="index.html#pricing" class="order-cta-link">Order now →</a></div>`;
+    banner.innerHTML = '';
   } else {
-    const labels = {payment_confirmed:'Payment confirmed — file in progress',filing:'Registration filing in progress',certificate_issued:'Certificate issued',bank_opened:'Bank account opened',completed:'File completed'};
-    banner.innerHTML = `<div class="banner"><div class="b-dot ${status==='completed'?'inactive':'active'}"></div><div class="b-txt">${labels[status]||'File in progress'}</div><div class="b-pill ${status==='completed'?'pill-ok':'pill-rev'}">${status==='completed'?'Completed':'In progress'}</div></div>`;
+    const labels = {
+      payment_confirmed: 'Payment confirmed — awaiting your documents',
+      docs_submitted: 'Documents received — under review',
+      docs_verified: 'Documents verified — filing in progress',
+      filing: 'Registration filing in progress at Companies Registry HK',
+      certificate_issued: 'Certificate of Incorporation issued — download in Documents',
+      completed: 'File completed — all documents available'
+    };
+    const isCompleted = status === 'completed';
+    banner.innerHTML = `<div class="banner" style="margin-bottom:20px;"><div class="b-dot ${isCompleted?'inactive':'active'}"></div><div class="b-txt">${labels[status]||'File in progress'}</div><div class="b-pill ${isCompleted?'pill-ok':'pill-rev'}">${isCompleted?'Completed':'In progress'}</div></div>`;
   }
 
   // Steps
@@ -981,8 +1018,11 @@ function renderProcess() {
     <div><div style="font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--sv);margin-bottom:3px;">Company name</div><div style="font-size:.85rem;color:var(--wh);">${company}</div></div>
     <div><div style="font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--sv);margin-bottom:3px;">Jurisdiction</div><div style="font-size:.85rem;color:var(--wh);">Hong Kong SAR</div></div>
     <div><div style="font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--sv);margin-bottom:3px;">Type</div><div style="font-size:.85rem;color:var(--wh);">Private Limited Company</div></div>
-    <div><div style="font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--sv);margin-bottom:3px;">Account created</div><div style="font-size:.85rem;color:var(--wh);">${new Date(dossier?.order_date||Date.now()).toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'})}</div></div>
+    <div><div style="font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--sv);margin-bottom:3px;">Account created</div><div style="font-size:.85rem;color:var(--wh);">${new Date(dossier?.created_at||Date.now()).toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'})}</div></div>
   `;
+
+  // Load official docs
+  loadOfficialDocs();
 }
 
 function renderAffiliate() {
@@ -1075,6 +1115,53 @@ async function submitDossier() {
   } else {
     alert('Error: ' + error.message);
   }
+}
+
+// ── OFFICIAL DOCS ──
+async function loadOfficialDocs() {
+  if (!currentUser) return;
+  const {data:docs} = await SB.from('official_documents').select('*').eq('user_id', currentUser.id).order('created_at', {ascending:false});
+  const grid = document.getElementById('official-docs-grid');
+  if (!grid) return;
+
+  const allDocs = [
+    {key:'certificate', icon:'📄', name:'Certificate of Incorporation', meta:'Issued by Companies Registry HK'},
+    {key:'articles', icon:'📋', name:'Articles of Association', meta:'Memorandum & Articles'},
+    {key:'br_certificate', icon:'🗂️', name:'Business Registration Certificate', meta:'Annual business licence'},
+    {key:'directors_register', icon:'📊', name:'Register of Directors', meta:'Official register of company officers'},
+    {key:'payment_confirmation', icon:'✅', name:'Payment Confirmation', meta:'Available after order'},
+  ];
+
+  grid.innerHTML = allDocs.map(doc => {
+    const uploaded = docs?.find(d => d.doc_type === doc.key);
+    if (uploaded) {
+      return `<div class="dc" style="cursor:pointer;" onclick="downloadOfficialDoc('${uploaded.id}','${doc.name}')">
+        <div class="dc-ico">${doc.icon}</div>
+        <div style="flex:1"><div class="dc-name">${doc.name}</div><div class="dc-meta">${doc.meta}</div></div>
+        <div class="dpill pill-ok" style="background:rgba(50,200,100,0.1);border:1px solid rgba(50,200,100,0.2);color:#3cc468;">Download ↓</div>
+      </div>`;
+    } else {
+      return `<div class="dc" style="opacity:.6;cursor:default;">
+        <div class="dc-ico">${doc.icon}</div>
+        <div style="flex:1"><div class="dc-name">${doc.name}</div><div class="dc-meta">${doc.meta}</div></div>
+        <div class="dpill pill-pend">Pending</div>
+      </div>`;
+    }
+  }).join('');
+}
+
+let officialDocsCache = {};
+async function downloadOfficialDoc(id, name) {
+  if (!officialDocsCache[id]) {
+    const {data} = await SB.from('official_documents').select('file_data,file_name').eq('id',id).single();
+    officialDocsCache[id] = data;
+  }
+  const doc = officialDocsCache[id];
+  if (!doc?.file_data) { alert('File not available'); return; }
+  const a = document.createElement('a');
+  a.href = doc.file_data;
+  a.download = doc.file_name || name;
+  a.click();
 }
 
 // ── COPY LINK ──
