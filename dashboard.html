@@ -144,6 +144,12 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
     <svg viewBox="0 0 280 88" xmlns="http://www.w3.org/2000/svg" style="height:32px;width:auto;"><g transform="translate(5,5)"><g transform="translate(38,38)"><ellipse cx="0" cy="3" rx="34" ry="10" fill="none" stroke="white" stroke-width="2.2" transform="rotate(-22)"/><path d="M1.5,0 L1.5,-21 A21,21 0 0,1 22,0 Z" fill="white"/><path d="M-1.5,0 L-1.5,21 A21,21 0 0,1 -22,0 Z" fill="white"/><line x1="0" y1="-24" x2="0" y2="24" stroke="#0A0A0A" stroke-width="2.5"/><line x1="-24" y1="0" x2="24" y2="0" stroke="#0A0A0A" stroke-width="2.5"/></g><text x="84" y="34" font-family="system-ui,sans-serif" font-size="35" font-weight="300" fill="white" letter-spacing="-0.3">Luminos</text><text x="85" y="64" font-family="system-ui,sans-serif" font-size="20" font-weight="300" fill="white" letter-spacing="5">徕米诺</text></g></svg>
   </a>
   <div class="topbar-right">
+    <div class="lang-bar" style="display:flex;gap:5px;margin-right:8px;">
+      <button onclick="setLangAll('en')" data-lang="en" class="lang-opt" style="background:none;border:1px solid var(--gr);color:var(--sv);padding:3px 8px;border-radius:2px;font-size:.6rem;letter-spacing:.08em;cursor:pointer;font-family:inherit;transition:all .2s;">EN</button>
+      <button onclick="setLangAll('fr')" data-lang="fr" class="lang-opt" style="background:none;border:1px solid var(--gr);color:var(--sv);padding:3px 8px;border-radius:2px;font-size:.6rem;letter-spacing:.08em;cursor:pointer;font-family:inherit;transition:all .2s;">FR</button>
+      <button onclick="setLangAll('es')" data-lang="es" class="lang-opt" style="background:none;border:1px solid var(--gr);color:var(--sv);padding:3px 8px;border-radius:2px;font-size:.6rem;letter-spacing:.08em;cursor:pointer;font-family:inherit;transition:all .2s;">ES</button>
+      <button onclick="setLangAll('zh')" data-lang="zh" class="lang-opt" style="background:none;border:1px solid var(--gr);color:var(--sv);padding:3px 8px;border-radius:2px;font-size:.6rem;letter-spacing:.08em;cursor:pointer;font-family:inherit;transition:all .2s;">中文</button>
+    </div>
     <div class="user-pill">
       <div class="avatar" id="uAvatar">?</div>
       <span class="uname" id="uName">Loading...</span>
@@ -155,15 +161,15 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 <div class="layout">
   <aside class="sidebar">
     <div class="sb-sec">
-      <div class="sb-lbl">My file</div>
+      <div class="sb-lbl"><span data-t="dash.my.file">My file</span></div>
       <button class="ni act" onclick="show('process')">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Progress
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span data-t="dash.progress">Progress</span>
       </button>
       <button class="ni" onclick="show('uploads')">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"/></svg>Upload files
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"/></svg><span data-t="dash.upload">Upload files</span>
       </button>
       <button class="ni" onclick="show('documents')">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Documents
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg><span data-t="dash.documents">Documents</span>
       </button>
     </div>
     <div class="sb-div"></div>
@@ -173,13 +179,13 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>My link
       </button>
       <button class="ni" onclick="show('revenue')">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>Revenue
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg><span data-t="dash.revenue">Revenue</span>
       </button>
     </div>
     <div class="sb-div"></div>
     <div class="sb-sec">
       <a class="ni" href="index.html">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>Main site
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg><span data-t="dash.main.site">Main site</span>
       </a>
     </div>
   </aside>
@@ -189,7 +195,7 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
     <!-- PROCESS -->
     <div class="panel act" id="panel-process">
       <div class="ph">
-        <div class="pey">My file</div>
+        <div class="pey"><span data-t="dash.my.file">My file</span></div>
         <div class="ptitle">Company Formation Progress</div>
         <div class="psub" id="p-company">Loading your file...</div>
       </div>
@@ -421,6 +427,7 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
   </main>
 </div>
 
+<script src="translations.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 const SB = supabase.createClient(
@@ -435,16 +442,16 @@ let affiliate = null;
 let uploadType = '';
 let uploadName = '';
 
-const STEPS = [
-  {key:'pending',       label:'Order placed',           desc:'Waiting for payment confirmation'},
-  {key:'payment_confirmed', label:'Payment confirmed',  desc:'Full payment received'},
-  {key:'docs_verified', label:'Documents verified',     desc:'Passport and proof of address validated'},
-  {key:'filing',        label:'Registration filing',    desc:'Application submitted to Companies Registry HK'},
-  {key:'certificate_issued', label:'Certificate issued',desc:'Certificate of Incorporation issued'},
-  {key:'bank_opened',   label:'Bank account opened',    desc:'Multi-currency account activated'},
-  {key:'completed',     label:'File completed',         desc:'All documents delivered'}
-];
-const STATUS_ORDER = STEPS.map(s=>s.key);
+function getSTEPS(){const d=T[getLang()]||T['en'];return[
+  {key:'pending',       label:d['step.pending'],    desc:d['step.pending.desc']},
+  {key:'payment_confirmed', label:d['step.payment'],desc:d['step.payment.desc']},
+  {key:'docs_verified', label:d['step.docs'],       desc:d['step.docs.desc']},
+  {key:'filing',        label:d['step.filing'],     desc:d['step.filing.desc']},
+  {key:'certificate_issued', label:d['step.certificate'],desc:d['step.certificate.desc']},
+  {key:'bank_opened',   label:d['step.bank'],       desc:d['step.bank.desc']},
+  {key:'completed',     label:d['step.completed'],  desc:d['step.completed.desc']}
+];}
+const STATUS_ORDER = ['pending','payment_confirmed','docs_verified','filing','certificate_issued','bank_opened','completed'];
 
 // ── INIT ──
 async function init() {
@@ -492,6 +499,8 @@ async function init() {
 function renderProcess() {
   const status = dossier?.status || 'pending';
   const statusIdx = STATUS_ORDER.indexOf(status);
+  const STEPS = getSTEPS();
+  const d = T[getLang()]||T['en'];
   const company = dossier?.company_name || '—';
 
   document.getElementById('p-company').textContent = company + ' · ' + (status === 'pending' ? 'No active order' : 'In progress');
@@ -520,7 +529,7 @@ function renderProcess() {
     const isProg = i === statusIdx && status !== 'pending';
     const cls = isDone ? 'done' : isProg ? 'prog' : 'wait';
     const ico = isDone ? '✓' : isProg ? '⟳' : '○';
-    const stat = isDone ? 'Done' : isProg ? 'In progress' : 'Waiting';
+    const stat = isDone ? d['step.done'] : isProg ? d['step.inprogress'] : d['step.waiting'];
     return `<div class="pi ${cls}"><div class="pi-ico">${ico}</div><div class="pi-info"><div class="pi-name">${s.label}</div><div class="pi-desc">${s.desc}</div></div><div class="pi-stat">${stat}</div></div>`;
   }).join('');
 
@@ -652,6 +661,7 @@ async function logout() {
   window.location.href = 'login.html';
 }
 
+initLang();
 init();
 </script>
 </body>
