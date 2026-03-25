@@ -3,45 +3,45 @@
 <head>
 <meta charset="UTF-8">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-<link rel="alternate icon" href="/favicon.svg">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Blog — Création de société à Hong Kong | Luminous</title>
-<meta name="description" content="Guides et conseils pour créer votre société à Hong Kong depuis la France, la Belgique ou la Suisse. Fiscalité, banque, conformité — tout ce qu'il faut savoir.">
+<meta name="description" content="Guides et conseils pour créer votre société à Hong Kong. Fiscalité, banque, conformité.">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 :root{--red:#C8102E;--rd:#9B0B22;--blk:#0A0A0A;--drk:#111;--d2:#181818;--d3:#222;--gr:#2E2E2E;--g2:#3A3A3A;--sv:#8A8A8A;--lt:#D4D4D4;--wh:#F5F5F5;}
+[data-theme="light"]{--blk:#FFFFFF;--drk:#F5F5F7;--d2:#EBEBED;--d3:#E3E3E5;--gr:#D2D2D7;--g2:#C7C7CC;--sv:#6E6E73;--lt:#3A3A3C;--wh:#1D1D1F;}
+@media(prefers-color-scheme:light){:root:not([data-theme="dark"]){--blk:#FFFFFF;--drk:#F5F5F7;--d2:#EBEBED;--d3:#E3E3E5;--gr:#D2D2D7;--g2:#C7C7CC;--sv:#6E6E73;--lt:#3A3A3C;--wh:#1D1D1F;}}
 *{margin:0;padding:0;box-sizing:border-box;}
 body{background:var(--blk);color:var(--wh);font-family:'DM Sans',sans-serif;min-height:100vh;}
 body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(200,16,46,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(200,16,46,0.03) 1px,transparent 1px);background-size:70px 70px;pointer-events:none;z-index:0;}
-
-/* NAV */
-nav{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:18px 60px;background:rgba(10,10,10,0.97);border-bottom:1px solid rgba(255,255,255,0.05);backdrop-filter:blur(4px);}
+nav{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:18px 60px;background:rgba(var(--black-rgb,10,10,10),0.97);border-bottom:1px solid var(--gr);backdrop-filter:blur(4px);}
+.nav-left{display:flex;align-items:center;gap:20px;}
 .nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
+.nav-logo svg text{fill:var(--wh);}
+.nav-logo svg ellipse{stroke:var(--wh);}
+.nav-logo svg path{fill:var(--wh);}
+.nav-logo svg line{stroke:var(--blk);}
 .nav-back{font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--sv);text-decoration:none;display:flex;align-items:center;gap:7px;transition:color .3s;}
 .nav-back:hover{color:var(--wh);}
+.nav-right{display:flex;align-items:center;gap:12px;}
 .nav-cta{background:var(--red);color:#fff;padding:8px 18px;border-radius:2px;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;transition:background .3s;}
 .nav-cta:hover{background:var(--rd);}
-
-/* HERO */
+.theme-toggle{background:none;border:1px solid var(--gr);color:var(--sv);width:32px;height:32px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.9rem;padding:0;flex-shrink:0;transition:all .3s;}
+.theme-toggle:hover{border-color:var(--red);color:var(--red);}
 .blog-hero{position:relative;padding:100px 60px 70px;border-bottom:1px solid var(--gr);overflow:hidden;}
 .blog-hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 50% 80% at 0% 50%,rgba(200,16,46,0.06),transparent 60%);z-index:0;}
 .blog-hero-inner{max-width:1100px;margin:0 auto;position:relative;z-index:1;}
 .eyebrow{font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;color:var(--red);margin-bottom:16px;display:flex;align-items:center;gap:10px;}
 .eyebrow::before{content:'';width:22px;height:1px;background:var(--red);}
-h1{font-family:'Cormorant Garamond',serif;font-size:clamp(2.2rem,4vw,3.6rem);font-weight:300;line-height:1.1;color:var(--wh);margin-bottom:16px;}
+h1{font-family:'Cormorant Garamond',serif;font-size:clamp(2.2rem,4vw,3.6rem);font-weight:300;line-height:1.1;color:var(--wh);margin-bottom:16px;white-space:pre-line;}
 .hero-sub{font-size:.88rem;color:var(--sv);font-weight:300;line-height:1.7;max-width:480px;}
-
-/* BLOG GRID */
 .blog-inner{max-width:1100px;margin:0 auto;padding:70px 60px;}
 .blog-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
-
-/* ARTICLE CARD */
 .article-card{background:var(--d2);border:1px solid var(--gr);border-radius:4px;overflow:hidden;text-decoration:none;display:flex;flex-direction:column;transition:all .35s;position:relative;}
 .article-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--red);transform:scaleX(0);transform-origin:left;transition:transform .4s;}
-.article-card:hover{border-color:rgba(200,16,46,0.35);transform:translateY(-4px);box-shadow:0 16px 48px rgba(0,0,0,0.4);}
+.article-card:hover{border-color:rgba(200,16,46,0.35);transform:translateY(-4px);box-shadow:0 16px 48px rgba(0,0,0,0.3);}
 .article-card:hover::before{transform:scaleX(1);}
 .card-img{width:100%;height:180px;object-fit:cover;display:block;filter:brightness(0.75) saturate(0.7);}
-.card-img-placeholder{width:100%;height:180px;background:linear-gradient(135deg,var(--d3),var(--g2));display:flex;align-items:center;justify-content:center;font-size:2.5rem;flex-shrink:0;}
 .card-body{padding:28px 24px;display:flex;flex-direction:column;flex:1;}
 .card-category{font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;color:var(--red);margin-bottom:12px;}
 .card-title{font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:600;color:var(--wh);line-height:1.3;margin-bottom:12px;}
@@ -49,72 +49,59 @@ h1{font-family:'Cormorant Garamond',serif;font-size:clamp(2.2rem,4vw,3.6rem);fon
 .card-meta{display:flex;align-items:center;justify-content:space-between;padding-top:16px;border-top:1px solid rgba(255,255,255,0.06);}
 .card-date{font-size:.68rem;color:var(--g2);letter-spacing:.06em;}
 .card-read{font-size:.68rem;color:var(--red);letter-spacing:.08em;text-transform:uppercase;}
-
-/* FEATURED CARD */
 .article-card.featured{grid-column:1/span 2;}
 .article-card.featured .card-title{font-size:1.65rem;}
 .article-card.featured .card-body{padding:36px 32px;}
-
-/* EMPTY STATE */
-.empty{text-align:center;padding:80px 0;color:var(--sv);}
-.empty-icon{font-size:3rem;margin-bottom:16px;opacity:.4;}
-.empty-text{font-size:.88rem;line-height:1.7;}
-
-/* FOOTER */
 footer{border-top:1px solid var(--gr);padding:32px 60px;display:flex;justify-content:space-between;align-items:center;position:relative;z-index:1;}
 .footer-logo{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:600;color:var(--wh);}
 .footer-copy{font-size:.65rem;color:var(--g2);}
 .footer-link{font-size:.65rem;color:var(--sv);text-decoration:none;letter-spacing:.08em;text-transform:uppercase;transition:color .3s;}
 .footer-link:hover{color:var(--red);}
-
-@media(max-width:900px){
-  nav,.blog-hero,.blog-inner,footer{padding-left:24px;padding-right:24px;}
-  .blog-grid{grid-template-columns:1fr;}
-  .article-card.featured{grid-column:auto;}
-}
+@media(max-width:900px){nav,.blog-hero,.blog-inner,footer{padding-left:24px;padding-right:24px;}.blog-grid{grid-template-columns:1fr;}.article-card.featured{grid-column:auto;}}
 </style>
 </head>
 <body>
 
 <nav>
-  <a href="index.html" class="nav-logo">
-    <svg viewBox="0 0 280 88" xmlns="http://www.w3.org/2000/svg" style="height:38px;width:auto;">
-      <g transform="translate(5,5)">
-        <g transform="translate(38,38)">
-          <ellipse cx="0" cy="3" rx="34" ry="10" fill="none" stroke="white" stroke-width="2.2" transform="rotate(-22)"/>
-          <path d="M1.5,0 L1.5,-21 A21,21 0 0,1 22,0 Z" fill="white"/>
-          <path d="M-1.5,0 L-1.5,21 A21,21 0 0,1 -22,0 Z" fill="white"/>
-          <line x1="0" y1="-24" x2="0" y2="24" stroke="#0A0A0A" stroke-width="2.5"/>
-          <line x1="-24" y1="0" x2="24" y2="0" stroke="#0A0A0A" stroke-width="2.5"/>
+  <div class="nav-left">
+    <a href="index.html" class="nav-logo">
+      <svg viewBox="0 0 280 88" xmlns="http://www.w3.org/2000/svg" style="height:38px;width:auto;">
+        <g transform="translate(5,5)">
+          <g transform="translate(38,38)">
+            <ellipse cx="0" cy="3" rx="34" ry="10" fill="none" stroke-width="2.2" transform="rotate(-22)"/>
+            <path d="M1.5,0 L1.5,-21 A21,21 0 0,1 22,0 Z"/>
+            <path d="M-1.5,0 L-1.5,21 A21,21 0 0,1 -22,0 Z"/>
+            <line x1="0" y1="-24" x2="0" y2="24" stroke-width="2.5"/>
+            <line x1="-24" y1="0" x2="24" y2="0" stroke-width="2.5"/>
+          </g>
+          <text x="84" y="34" font-family="DM Sans,Arial,sans-serif" font-size="35" font-weight="300" letter-spacing="-0.3">Luminos</text>
+          <text x="85" y="64" font-family="Noto Sans SC,PingFang SC,sans-serif" font-size="20" font-weight="300" letter-spacing="5">徕米诺</text>
         </g>
-        <text x="84" y="34" font-family="DM Sans,Arial,sans-serif" font-size="35" font-weight="300" fill="white" letter-spacing="-0.3">Luminos</text>
-        <text x="85" y="64" font-family="Noto Sans SC,PingFang SC,sans-serif" font-size="20" font-weight="300" fill="white" letter-spacing="5">徕米诺</text>
-      </g>
-    </svg>
-  </a>
-  <div style="display:flex;align-items:center;gap:20px;">
+      </svg>
+    </a>
     <a href="index.html" class="nav-back">
       <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
-      Retour au site
+      <span data-lk="nav.back">Back to site</span>
     </a>
-    <a href="index.html#contact" class="nav-cta">Get Started</a>
+  </div>
+  <div class="nav-right">
+    <div id="lkMount"></div>
+    <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
+    <a href="login.html" class="nav-cta" data-lk="nav.get.started">Get Started</a>
   </div>
 </nav>
 
-<!-- HERO -->
 <div class="blog-hero">
   <div class="blog-hero-bg"></div>
   <div class="blog-hero-inner">
-    <div class="eyebrow">Guides & Analyses</div>
-    <h1>Le blog des entrepreneurs<br>francophones à Hong Kong</h1>
-    <p class="hero-sub">Guides pratiques, analyses fiscales et conseils d'experts pour structurer votre activité internationale depuis Hong Kong.</p>
+    <div class="eyebrow" data-lk="blog.eyebrow">Guides & Analysis</div>
+    <h1 data-lk="blog.title">The blog for international entrepreneurs</h1>
+    <p class="hero-sub" data-lk="blog.sub">Practical guides, tax analysis and expert advice to structure your international business from Hong Kong.</p>
   </div>
 </div>
 
-<!-- ARTICLES -->
 <div class="blog-inner">
-  <div class="blog-grid" id="articleGrid">
-
+  <div class="blog-grid">
     <a href="articles/creer-societe-hong-kong.html" class="article-card featured">
       <img src="https://images.unsplash.com/photo-1536599018102-9f803c140fc1?w=800&q=75&fit=crop" alt="Créer société Hong Kong" class="card-img">
       <div class="card-body">
@@ -123,11 +110,10 @@ footer{border-top:1px solid var(--gr);padding:32px 60px;display:flex;justify-con
         <div class="card-excerpt">Tout savoir sur la création d'une Limited Company à Hong Kong depuis la France, la Belgique ou la Suisse — étapes, fiscalité, compte bancaire, coûts réels.</div>
         <div class="card-meta">
           <span class="card-date">Mars 2025</span>
-          <span class="card-read">10 min de lecture →</span>
+          <span class="card-read" data-lk="blog.read">Read article →</span>
         </div>
       </div>
     </a>
-
     <a href="articles/compte-bancaire-hong-kong.html" class="article-card">
       <img src="https://images.unsplash.com/photo-1601597111158-2fceff292cdc?w=600&q=75&fit=crop" alt="Compte bancaire Hong Kong" class="card-img">
       <div class="card-body">
@@ -136,11 +122,10 @@ footer{border-top:1px solid var(--gr);padding:32px 60px;display:flex;justify-con
         <div class="card-excerpt">Le guide pratique pour ouvrir votre compte multi-devises à Hong Kong à distance — documents, banques partenaires, et comment maximiser vos chances d'approbation.</div>
         <div class="card-meta">
           <span class="card-date">Février 2025</span>
-          <span class="card-read">8 min de lecture →</span>
+          <span class="card-read" data-lk="blog.read">Read article →</span>
         </div>
       </div>
     </a>
-
     <a href="articles/hong-kong-vs-singapour.html" class="article-card">
       <img src="https://images.unsplash.com/photo-1508009603885-50cf7c579365?w=600&q=75&fit=crop" alt="Hong Kong vs Singapour" class="card-img">
       <div class="card-body">
@@ -149,19 +134,26 @@ footer{border-top:1px solid var(--gr);padding:32px 60px;display:flex;justify-con
         <div class="card-excerpt">Comparaison complète entre les deux grandes places asiatiques — fiscalité, coûts, banque, conformité. Le choix décisif pour l'entrepreneur francophone.</div>
         <div class="card-meta">
           <span class="card-date">Janvier 2025</span>
-          <span class="card-read">9 min de lecture →</span>
+          <span class="card-read" data-lk="blog.read">Read article →</span>
         </div>
       </div>
     </a>
-
   </div>
 </div>
 
 <footer>
   <div class="footer-logo">Luminous</div>
-  <div class="footer-copy">© 2025 Luminous · Hong Kong Corporate Services</div>
-  <a href="index.html" class="footer-link">← Main site</a>
+  <div class="footer-copy" data-lk="blog.footer.copy">© 2025 Luminous · Hong Kong Corporate Services</div>
+  <a href="index.html" class="footer-link" data-lk="nav.back">← Back to site</a>
 </footer>
 
+<script src="lang.js"></script>
+<script>
+const s=document.createElement('style');s.textContent=LK_CSS;document.head.appendChild(s);
+applyTheme(getPreferredTheme());
+const lkm=document.getElementById('lkMount');
+if(lkm){lkm.outerHTML=langSwitcherHTML();}
+initLang();
+</script>
 </body>
 </html>

@@ -3,38 +3,24 @@
 <head>
 <meta charset="UTF-8">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-<link rel="alternate icon" href="/favicon.svg">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Dashboard — Luminous</title>
 <style>
-
-:root{
-  --red:#C8102E;--rd:#9B0B22;
-  --blk:#0A0A0A;--drk:#111;--d2:#181818;--d3:#222;
-  --gr:#2E2E2E;--g2:#3A3A3A;--sv:#8A8A8A;--lt:#D4D4D4;--wh:#F5F5F5;
-}
-[data-theme="light"]{
-  --blk:#FFFFFF;--drk:#F5F5F7;--d2:#EBEBED;--d3:#E3E3E5;
-  --gr:#D2D2D7;--g2:#C7C7CC;--sv:#6E6E73;--lt:#3A3A3C;--wh:#1D1D1F;
-}
-@media(prefers-color-scheme:light){
-  :root:not([data-theme="dark"]){
-    --blk:#FFFFFF;--drk:#F5F5F7;--d2:#EBEBED;--d3:#E3E3E5;
-    --gr:#D2D2D7;--g2:#C7C7CC;--sv:#6E6E73;--lt:#3A3A3C;--wh:#1D1D1F;
-  }
-}
-.theme-toggle{background:none;border:1px solid var(--gr);color:var(--sv);width:30px;height:30px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .3s;font-size:.85rem;padding:0;flex-shrink:0;}
-.theme-toggle:hover{border-color:var(--red);color:var(--red);}
+:root{--red:#C8102E;--rd:#9B0B22;--blk:#0A0A0A;--drk:#111;--d2:#181818;--d3:#222;--gr:#2E2E2E;--g2:#3A3A3A;--sv:#8A8A8A;--lt:#D4D4D4;--wh:#F5F5F5;}
+[data-theme="light"]{--blk:#FFFFFF;--drk:#F5F5F7;--d2:#EBEBED;--d3:#E3E3E5;--gr:#D2D2D7;--g2:#C7C7CC;--sv:#6E6E73;--lt:#3A3A3C;--wh:#1D1D1F;}
+@media(prefers-color-scheme:light){:root:not([data-theme="dark"]){--blk:#FFFFFF;--drk:#F5F5F7;--d2:#EBEBED;--d3:#E3E3E5;--gr:#D2D2D7;--g2:#C7C7CC;--sv:#6E6E73;--lt:#3A3A3C;--wh:#1D1D1F;}}
 *{margin:0;padding:0;box-sizing:border-box;}
 body{background:var(--blk);color:var(--wh);font-family:system-ui,sans-serif;min-height:100vh;display:flex;flex-direction:column;}
 body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(200,16,46,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(200,16,46,0.025) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;z-index:0;}
 .topbar{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:13px 32px;background:rgba(10,10,10,0.97);border-bottom:1px solid rgba(255,255,255,0.06);backdrop-filter:blur(4px);}
-.topbar-right{display:flex;align-items:center;gap:14px;}
-.user-pill{display:flex;align-items:center;gap:8px;background:var(--d2);border:1px solid var(--gr);border-radius:20px;padding:5px 12px 5px 7px;}
-.avatar{width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,var(--rd),var(--g2));display:flex;align-items:center;justify-content:center;font-size:.68rem;font-weight:600;color:#fff;flex-shrink:0;}
+[data-theme="light"] .topbar{background:rgba(255,255,255,0.97);}
+.topbar-right{display:flex;align-items:center;gap:10px;}
+.user-pill{display:flex;align-items:center;gap:8px;background:var(--d2);border:1px solid var(--gr);border-radius:20px;padding:5px 14px;}
 .uname{font-size:.74rem;color:var(--lt);}
 .btn-logout{font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;color:var(--sv);background:none;border:none;cursor:pointer;font-family:inherit;transition:color .3s;}
 .btn-logout:hover{color:var(--red);}
+.theme-toggle{background:none;border:1px solid var(--gr);color:var(--sv);width:30px;height:30px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .3s;font-size:.85rem;padding:0;flex-shrink:0;}
+.theme-toggle:hover{border-color:var(--red);color:var(--red);}
 .layout{display:flex;flex:1;position:relative;z-index:1;}
 .sidebar{width:210px;flex-shrink:0;background:var(--drk);border-right:1px solid rgba(255,255,255,0.05);padding:24px 0;position:sticky;top:51px;height:calc(100vh - 51px);overflow-y:auto;}
 .sb-sec{padding:0 14px;margin-bottom:6px;}
@@ -54,19 +40,15 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 .pey::before{content:'';width:14px;height:1px;background:var(--red);}
 .ptitle{font-size:1.8rem;font-weight:400;color:var(--wh);}
 .psub{font-size:.78rem;color:var(--sv);margin-top:5px;}
-
-/* STATUS BANNER */
 .banner{display:flex;align-items:center;flex-wrap:wrap;gap:12px;background:var(--d2);border:1px solid var(--gr);border-radius:4px;padding:14px 18px;margin-bottom:24px;}
 .b-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
 .b-dot.active{background:var(--red);animation:pulse 2s infinite;}
 .b-dot.inactive{background:var(--sv);}
-.b-txt{font-size:.8rem;color:var(--lt);flex:1;min-width:160px;}
+.b-txt{font-size:.8rem;color:var(--lt);flex:1;}
 .b-pill{padding:3px 10px;border-radius:2px;font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;flex-shrink:0;}
 .pill-pend{background:rgba(200,16,46,0.12);color:var(--red);}
 .pill-ok{background:rgba(50,200,100,0.1);color:#3cc468;}
 .pill-rev{background:rgba(200,150,0,0.1);color:#c89600;}
-
-/* PROGRESS STEPS */
 .prog-list{display:flex;flex-direction:column;gap:2px;margin-bottom:24px;}
 .pi{display:flex;align-items:center;gap:14px;padding:14px 16px;background:var(--d2);border-radius:3px;position:relative;}
 .pi::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;border-radius:3px 0 0 3px;}
@@ -85,8 +67,6 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 .done .pi-stat{color:#3cc468;}
 .prog .pi-stat{color:var(--red);}
 .wait .pi-stat{color:var(--g2);}
-
-/* DOCS */
 .docs-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:24px;}
 .dc{background:var(--d2);border:1px solid var(--gr);border-radius:4px;padding:16px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:all .3s;}
 .dc:hover{border-color:rgba(200,16,46,0.3);}
@@ -94,8 +74,6 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 .dc-name{font-size:.8rem;font-weight:500;color:var(--wh);margin-bottom:4px;}
 .dc-meta{font-size:.68rem;color:var(--sv);}
 .dpill{margin-left:auto;padding:3px 8px;border-radius:2px;font-size:.58rem;letter-spacing:.07em;text-transform:uppercase;flex-shrink:0;}
-
-/* UPLOADS */
 .up-list{display:flex;flex-direction:column;gap:8px;margin-bottom:20px;}
 .ui{display:flex;align-items:center;gap:12px;padding:13px 16px;background:var(--d2);border:1px solid var(--gr);border-radius:4px;transition:all .3s;}
 .ui-ico{width:32px;height:32px;background:rgba(200,16,46,0.07);border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:.9rem;flex-shrink:0;}
@@ -104,8 +82,6 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 .up-btn{background:rgba(200,16,46,0.1);border:1px solid rgba(200,16,46,0.22);color:var(--red);padding:5px 12px;border-radius:2px;font-size:.66rem;letter-spacing:.07em;text-transform:uppercase;cursor:pointer;font-family:inherit;transition:all .3s;flex-shrink:0;}
 .up-btn:hover{background:rgba(200,16,46,0.18);}
 .up-btn.done-btn{background:rgba(50,200,100,0.08);border-color:rgba(50,200,100,0.2);color:#3cc468;cursor:default;}
-
-/* AFFILIATE */
 .aff-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:22px;}
 .as{background:var(--d2);border:1px solid var(--gr);border-radius:4px;padding:18px;}
 .as-num{font-size:1.9rem;font-weight:600;color:var(--wh);line-height:1;}
@@ -117,405 +93,297 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 .link-code{font-size:.8rem;color:var(--red);background:rgba(200,16,46,0.07);padding:9px 14px;border-radius:2px;flex:1;font-family:monospace;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 .copy-btn{background:var(--red);color:#fff;padding:9px 16px;border-radius:2px;font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;border:none;cursor:pointer;font-family:inherit;transition:background .3s;white-space:nowrap;}
 .copy-btn:hover{background:var(--rd);}
-
-/* REVENUE */
-.rev-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:22px;}
-.rc{background:var(--d2);border:1px solid var(--gr);border-radius:4px;padding:20px;}
-.rc.hl{border-color:rgba(200,16,46,0.28);background:linear-gradient(135deg,var(--d2),#1a0a0d);}
-.rc-lbl{font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--sv);margin-bottom:9px;}
-.rc-num{font-size:2rem;font-weight:600;color:var(--wh);line-height:1;}
-.rc-num span{color:var(--red);}
-.rc-sub{font-size:.7rem;color:var(--sv);margin-top:5px;}
-
-/* TABLES */
-.stbl{width:100%;border-collapse:collapse;}
-.stbl th{font-size:.6rem;letter-spacing:.11em;text-transform:uppercase;color:var(--sv);padding:9px 12px;text-align:left;border-bottom:1px solid var(--gr);}
-.stbl td{font-size:.78rem;color:var(--lt);padding:11px 12px;border-bottom:1px solid rgba(255,255,255,0.04);}
-.stbl tr:hover td{background:rgba(255,255,255,0.02);}
-.empty-row{text-align:center;padding:32px;color:var(--sv);font-size:.8rem;}
-
-/* CARD WRAPPER */
 .scard{background:var(--d2);border:1px solid var(--gr);border-radius:4px;overflow:hidden;margin-bottom:18px;}
 .scard-hd{display:flex;justify-content:space-between;align-items:center;padding:14px 18px;border-bottom:1px solid var(--gr);}
 .scard-title{font-size:.68rem;letter-spacing:.11em;text-transform:uppercase;color:var(--sv);}
 .scard-body{padding:18px;}
-
-/* ORDER CTA */
+.stbl{width:100%;border-collapse:collapse;}
+.stbl th{font-size:.6rem;letter-spacing:.11em;text-transform:uppercase;color:var(--sv);padding:9px 12px;text-align:left;border-bottom:1px solid var(--gr);}
+.stbl td{font-size:.78rem;color:var(--lt);padding:11px 12px;border-bottom:1px solid rgba(255,255,255,0.04);}
+.empty-row{text-align:center;padding:32px;color:var(--sv);font-size:.8rem;}
 .order-cta{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;background:linear-gradient(135deg,var(--d2),#1a0a0d);border:1px solid rgba(200,16,46,0.25);border-radius:4px;padding:18px 22px;margin-bottom:22px;}
 .order-cta-txt{font-size:.82rem;color:var(--lt);}
 .order-cta-link{background:var(--red);color:#fff;padding:9px 18px;border-radius:2px;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;white-space:nowrap;transition:background .3s;}
 .order-cta-link:hover{background:var(--rd);}
-
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
-@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
-/* LANG SWITCHER */
-.lang-switcher{position:relative;}
-.lang-btn{display:flex;align-items:center;gap:5px;background:transparent;border:1px solid var(--gr);color:var(--lt);padding:5px 9px;border-radius:2px;cursor:pointer;font-size:.82rem;font-family:system-ui,sans-serif;transition:all .3s;line-height:1;}
-.lang-btn:hover{border-color:rgba(200,16,46,0.5);}
-.lang-flag{font-size:1rem;line-height:1;}
-.lang-arrow{font-size:.48rem;opacity:.5;transition:transform .3s;}
-.lang-switcher.open .lang-arrow{transform:rotate(180deg);}
-.lang-dropdown{position:absolute;top:calc(100% + 6px);right:0;background:var(--d2);border:1px solid var(--gr);border-radius:4px;min-width:150px;overflow:hidden;opacity:0;transform:translateY(-6px);pointer-events:none;transition:all .25s;z-index:200;}
-.lang-switcher.open .lang-dropdown{opacity:1;transform:translateY(0);pointer-events:auto;}
-.lang-option{display:flex;align-items:center;gap:9px;padding:10px 14px;cursor:pointer;font-size:.76rem;color:var(--sv);transition:all .2s;border-bottom:1px solid rgba(255,255,255,0.04);}
-.lang-option:last-child{border:none;}
-.lang-option:hover{background:rgba(200,16,46,0.08);color:var(--wh);}
-.lang-option.active{color:var(--red);}
-.lang-option-name{font-weight:500;}
-.lang-option-label{font-size:.63rem;color:var(--sv);opacity:.6;margin-left:auto;}
-
 /* WHATSAPP */
 .whatsapp-float{position:fixed;bottom:90px;right:24px;z-index:1000;display:flex;align-items:center;gap:10px;background:#25D366;color:#fff;padding:12px 18px 12px 14px;border-radius:50px;text-decoration:none;font-size:.77rem;font-weight:500;box-shadow:0 8px 32px rgba(37,211,102,0.3);transition:all .3s;}
-.whatsapp-float:hover{transform:translateY(-3px);box-shadow:0 12px 40px rgba(37,211,102,0.45);}
+.whatsapp-float:hover{transform:translateY(-3px);}
 @media(min-width:769px){.whatsapp-float{bottom:32px;right:32px;}}
-
 /* MOBILE NAV */
 .mobile-nav{display:none;position:fixed;bottom:0;left:0;right:0;z-index:200;background:var(--drk);border-top:1px solid rgba(255,255,255,0.08);padding:6px 0 env(safe-area-inset-bottom,6px);}
 .mobile-nav-inner{display:flex;justify-content:space-around;}
 .mn-btn{display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 14px;background:none;border:none;color:var(--sv);cursor:pointer;font-family:inherit;font-size:.52rem;letter-spacing:.06em;text-transform:uppercase;transition:color .2s;min-width:52px;}
-.mn-btn svg{width:20px;height:20px;flex-shrink:0;}
+.mn-btn svg{width:20px;height:20px;}
 .mn-btn.act{color:var(--red);}
-.mn-btn.act svg{opacity:1;}
-
 @media(max-width:768px){
   .sidebar{display:none;}
   .mobile-nav{display:block;}
   .main{padding:16px 14px 80px;}
   .topbar{padding:10px 16px;}
-  .docs-grid,.rev-cards{grid-template-columns:1fr;}
+  .docs-grid{grid-template-columns:1fr;}
   .aff-stats{grid-template-columns:1fr 1fr;}
-  .prog-list .pi{flex-wrap:wrap;gap:8px;}
-  .pi-stat{font-size:.6rem;}
-  .scard-body[style*="grid-template-columns:1fr 1fr"]{display:flex!important;flex-direction:column!important;}
-  /* Pricing cards in dashboard */
+  .prog-list .pi{flex-wrap:wrap;}
   #p-payment div[style*="display:flex"]{flex-direction:column!important;}
   #p-payment a{width:100%!important;text-align:center!important;box-sizing:border-box;}
-  /* Upload section */
-  .up-list .ui{flex-wrap:wrap;gap:8px;}
+  .up-list .ui{flex-wrap:wrap;}
   .up-btn{width:100%;}
-  /* Affiliate stats */
   .link-row{flex-direction:column;}
   .copy-btn{width:100%;}
 }
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 </style>
 </head>
 <body>
 
 <div class="topbar">
   <a href="index.html" style="text-decoration:none;">
-    <svg viewBox="0 0 280 88" xmlns="http://www.w3.org/2000/svg" style="height:32px;width:auto;"><g transform="translate(5,5)"><g transform="translate(38,38)"><ellipse cx="0" cy="3" rx="34" ry="10" fill="none" stroke="white" stroke-width="2.2" transform="rotate(-22)"/><path d="M1.5,0 L1.5,-21 A21,21 0 0,1 22,0 Z" fill="white"/><path d="M-1.5,0 L-1.5,21 A21,21 0 0,1 -22,0 Z" fill="white"/><line x1="0" y1="-24" x2="0" y2="24" stroke="#0A0A0A" stroke-width="2.5"/><line x1="-24" y1="0" x2="24" y2="0" stroke="#0A0A0A" stroke-width="2.5"/></g><text x="84" y="34" font-family="system-ui,sans-serif" font-size="35" font-weight="300" fill="white" letter-spacing="-0.3">Luminos</text><text x="85" y="64" font-family="system-ui,sans-serif" font-size="20" font-weight="300" fill="white" letter-spacing="5">徕米诺</text></g></svg>
+    <svg viewBox="0 0 280 88" xmlns="http://www.w3.org/2000/svg" style="height:32px;width:auto;">
+      <g transform="translate(5,5)">
+        <g transform="translate(38,38)">
+          <ellipse cx="0" cy="3" rx="34" ry="10" fill="none" stroke="currentColor" stroke-width="2.2" transform="rotate(-22)"/>
+          <path d="M1.5,0 L1.5,-21 A21,21 0 0,1 22,0 Z" fill="currentColor"/>
+          <path d="M-1.5,0 L-1.5,21 A21,21 0 0,1 -22,0 Z" fill="currentColor"/>
+          <line x1="0" y1="-24" x2="0" y2="24" stroke="var(--blk)" stroke-width="2.5"/>
+          <line x1="-24" y1="0" x2="24" y2="0" stroke="var(--blk)" stroke-width="2.5"/>
+        </g>
+        <text x="84" y="34" font-family="system-ui" font-size="35" font-weight="300" fill="currentColor" letter-spacing="-0.3">Luminos</text>
+        <text x="85" y="64" font-family="system-ui" font-size="20" font-weight="300" fill="currentColor" letter-spacing="5">徕米诺</text>
+      </g>
+    </svg>
   </a>
   <div class="topbar-right">
-    <div class="lang-bar" style="margin-right:8px;">
-      <div class="lang-switcher" id="langSwitcher">
-        <button class="lang-btn" onclick="toggleLangDropdown()">
-          <span class="lang-flag" id="currentFlag">🇬🇧</span>
-          <span class="lang-arrow">▼</span>
-        </button>
-        <div class="lang-dropdown" id="langDropdown">
-          <div class="lang-option active" onclick="setLangAll('en');updateFlag('en')"><span>🇬🇧</span><span class="lang-option-name">English</span><span class="lang-option-label">EN</span></div>
-          <div class="lang-option" onclick="setLangAll('fr');updateFlag('fr')"><span>🇫🇷</span><span class="lang-option-name">Français</span><span class="lang-option-label">FR</span></div>
-          <div class="lang-option" onclick="setLangAll('es');updateFlag('es')"><span>🇪🇸</span><span class="lang-option-name">Español</span><span class="lang-option-label">ES</span></div>
-          <div class="lang-option" onclick="setLangAll('zh');updateFlag('zh')"><span>🇨🇳</span><span class="lang-option-name">中文</span><span class="lang-option-label">ZH</span></div>
-        </div>
-      </div>
-    </div>
-    <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()">🌙</button>
+    <div id="lkMount"></div>
+    <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
     <div class="user-pill">
-      <span class="uname" id="uName" style="color:var(--lt);">Loading...</span>
+      <span class="uname" id="uName">...</span>
     </div>
-    <button class="btn-logout" onclick="logout()">Logout</button>
+    <button class="btn-logout" onclick="logout()" data-lk="nav.logout">Logout</button>
   </div>
 </div>
 
 <div class="layout">
   <aside class="sidebar">
     <div class="sb-sec">
-      <div class="sb-lbl"><span data-t="dash.my.file">My file</span></div>
+      <div class="sb-lbl" data-lk="dash.my.file">My file</div>
       <button class="ni act" onclick="show('process')">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span data-t="dash.progress">Progress</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        <span data-lk="dash.progress">Progress</span>
       </button>
       <button class="ni" onclick="show('uploads')">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"/></svg><span data-t="dash.upload">Upload files</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"/></svg>
+        <span data-lk="dash.upload">Upload files</span>
       </button>
       <button class="ni" onclick="show('documents')">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg><span data-t="dash.documents">Documents</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        <span data-lk="dash.documents">Documents</span>
       </button>
     </div>
     <div class="sb-div"></div>
     <div class="sb-sec">
-      <div class="sb-lbl">Affiliate</div>
+      <div class="sb-lbl" data-lk="dash.affiliate">Affiliate</div>
       <button class="ni" onclick="show('affiliate')">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>My link
-      </button>
-      <button class="ni" onclick="show('revenue')">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg><span data-t="dash.revenue">Revenue</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        <span data-lk="dash.aff.title">My Referral Link</span>
       </button>
     </div>
     <div class="sb-div"></div>
     <div class="sb-sec">
       <a class="ni" href="index.html">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg><span data-t="dash.main.site">Main site</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+        <span data-lk="dash.main.site">Main site</span>
       </a>
     </div>
   </aside>
 
   <main class="main">
 
-    <!-- PROCESS -->
+    <!-- PROGRESS -->
     <div class="panel act" id="panel-process">
       <div class="ph">
-        <div class="pey"><span data-t="dash.my.file">My file</span></div>
-        <div class="ptitle">Company Formation Progress</div>
-        <div class="psub" id="p-company">Loading your file...</div>
+        <div class="pey" data-lk="dash.my.file">My file</div>
+        <div class="ptitle" data-lk="dash.progress.title">Company Formation Progress</div>
+        <div class="psub" id="p-company"></div>
       </div>
       <div id="p-banner"></div>
 
-      <!-- PAYMENT ACTIONS -->
+      <!-- PAYMENT BLOCK -->
       <div id="p-payment" style="display:none;margin-bottom:24px;">
         <div style="background:linear-gradient(135deg,var(--d2),#1a0a0d);border:1px solid rgba(200,16,46,0.25);border-radius:4px;padding:24px 28px;">
-          <div style="font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;color:var(--red);margin-bottom:10px;">Ready to proceed</div>
-          <div style="font-size:1.1rem;color:var(--wh);margin-bottom:6px;">Choose your service</div>
-          <div style="font-size:.76rem;color:var(--sv);margin-bottom:20px;">Secure payment via Stripe — card or SEPA bank transfer</div>
+          <div style="font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;color:var(--red);margin-bottom:10px;" data-lk="dash.payment.ready">Ready to proceed</div>
+          <div style="font-size:1.1rem;color:var(--wh);margin-bottom:6px;" data-lk="dash.payment.choose">Choose your service</div>
+          <div style="font-size:.76rem;color:var(--sv);margin-bottom:20px;" data-lk="dash.payment.sub">Secure payment via Stripe</div>
           <div style="display:flex;gap:12px;flex-wrap:wrap;">
-            <a id="btn-create" href="https://buy.stripe.com/eVq14m3Eu07Mg9K2bf33W04" target="_blank" style="background:var(--red);color:#fff;padding:12px 24px;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;border-radius:2px;transition:background .3s;white-space:nowrap;" onmouseover="this.style.background='#9B0B22'" onmouseout="this.style.background='#C8102E'">Create my company — $1,490 →</a>
-            <a id="btn-renew" href="https://buy.stripe.com/00w4gyej8f2GcXycPT33W05" target="_blank" style="background:transparent;color:var(--lt);padding:12px 24px;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;border-radius:2px;border:1px solid var(--gr);transition:all .3s;white-space:nowrap;" onmouseover="this.style.borderColor='#C8102E';this.style.color='#C8102E'" onmouseout="this.style.borderColor='var(--gr)';this.style.color='var(--lt)'">Renew my company — $990 →</a>
+            <a id="btn-create" href="https://buy.stripe.com/eVq14m3Eu07Mg9K2bf33W04" target="_blank" style="background:var(--red);color:#fff;padding:12px 24px;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;border-radius:2px;white-space:nowrap;" data-lk="dash.create.btn">Create my company — $1,490 →</a>
+            <a id="btn-renew" href="https://buy.stripe.com/00w4gyej8f2GcXycPT33W05" target="_blank" style="background:transparent;color:var(--lt);padding:12px 24px;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;border-radius:2px;border:1px solid var(--gr);white-space:nowrap;" data-lk="dash.renew.btn">Renew my company — $990 →</a>
           </div>
         </div>
       </div>
 
-      <!-- DOCS PROMPT (shown after payment) -->
-      <div id="p-docs-prompt" style="display:none;margin-bottom:24px;">
-        <div style="background:linear-gradient(135deg,rgba(50,200,100,0.06),rgba(50,200,100,0.02));border:1px solid rgba(50,200,100,0.2);border-radius:4px;padding:20px 24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;">
+      <!-- DOCS PROMPT -->
+      <div id="p-docs-prompt" data-lk="dash.docs.prompt" style="display:none;margin-bottom:24px;">
+        <div style="background:rgba(50,200,100,0.06);border:1px solid rgba(50,200,100,0.2);border-radius:4px;padding:20px 24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;">
           <div>
-            <div style="font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:#3cc468;margin-bottom:6px;">✓ Payment confirmed</div>
-            <div style="font-size:.9rem;color:var(--wh);margin-bottom:4px;">Now submit your documents</div>
-            <div style="font-size:.74rem;color:var(--sv);">We need your documents to start the incorporation process</div>
+            <div style="font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:#3cc468;margin-bottom:6px;" data-lk="dash.payment.confirmed">✓ Payment confirmed</div>
+            <div style="font-size:.9rem;color:var(--wh);margin-bottom:4px;" data-lk="dash.submit.docs">Now submit your documents</div>
+            <div style="font-size:.74rem;color:var(--sv);" data-lk="dash.submit.docs.sub">We need your documents</div>
           </div>
-          <button onclick="show('uploads')" style="background:#3cc468;color:#000;padding:11px 22px;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;border:none;border-radius:2px;cursor:pointer;font-family:inherit;white-space:nowrap;">Submit documents →</button>
+          <button onclick="show('uploads')" style="background:#3cc468;color:#000;padding:11px 22px;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;border:none;border-radius:2px;cursor:pointer;font-family:inherit;" data-lk="dash.submit.docs.btn">Submit documents →</button>
+        </div>
+      </div>
+
+      <!-- PROCESSING BANNER -->
+      <div id="p-processing-banner" style="display:none;margin-bottom:20px;">
+        <div style="background:rgba(200,150,0,0.07);border:1px solid rgba(200,150,0,0.2);border-radius:4px;padding:14px 18px;display:flex;align-items:center;gap:12px;">
+          <div style="width:8px;height:8px;border-radius:50%;background:#c89600;animation:pulse 2s infinite;flex-shrink:0;"></div>
+          <div style="font-size:.78rem;color:var(--lt);" data-lk="dash.processing">Your file is being processed.</div>
         </div>
       </div>
 
       <div class="prog-list" id="p-steps"></div>
+
       <div class="scard">
-        <div class="scard-hd"><div class="scard-title">Company details</div></div>
-        <div class="scard-body" style="display:grid;grid-template-columns:1fr 1fr;gap:14px;" id="p-details">
-          <div><div style="font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--sv);margin-bottom:3px;">Status</div><div style="font-size:.85rem;color:var(--wh);">Loading...</div></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- DOCUMENTS -->
-    <div class="panel" id="panel-documents">
-      <div class="ph">
-        <div class="pey">Documents</div>
-        <div class="ptitle">Official Company Documents</div>
-        <div class="psub">Your documents — available as your file progresses. Click to download.</div>
-      </div>
-
-      <!-- Processing banner -->
-      <div id="p-processing-banner" style="display:none;margin-bottom:20px;">
-        <div style="background:rgba(200,150,0,0.07);border:1px solid rgba(200,150,0,0.2);border-radius:4px;padding:14px 18px;display:flex;align-items:center;gap:12px;">
-          <div style="width:8px;height:8px;border-radius:50%;background:#c89600;animation:pulse 2s infinite;flex-shrink:0;"></div>
-          <div style="font-size:.78rem;color:var(--lt);">Your file is being processed. Documents will appear here as they are issued. We will notify you at each step.</div>
-        </div>
-      </div>
-
-      <div class="docs-grid" id="official-docs-grid">
-        <div class="dc" style="opacity:.6;"><div class="dc-ico">📄</div><div style="flex:1"><div class="dc-name">Certificate of Incorporation</div><div class="dc-meta">Issued by Companies Registry HK</div></div><div class="dpill pill-pend">Pending</div></div>
-        <div class="dc" style="opacity:.6;"><div class="dc-ico">📋</div><div style="flex:1"><div class="dc-name">Articles of Association</div><div class="dc-meta">Memorandum & Articles</div></div><div class="dpill pill-pend">Pending</div></div>
-        <div class="dc" style="opacity:.6;"><div class="dc-ico">🗂️</div><div style="flex:1"><div class="dc-name">Business Registration Certificate</div><div class="dc-meta">Annual business licence</div></div><div class="dpill pill-pend">Pending</div></div>
-        <div class="dc" style="opacity:.6;"><div class="dc-ico">📊</div><div style="flex:1"><div class="dc-name">Register of Directors</div><div class="dc-meta">Official register of company officers</div></div><div class="dpill pill-pend">Pending</div></div>
-        <div class="dc" style="opacity:.6;"><div class="dc-ico">✅</div><div style="flex:1"><div class="dc-name">Payment Confirmation</div><div class="dc-meta">Available after order</div></div><div class="dpill pill-pend">Pending</div></div>
-      </div>
-
-      <!-- AIRWALLEX SECTION -->
-      <div style="margin-top:32px;">
-        <div style="font-size:.65rem;letter-spacing:.16em;text-transform:uppercase;color:var(--sv);margin-bottom:14px;">Bank account</div>
-        <div style="background:var(--d2);border:1px solid var(--gr);border-radius:4px;padding:28px;display:flex;align-items:center;gap:24px;flex-wrap:wrap;">
-          <div style="width:44px;height:44px;background:linear-gradient(135deg,#1a56f0,#0d3db5);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:1.2rem;">🏦</div>
-          <div style="flex:1;min-width:200px;">
-            <div style="font-size:.95rem;font-weight:500;color:var(--wh);margin-bottom:5px;">Open your Airwallex account</div>
-            <div style="font-size:.76rem;color:var(--sv);line-height:1.6;margin-bottom:4px;">Airwallex is our recommended banking partner for Hong Kong companies. Multi-currency account, international transfers, and business card — all in one platform.</div>
-            <div style="font-size:.7rem;color:var(--sv);display:flex;gap:16px;flex-wrap:wrap;margin-top:8px;">
-              <span style="display:flex;align-items:center;gap:5px;"><span style="color:#3cc468;">✓</span> Multi-currency (USD, EUR, HKD...)</span>
-              <span style="display:flex;align-items:center;gap:5px;"><span style="color:#3cc468;">✓</span> No monthly fees</span>
-              <span style="display:flex;align-items:center;gap:5px;"><span style="color:#3cc468;">✓</span> Business Visa card</span>
-              <span style="display:flex;align-items:center;gap:5px;"><span style="color:#3cc468;">✓</span> Global transfers</span>
-            </div>
-          </div>
-          <a href="https://www.airwallex.com/app/signup?utm_source=agent_referral&utm_medium=partner_referral&utm_campaign=cn&utm_term=hongkongwinchine&utm_content=1" target="_blank" style="background:linear-gradient(135deg,#1a56f0,#0d3db5);color:#fff;padding:12px 22px;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;border-radius:4px;white-space:nowrap;flex-shrink:0;transition:opacity .3s;" onmouseover="this.style.opacity='.85'" onmouseout="this.style.opacity='1'">Create account →</a>
-        </div>
-        <div style="font-size:.68rem;color:var(--sv);margin-top:8px;padding:0 4px;">
-          💡 You can open your Airwallex account as soon as your Certificate of Incorporation is issued. Have it ready for the application.
-        </div>
+        <div class="scard-hd"><div class="scard-title" data-lk="dash.company.details">Company details</div></div>
+        <div class="scard-body" style="display:grid;grid-template-columns:1fr 1fr;gap:14px;" id="p-details"></div>
       </div>
     </div>
 
     <!-- UPLOADS -->
     <div class="panel" id="panel-uploads">
       <div class="ph">
-        <div class="pey">My files</div>
-        <div class="ptitle">Submit your documents</div>
-        <div class="psub">We need the following information to start your incorporation. All fields are required.</div>
+        <div class="pey" data-lk="dash.upload">My files</div>
+        <div class="ptitle" data-lk="dash.upload.title">Submit your documents</div>
+        <div class="psub" data-lk="dash.upload.sub">We need the following information to start your incorporation.</div>
       </div>
 
       <!-- COMPANY NAMES -->
       <div class="scard" style="margin-bottom:18px;">
         <div class="scard-hd">
-          <div class="scard-title">Desired company names</div>
-          <div style="font-size:.66rem;color:var(--sv);">Provide 3 options in order of preference</div>
+          <div class="scard-title" data-lk="dash.names.title">Desired company names</div>
+          <div style="font-size:.66rem;color:var(--sv);" data-lk="dash.names.sub">Provide 3 options in order of preference</div>
         </div>
         <div class="scard-body" style="display:flex;flex-direction:column;gap:12px;">
           <div>
-            <div style="font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--red);margin-bottom:6px;">1st choice</div>
-            <input id="name1" type="text" placeholder="e.g. Acme International Ltd." style="width:100%;background:var(--d3);border:1px solid var(--gr);border-radius:2px;padding:10px 14px;color:var(--wh);font-size:.82rem;font-family:inherit;outline:none;transition:border .3s;" onfocus="this.style.borderColor='#C8102E'" onblur="this.style.borderColor='var(--gr)'">
+            <div style="font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--red);margin-bottom:6px;" data-lk="dash.name1">1st choice</div>
+            <input id="name1" type="text" data-lk-ph="dash.name1.ph" placeholder="e.g. Acme International Ltd." style="width:100%;background:var(--d3);border:1px solid var(--gr);border-radius:2px;padding:10px 14px;color:var(--wh);font-size:.82rem;font-family:inherit;outline:none;" onfocus="this.style.borderColor='#C8102E'" onblur="this.style.borderColor='var(--gr)'">
           </div>
           <div>
-            <div style="font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--sv);margin-bottom:6px;">2nd choice</div>
-            <input id="name2" type="text" placeholder="e.g. Acme Global Ltd." style="width:100%;background:var(--d3);border:1px solid var(--gr);border-radius:2px;padding:10px 14px;color:var(--wh);font-size:.82rem;font-family:inherit;outline:none;transition:border .3s;" onfocus="this.style.borderColor='#C8102E'" onblur="this.style.borderColor='var(--gr)'">
+            <div style="font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--sv);margin-bottom:6px;" data-lk="dash.name2">2nd choice</div>
+            <input id="name2" type="text" data-lk-ph="dash.name2.ph" placeholder="e.g. Acme Global Ltd." style="width:100%;background:var(--d3);border:1px solid var(--gr);border-radius:2px;padding:10px 14px;color:var(--wh);font-size:.82rem;font-family:inherit;outline:none;" onfocus="this.style.borderColor='#C8102E'" onblur="this.style.borderColor='var(--gr)'">
           </div>
           <div>
-            <div style="font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--sv);margin-bottom:6px;">3rd choice</div>
-            <input id="name3" type="text" placeholder="e.g. Acme Holdings Ltd." style="width:100%;background:var(--d3);border:1px solid var(--gr);border-radius:2px;padding:10px 14px;color:var(--wh);font-size:.82rem;font-family:inherit;outline:none;transition:border .3s;" onfocus="this.style.borderColor='#C8102E'" onblur="this.style.borderColor='var(--gr)'">
+            <div style="font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--sv);margin-bottom:6px;" data-lk="dash.name3">3rd choice</div>
+            <input id="name3" type="text" data-lk-ph="dash.name3.ph" placeholder="e.g. Acme Holdings Ltd." style="width:100%;background:var(--d3);border:1px solid var(--gr);border-radius:2px;padding:10px 14px;color:var(--wh);font-size:.82rem;font-family:inherit;outline:none;" onfocus="this.style.borderColor='#C8102E'" onblur="this.style.borderColor='var(--gr)'">
           </div>
-          <div style="background:rgba(200,16,46,0.06);border:1px solid rgba(200,16,46,0.15);border-radius:3px;padding:10px 14px;font-size:.72rem;color:var(--sv);line-height:1.6;">
-            💡 If your first choice is already taken at the Companies Registry, we will automatically try the next one. All names must end in <strong style="color:var(--lt);">Limited</strong> or <strong style="color:var(--lt);">Ltd.</strong>
+          <div style="background:rgba(200,16,46,0.06);border:1px solid rgba(200,16,46,0.15);border-radius:3px;padding:10px 14px;font-size:.72rem;color:var(--sv);line-height:1.6;" data-lk="dash.names.hint">
+            If your first choice is already taken, we will automatically try the next one. All names must end in Limited or Ltd.
           </div>
         </div>
       </div>
 
-      <!-- BUSINESS ACTIVITY -->
+      <!-- ACTIVITY -->
       <div class="scard" style="margin-bottom:18px;">
         <div class="scard-hd">
-          <div class="scard-title">Business activity</div>
-          <div style="font-size:.66rem;color:var(--sv);">Describe what your company will do</div>
+          <div class="scard-title" data-lk="dash.activity.title">Business activity</div>
+          <div style="font-size:.66rem;color:var(--sv);" data-lk="dash.activity.sub">Describe what your company will do</div>
         </div>
         <div class="scard-body">
-          <textarea id="activity" rows="3" placeholder="e.g. International trade, consulting, e-commerce, asset management..." style="width:100%;background:var(--d3);border:1px solid var(--gr);border-radius:2px;padding:10px 14px;color:var(--wh);font-size:.82rem;font-family:inherit;outline:none;resize:vertical;transition:border .3s;" onfocus="this.style.borderColor='#C8102E'" onblur="this.style.borderColor='var(--gr)'"></textarea>
+          <textarea id="activity" rows="3" data-lk-ph="dash.activity.ph" placeholder="e.g. International trade, consulting..." style="width:100%;background:var(--d3);border:1px solid var(--gr);border-radius:2px;padding:10px 14px;color:var(--wh);font-size:.82rem;font-family:inherit;outline:none;resize:vertical;" onfocus="this.style.borderColor='#C8102E'" onblur="this.style.borderColor='var(--gr)'"></textarea>
         </div>
       </div>
 
-      <!-- REQUIRED DOCUMENTS -->
-      <div style="font-size:.65rem;letter-spacing:.16em;text-transform:uppercase;color:var(--sv);margin-bottom:12px;">Required documents</div>
-      <div class="up-list" id="upload-list">
-
-        <div class="ui" id="ui-passport">
-          <div class="ui-ico">🛂</div>
-          <div style="flex:1">
-            <div class="ui-name">Passport photo</div>
-            <div class="ui-sub">Full passport visible — no cropping, all text readable</div>
-          </div>
-          <button class="up-btn" id="btn-passport" onclick="triggerUpload('passport','Passport photo')">Upload →</button>
-        </div>
-
-        <div class="ui" id="ui-selfie">
-          <div class="ui-ico">🤳</div>
-          <div style="flex:1">
-            <div class="ui-name">Selfie holding passport</div>
-            <div class="ui-sub">Your face clearly visible, passport open showing your photo page</div>
-          </div>
-          <button class="up-btn" id="btn-selfie" onclick="triggerUpload('selfie','Selfie with passport')">Upload →</button>
-        </div>
-
-        <div class="ui" id="ui-address">
-          <div class="ui-ico">🏠</div>
-          <div style="flex:1">
-            <div class="ui-name">Proof of address</div>
-            <div class="ui-sub">Any document showing your address — utility bill, bank statement, national ID, etc.</div>
-          </div>
-          <button class="up-btn" id="btn-address" onclick="triggerUpload('address_proof','Proof of address')">Upload →</button>
-        </div>
-
+      <!-- REQUIRED DOCS -->
+      <div style="font-size:.65rem;letter-spacing:.16em;text-transform:uppercase;color:var(--sv);margin-bottom:12px;" data-lk="dash.docs.required">Required documents</div>
+      <div class="up-list">
+        <div class="ui"><div class="ui-ico">🛂</div><div style="flex:1"><div class="ui-name" data-lk="dash.doc.passport">Passport photo</div><div class="ui-sub" data-lk="dash.doc.passport.sub">Full passport visible — no cropping</div></div><button class="up-btn" id="btn-passport" onclick="triggerUpload('passport','Passport photo')" data-lk="dash.upload.btn">Upload →</button></div>
+        <div class="ui"><div class="ui-ico">🤳</div><div style="flex:1"><div class="ui-name" data-lk="dash.doc.selfie">Selfie holding passport</div><div class="ui-sub" data-lk="dash.doc.selfie.sub">Face clearly visible, passport open</div></div><button class="up-btn" id="btn-selfie" onclick="triggerUpload('selfie','Selfie with passport')" data-lk="dash.upload.btn">Upload →</button></div>
+        <div class="ui"><div class="ui-ico">🏠</div><div style="flex:1"><div class="ui-name" data-lk="dash.doc.address">Proof of address</div><div class="ui-sub" data-lk="dash.doc.address.sub">Utility bill, bank statement, national ID...</div></div><button class="up-btn" id="btn-address" onclick="triggerUpload('address_proof','Proof of address')" data-lk="dash.upload.btn">Upload →</button></div>
       </div>
 
-      <!-- SUBMIT -->
       <div style="margin-top:24px;">
-        <button onclick="submitDossier()" style="background:var(--red);color:#fff;padding:13px 32px;font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;border:none;border-radius:2px;cursor:pointer;font-family:inherit;transition:background .3s;" onmouseover="this.style.background='var(--rd)'" onmouseout="this.style.background='var(--red)'">Submit my file →</button>
-        <div id="submit-msg" style="display:none;margin-top:12px;font-size:.78rem;color:#3cc468;">✓ Your file has been submitted. Our team will review it within 24 hours.</div>
+        <button onclick="submitDossier()" style="background:var(--red);color:#fff;padding:13px 32px;font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;border:none;border-radius:2px;cursor:pointer;font-family:inherit;" data-lk="dash.submit.btn">Submit my file →</button>
+        <div id="submit-msg" style="display:none;margin-top:12px;font-size:.78rem;color:#3cc468;" data-lk="dash.submit.success">✓ Your file has been submitted. Our team will review it within 24 hours.</div>
       </div>
-
       <input type="file" id="fileInput" style="display:none" accept="image/*,.pdf" onchange="handleUpload(this)">
+    </div>
+
+    <!-- DOCUMENTS -->
+    <div class="panel" id="panel-documents">
+      <div class="ph">
+        <div class="pey" data-lk="dash.documents">Documents</div>
+        <div class="ptitle" data-lk="dash.docs.title">Official Company Documents</div>
+        <div class="psub" data-lk="dash.docs.sub">Your documents — available as your file progresses. Click to download.</div>
+      </div>
+      <div id="p-processing-banner2" style="display:none;margin-bottom:20px;">
+        <div style="background:rgba(200,150,0,0.07);border:1px solid rgba(200,150,0,0.2);border-radius:4px;padding:14px 18px;display:flex;align-items:center;gap:12px;">
+          <div style="width:8px;height:8px;border-radius:50%;background:#c89600;animation:pulse 2s infinite;flex-shrink:0;"></div>
+          <div style="font-size:.78rem;color:var(--lt);" data-lk="dash.processing">Your file is being processed.</div>
+        </div>
+      </div>
+      <div class="docs-grid" id="official-docs-grid">
+        <div class="dc" style="opacity:.5;cursor:default;"><div class="dc-ico">📄</div><div style="flex:1"><div class="dc-name">Certificate of Incorporation</div><div class="dc-meta">Issued by Companies Registry HK</div></div><div class="dpill pill-pend" data-lk="step.waiting">Pending</div></div>
+        <div class="dc" style="opacity:.5;cursor:default;"><div class="dc-ico">📋</div><div style="flex:1"><div class="dc-name">Articles of Association</div><div class="dc-meta">Memorandum & Articles</div></div><div class="dpill pill-pend" data-lk="step.waiting">Pending</div></div>
+        <div class="dc" style="opacity:.5;cursor:default;"><div class="dc-ico">🗂️</div><div style="flex:1"><div class="dc-name">Business Registration Certificate</div><div class="dc-meta">Annual business licence</div></div><div class="dpill pill-pend" data-lk="step.waiting">Pending</div></div>
+        <div class="dc" style="opacity:.5;cursor:default;"><div class="dc-ico">📊</div><div style="flex:1"><div class="dc-name">Register of Directors</div><div class="dc-meta">Official register</div></div><div class="dpill pill-pend" data-lk="step.waiting">Pending</div></div>
+        <div class="dc" style="opacity:.5;cursor:default;"><div class="dc-ico">✅</div><div style="flex:1"><div class="dc-name">Payment Confirmation</div><div class="dc-meta">Available after order</div></div><div class="dpill pill-pend" data-lk="step.waiting">Pending</div></div>
+      </div>
+      <!-- AIRWALLEX -->
+      <div style="margin-top:32px;">
+        <div style="font-size:.65rem;letter-spacing:.16em;text-transform:uppercase;color:var(--sv);margin-bottom:14px;">Bank account</div>
+        <div style="background:var(--d2);border:1px solid var(--gr);border-radius:4px;padding:28px;display:flex;align-items:center;gap:24px;flex-wrap:wrap;">
+          <div style="width:44px;height:44px;background:linear-gradient(135deg,#1a56f0,#0d3db5);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:1.2rem;">🏦</div>
+          <div style="flex:1;min-width:200px;">
+            <div style="font-size:.95rem;font-weight:500;color:var(--wh);margin-bottom:5px;" data-lk="dash.bank.title">Open your Airwallex account</div>
+            <div style="font-size:.76rem;color:var(--sv);line-height:1.6;" data-lk="dash.bank.sub">Airwallex is our recommended banking partner.</div>
+            <div style="font-size:.7rem;color:var(--sv);display:flex;gap:16px;flex-wrap:wrap;margin-top:8px;">
+              <span>✓ Multi-currency</span><span>✓ No monthly fees</span><span>✓ Business Visa card</span><span>✓ Global transfers</span>
+            </div>
+          </div>
+          <a href="https://www.airwallex.com/app/signup?utm_source=agent_referral&utm_medium=partner_referral&utm_campaign=cn&utm_term=hongkongwinchine&utm_content=1" target="_blank" style="background:linear-gradient(135deg,#1a56f0,#0d3db5);color:#fff;padding:12px 22px;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;border-radius:4px;white-space:nowrap;" data-lk="dash.bank.btn">Create account →</a>
+        </div>
+        <div style="font-size:.68rem;color:var(--sv);margin-top:8px;" data-lk="dash.bank.hint">You can open your Airwallex account as soon as your Certificate of Incorporation is issued.</div>
+      </div>
     </div>
 
     <!-- AFFILIATE -->
     <div class="panel" id="panel-affiliate">
       <div class="ph">
-        <div class="pey">Affiliate Programme</div>
-        <div class="ptitle">My Referral Link</div>
-        <div class="psub">Share your unique link — earn $150 to $250 per confirmed referral</div>
+        <div class="pey" data-lk="dash.affiliate">Affiliate Programme</div>
+        <div class="ptitle" data-lk="dash.aff.title">My Referral Link</div>
+        <div class="psub" data-lk="dash.aff.sub">Share your unique link — earn $150 to $250 per confirmed referral</div>
       </div>
-
-      <!-- STATS -->
       <div class="aff-stats">
-        <div class="as"><div class="as-num" id="a-clicks">0</div><div class="as-lbl">Link clicks</div></div>
-        <div class="as"><div class="as-num" id="a-conv">0</div><div class="as-lbl">Conversions</div></div>
-        <div class="as"><div class="as-num r" id="a-earned">$0</div><div class="as-lbl">Total earned</div></div>
-        <div class="as"><div class="as-num" id="a-pending-amt">$0</div><div class="as-lbl">Pending payout</div></div>
+        <div class="as"><div class="as-num" id="a-clicks">0</div><div class="as-lbl" data-lk="dash.aff.clicks">Link clicks</div></div>
+        <div class="as"><div class="as-num" id="a-conv">0</div><div class="as-lbl" data-lk="dash.aff.conv">Conversions</div></div>
+        <div class="as"><div class="as-num r" id="a-earned">$0</div><div class="as-lbl" data-lk="dash.aff.earned">Total earned</div></div>
+        <div class="as"><div class="as-num" id="a-pending-amt">$0</div><div class="as-lbl" data-lk="dash.aff.pending">Pending payout</div></div>
       </div>
-
-      <!-- LINK -->
       <div class="link-box">
-        <div class="link-lbl">Your unique referral link</div>
+        <div class="link-lbl" data-lk="dash.aff.link.label">Your unique referral link</div>
         <div class="link-row">
           <div class="link-code" id="aff-link">Loading...</div>
-          <button class="copy-btn" onclick="copyLink()">Copy</button>
+          <button class="copy-btn" onclick="copyLink()" data-lk="dash.aff.copy">Copy</button>
         </div>
-        <div style="font-size:.68rem;color:var(--sv);margin-top:10px;">
-          Share this link on social media, your website, or directly with contacts. Anyone who registers through it is tracked to your account.
-        </div>
+        <div style="font-size:.68rem;color:var(--sv);margin-top:10px;">Share this link — anyone who registers through it is tracked to your account.</div>
       </div>
-
-      <!-- COMMISSION TIERS -->
       <div class="scard" style="margin-bottom:18px;">
-        <div class="scard-hd"><div class="scard-title">Commission structure</div></div>
+        <div class="scard-hd"><div class="scard-title" data-lk="dash.aff.commission">Commission structure</div></div>
         <div class="scard-body">
           <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px;" id="tier-cards">
-            <div id="tier-1" style="background:var(--d3);border:1px solid var(--gr);border-radius:4px;padding:14px;text-align:center;">
-              <div style="font-size:1.4rem;font-weight:600;color:var(--wh);">$150</div>
-              <div style="font-size:.62rem;color:var(--sv);letter-spacing:.08em;text-transform:uppercase;margin-top:4px;">1–3 / month</div>
-            </div>
-            <div id="tier-2" style="background:var(--d3);border:1px solid var(--gr);border-radius:4px;padding:14px;text-align:center;">
-              <div style="font-size:1.4rem;font-weight:600;color:var(--wh);">$200</div>
-              <div style="font-size:.62rem;color:var(--sv);letter-spacing:.08em;text-transform:uppercase;margin-top:4px;">4–9 / month</div>
-            </div>
-            <div id="tier-3" style="background:var(--d3);border:1px solid var(--gr);border-radius:4px;padding:14px;text-align:center;">
-              <div style="font-size:1.4rem;font-weight:600;color:var(--wh);">$250</div>
-              <div style="font-size:.62rem;color:var(--sv);letter-spacing:.08em;text-transform:uppercase;margin-top:4px;">10+ / month</div>
-            </div>
+            <div id="tier-1" style="background:var(--d3);border:1px solid var(--gr);border-radius:4px;padding:14px;text-align:center;"><div style="font-size:1.4rem;font-weight:600;color:var(--wh);">$150</div><div class="as-lbl" data-lk="dash.aff.tier1">1–3 / month</div></div>
+            <div id="tier-2" style="background:var(--d3);border:1px solid var(--gr);border-radius:4px;padding:14px;text-align:center;"><div style="font-size:1.4rem;font-weight:600;color:var(--wh);">$200</div><div class="as-lbl" data-lk="dash.aff.tier2">4–9 / month</div></div>
+            <div id="tier-3" style="background:var(--d3);border:1px solid var(--gr);border-radius:4px;padding:14px;text-align:center;"><div style="font-size:1.4rem;font-weight:600;color:var(--wh);">$250</div><div class="as-lbl" data-lk="dash.aff.tier3">10+ / month</div></div>
           </div>
-          <div style="font-size:.7rem;color:var(--sv);">+ <strong style="color:var(--lt);">$80</strong> per annual renewal referred · Payments monthly by wire or crypto</div>
+          <div style="font-size:.7rem;color:var(--sv);" data-lk="dash.aff.renewal.note">+ $80 per annual renewal referred · Payments monthly by wire or crypto</div>
         </div>
       </div>
-
-      <!-- REFERRALS TABLE -->
       <div class="scard">
-        <div class="scard-hd"><div class="scard-title">My referrals</div></div>
+        <div class="scard-hd"><div class="scard-title" data-lk="dash.aff.my.referrals">My referrals</div></div>
         <div class="scard-body" style="padding:0;">
           <table class="stbl">
-            <thead><tr><th>Email</th><th>Date</th><th>Status</th><th>Commission</th></tr></thead>
-            <tbody id="ref-table"><tr><td colspan="4" class="empty-row">No referrals yet — share your link to start earning</td></tr></tbody>
+            <thead><tr><th data-lk="dash.aff.email.col">Email</th><th data-lk="dash.aff.date.col">Date</th><th data-lk="dash.aff.status.col">Status</th><th data-lk="dash.aff.commission.col">Commission</th></tr></thead>
+            <tbody id="ref-table"><tr><td colspan="4" class="empty-row" data-lk="dash.aff.no.referrals">No referrals yet — share your link to start earning</td></tr></tbody>
           </table>
-        </div>
-      </div>
-    </div>
-
-    <!-- REVENUE -->
-    <div class="panel" id="panel-revenue">
-      <div class="ph">
-        <div class="pey">Revenue</div>
-        <div class="ptitle">My Earnings</div>
-        <div class="psub">Your affiliate commissions and payout history</div>
-      </div>
-      <div class="rev-cards">
-        <div class="rc hl"><div class="rc-lbl">Total earned</div><div class="rc-num"><span>$</span><span id="r-total">0</span></div><div class="rc-sub" id="r-total-sub">No earnings yet</div></div>
-        <div class="rc"><div class="rc-lbl">Pending payout</div><div class="rc-num">$<span id="r-pending">0</span></div><div class="rc-sub" id="r-pending-sub">Nothing pending</div></div>
-        <div class="rc"><div class="rc-lbl">Already paid</div><div class="rc-num">$<span id="r-paid">0</span></div><div class="rc-sub">Wire transfer</div></div>
-      </div>
-      <div class="scard">
-        <div class="scard-hd"><div class="scard-title">Payment history</div></div>
-        <div id="r-history" style="padding:0 18px;">
-          <div style="text-align:center;padding:36px;color:var(--sv);font-size:.8rem;">No transactions yet — your earnings will appear here after your first conversion</div>
         </div>
       </div>
     </div>
@@ -523,867 +391,24 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
   </main>
 </div>
 
-<script>
-const T = {
-en: {
-  // NAV
-  "nav.back": "Back to site",
-  "nav.login": "Login",
-  "nav.logout": "Logout",
-
-  // LOGIN PAGE
-  "login.eyebrow": "Get started",
-  "login.title": "Create your account",
-  "login.sub": "Register to access your client dashboard and proceed with your Hong Kong company.",
-  "login.tab.register": "Create account",
-  "login.tab.login": "Already have an account",
-  "login.fname": "First name",
-  "login.lname": "Last name",
-  "login.email": "Email address",
-  "login.whatsapp": "WhatsApp number",
-  "login.whatsapp.hint": "We'll contact you on WhatsApp to follow up on your file",
-  "login.password": "Password",
-  "login.password.hint": "Min. 8 characters",
-  "login.btn.register": "Create my account →",
-  "login.btn.login": "Sign in →",
-  "login.err.name": "Please enter your first and last name.",
-  "login.err.email": "Please enter your email address.",
-  "login.err.whatsapp": "Please enter your WhatsApp number.",
-  "login.err.password": "Password must be at least 8 characters.",
-  "login.err.fields": "Please fill in all fields.",
-  "login.err.invalid": "Invalid email or password.",
-
-  // DASHBOARD
-  "dash.my.file": "My file",
-  "dash.progress": "Progress",
-  "dash.upload": "Upload files",
-  "dash.documents": "Documents",
-  "dash.affiliate": "Affiliate",
-  "dash.revenue": "Revenue",
-  "dash.main.site": "Main site",
-  "dash.progress.title": "Company Formation Progress",
-  "dash.no.order": "No active order yet. Place your order to begin the incorporation process.",
-  "dash.order.now": "Order now →",
-  "dash.payment.ready": "Ready to proceed",
-  "dash.payment.choose": "Choose your service",
-  "dash.payment.sub": "Secure payment via Stripe — card or SEPA bank transfer",
-  "dash.create.btn": "Create my company — $1,490 →",
-  "dash.renew.btn": "Renew my company — $990 →",
-  "dash.payment.confirmed": "✓ Payment confirmed",
-  "dash.submit.docs": "Now submit your documents",
-  "dash.submit.docs.sub": "We need your documents to start the incorporation process",
-  "dash.submit.docs.btn": "Submit documents →",
-  "dash.upload.title": "Submit your documents",
-  "dash.upload.sub": "We need the following information to start your incorporation. All fields are required.",
-  "dash.names.title": "Desired company names",
-  "dash.names.sub": "Provide 3 options in order of preference",
-  "dash.name1": "1st choice",
-  "dash.name2": "2nd choice",
-  "dash.name3": "3rd choice",
-  "dash.names.hint": "If your first choice is already taken, we will automatically try the next one. All names must end in Limited or Ltd.",
-  "dash.activity.title": "Business activity",
-  "dash.activity.sub": "Describe what your company will do",
-  "dash.activity.ph": "e.g. International trade, consulting, e-commerce, asset management...",
-  "dash.docs.required": "Required documents",
-  "dash.doc.passport": "Passport photo",
-  "dash.doc.passport.sub": "Full passport visible — no cropping, all text readable",
-  "dash.doc.selfie": "Selfie holding passport",
-  "dash.doc.selfie.sub": "Your face clearly visible, passport open showing your photo page",
-  "dash.doc.address": "Proof of address",
-  "dash.doc.address.sub": "Any document showing your address — utility bill, bank statement, national ID, etc.",
-  "dash.upload.btn": "Upload →",
-  "dash.upload.done": "Received ✓",
-  "dash.submit.btn": "Submit my file →",
-  "dash.submit.success": "✓ Your file has been submitted. Our team will review it within 24 hours.",
-  "dash.docs.title": "Official Company Documents",
-  "dash.docs.sub": "Your documents — available as your file progresses",
-  "dash.bank.title": "Open your Airwallex account",
-  "dash.bank.sub": "Airwallex is our recommended banking partner for Hong Kong companies. Multi-currency account, international transfers, and business card — all in one platform.",
-  "dash.bank.btn": "Create account →",
-  "dash.bank.hint": "You can open your Airwallex account as soon as your Certificate of Incorporation is issued.",
-  "dash.aff.title": "My Referral Link",
-  "dash.aff.sub": "Share your link and earn $149–$250 per confirmed referral",
-  "dash.copy": "Copy",
-  "dash.copied": "Copied ✓",
-
-  // STEPS
-  "step.pending": "Order placed",
-  "step.pending.desc": "Waiting for payment confirmation",
-  "step.payment": "Payment confirmed",
-  "step.payment.desc": "Full payment received",
-  "step.docs": "Documents verified",
-  "step.docs.desc": "Passport and proof of address validated",
-  "step.filing": "Registration filing",
-  "step.filing.desc": "Application submitted to Companies Registry HK",
-  "step.certificate": "Certificate issued",
-  "step.certificate.desc": "Certificate of Incorporation issued",
-  "step.bank": "Bank account opened",
-  "step.bank.desc": "Multi-currency account activated",
-  "step.completed": "File completed",
-  "step.completed.desc": "All documents delivered",
-  "step.done": "Done",
-  "step.inprogress": "In progress",
-  "step.waiting": "Waiting",
-
-  // BLOG
-  "blog.back": "Back to site",
-  "blog.all": "All articles",
-  "blog.read": "Read article →",
-  "blog.min": "min read",
-},
-
-fr: {
-  "nav.back": "Retour au site",
-  "nav.login": "Connexion",
-  "nav.logout": "Déconnexion",
-
-  "login.eyebrow": "Commencer",
-  "login.title": "Créez votre compte",
-  "login.sub": "Inscrivez-vous pour accéder à votre dashboard client et procéder à la création de votre société à Hong Kong.",
-  "login.tab.register": "Créer un compte",
-  "login.tab.login": "Déjà un compte",
-  "login.fname": "Prénom",
-  "login.lname": "Nom",
-  "login.email": "Adresse email",
-  "login.whatsapp": "Numéro WhatsApp",
-  "login.whatsapp.hint": "Nous vous contacterons sur WhatsApp pour suivre votre dossier",
-  "login.password": "Mot de passe",
-  "login.password.hint": "Min. 8 caractères",
-  "login.btn.register": "Créer mon compte →",
-  "login.btn.login": "Se connecter →",
-  "login.err.name": "Veuillez entrer votre prénom et nom.",
-  "login.err.email": "Veuillez entrer votre adresse email.",
-  "login.err.whatsapp": "Veuillez entrer votre numéro WhatsApp.",
-  "login.err.password": "Le mot de passe doit contenir au moins 8 caractères.",
-  "login.err.fields": "Veuillez remplir tous les champs.",
-  "login.err.invalid": "Email ou mot de passe invalide.",
-
-  "dash.my.file": "Mon dossier",
-  "dash.progress": "Avancement",
-  "dash.upload": "Mes fichiers",
-  "dash.documents": "Documents",
-  "dash.affiliate": "Affiliation",
-  "dash.revenue": "Revenus",
-  "dash.main.site": "Site principal",
-  "dash.progress.title": "Avancement de la création",
-  "dash.no.order": "Aucune commande en cours. Passez votre commande pour démarrer le processus.",
-  "dash.order.now": "Commander →",
-  "dash.payment.ready": "Prêt à procéder",
-  "dash.payment.choose": "Choisissez votre service",
-  "dash.payment.sub": "Paiement sécurisé via Stripe — carte ou virement SEPA",
-  "dash.create.btn": "Créer ma société — 1 490 $ →",
-  "dash.renew.btn": "Renouveler ma société — 990 $ →",
-  "dash.payment.confirmed": "✓ Paiement confirmé",
-  "dash.submit.docs": "Soumettez vos documents",
-  "dash.submit.docs.sub": "Nous avons besoin de vos documents pour démarrer le processus",
-  "dash.submit.docs.btn": "Soumettre les documents →",
-  "dash.upload.title": "Soumettez vos documents",
-  "dash.upload.sub": "Nous avons besoin des informations suivantes pour démarrer votre incorporation. Tous les champs sont obligatoires.",
-  "dash.names.title": "Noms de société souhaités",
-  "dash.names.sub": "Proposez 3 options par ordre de préférence",
-  "dash.name1": "1er choix",
-  "dash.name2": "2ème choix",
-  "dash.name3": "3ème choix",
-  "dash.names.hint": "Si votre premier choix est déjà pris, nous essaierons automatiquement le suivant. Tous les noms doivent se terminer par Limited ou Ltd.",
-  "dash.activity.title": "Activité commerciale",
-  "dash.activity.sub": "Décrivez ce que fera votre société",
-  "dash.activity.ph": "ex. Commerce international, conseil, e-commerce, gestion d'actifs...",
-  "dash.docs.required": "Documents requis",
-  "dash.doc.passport": "Photo du passeport",
-  "dash.doc.passport.sub": "Passeport entier visible — non rogné, tous les textes lisibles",
-  "dash.doc.selfie": "Selfie tenant le passeport",
-  "dash.doc.selfie.sub": "Visage clairement visible, passeport ouvert sur la page photo",
-  "dash.doc.address": "Justificatif de domicile",
-  "dash.doc.address.sub": "Tout document avec votre adresse — facture, relevé bancaire, carte d'identité, etc.",
-  "dash.upload.btn": "Uploader →",
-  "dash.upload.done": "Reçu ✓",
-  "dash.submit.btn": "Soumettre mon dossier →",
-  "dash.submit.success": "✓ Votre dossier a été soumis. Notre équipe le vérifiera dans les 24 heures.",
-  "dash.docs.title": "Documents officiels de la société",
-  "dash.docs.sub": "Vos documents — disponibles au fur et à mesure de l'avancement",
-  "dash.bank.title": "Ouvrez votre compte Airwallex",
-  "dash.bank.sub": "Airwallex est notre partenaire bancaire recommandé pour les sociétés Hong Kong. Compte multi-devises, virements internationaux et carte business — tout en un.",
-  "dash.bank.btn": "Créer mon compte →",
-  "dash.bank.hint": "Vous pouvez ouvrir votre compte Airwallex dès que votre certificat de constitution est émis.",
-  "dash.aff.title": "Mon lien de parrainage",
-  "dash.aff.sub": "Partagez votre lien et gagnez 149–250 $ par parrainage confirmé",
-  "dash.copy": "Copier",
-  "dash.copied": "Copié ✓",
-
-  "step.pending": "Commande passée",
-  "step.pending.desc": "En attente de confirmation du paiement",
-  "step.payment": "Paiement confirmé",
-  "step.payment.desc": "Paiement complet reçu",
-  "step.docs": "Documents vérifiés",
-  "step.docs.desc": "Passeport et justificatif de domicile validés",
-  "step.filing": "Dépôt en cours",
-  "step.filing.desc": "Dossier soumis au Companies Registry HK",
-  "step.certificate": "Certificat émis",
-  "step.certificate.desc": "Certificat de constitution émis",
-  "step.bank": "Compte bancaire ouvert",
-  "step.bank.desc": "Compte multi-devises activé",
-  "step.completed": "Dossier complété",
-  "step.completed.desc": "Tous les documents livrés",
-  "step.done": "Terminé",
-  "step.inprogress": "En cours",
-  "step.waiting": "En attente",
-
-  "blog.back": "Retour au site",
-  "blog.all": "Tous les articles",
-  "blog.read": "Lire l'article →",
-  "blog.min": "min de lecture",
-},
-
-es: {
-  "nav.back": "Volver al sitio",
-  "nav.login": "Iniciar sesión",
-  "nav.logout": "Cerrar sesión",
-
-  "login.eyebrow": "Empezar",
-  "login.title": "Crea tu cuenta",
-  "login.sub": "Regístrate para acceder a tu panel de cliente y proceder con tu empresa en Hong Kong.",
-  "login.tab.register": "Crear cuenta",
-  "login.tab.login": "Ya tengo cuenta",
-  "login.fname": "Nombre",
-  "login.lname": "Apellidos",
-  "login.email": "Correo electrónico",
-  "login.whatsapp": "Número de WhatsApp",
-  "login.whatsapp.hint": "Te contactaremos por WhatsApp para hacer seguimiento de tu expediente",
-  "login.password": "Contraseña",
-  "login.password.hint": "Mín. 8 caracteres",
-  "login.btn.register": "Crear mi cuenta →",
-  "login.btn.login": "Iniciar sesión →",
-  "login.err.name": "Por favor introduce tu nombre y apellidos.",
-  "login.err.email": "Por favor introduce tu correo electrónico.",
-  "login.err.whatsapp": "Por favor introduce tu número de WhatsApp.",
-  "login.err.password": "La contraseña debe tener al menos 8 caracteres.",
-  "login.err.fields": "Por favor rellena todos los campos.",
-  "login.err.invalid": "Email o contraseña incorrectos.",
-
-  "dash.my.file": "Mi expediente",
-  "dash.progress": "Progreso",
-  "dash.upload": "Mis archivos",
-  "dash.documents": "Documentos",
-  "dash.affiliate": "Afiliados",
-  "dash.revenue": "Ingresos",
-  "dash.main.site": "Sitio principal",
-  "dash.progress.title": "Progreso de la constitución",
-  "dash.no.order": "Sin pedido activo. Realiza tu pedido para iniciar el proceso de constitución.",
-  "dash.order.now": "Pedir ahora →",
-  "dash.payment.ready": "Listo para proceder",
-  "dash.payment.choose": "Elige tu servicio",
-  "dash.payment.sub": "Pago seguro vía Stripe — tarjeta o transferencia SEPA",
-  "dash.create.btn": "Crear mi empresa — $1.490 →",
-  "dash.renew.btn": "Renovar mi empresa — $990 →",
-  "dash.payment.confirmed": "✓ Pago confirmado",
-  "dash.submit.docs": "Ahora envía tus documentos",
-  "dash.submit.docs.sub": "Necesitamos tus documentos para iniciar el proceso de incorporación",
-  "dash.submit.docs.btn": "Enviar documentos →",
-  "dash.upload.title": "Envía tus documentos",
-  "dash.upload.sub": "Necesitamos la siguiente información para iniciar tu incorporación. Todos los campos son obligatorios.",
-  "dash.names.title": "Nombres de empresa deseados",
-  "dash.names.sub": "Proporciona 3 opciones en orden de preferencia",
-  "dash.name1": "1ª opción",
-  "dash.name2": "2ª opción",
-  "dash.name3": "3ª opción",
-  "dash.names.hint": "Si tu primera opción ya está tomada, probaremos automáticamente la siguiente. Todos los nombres deben terminar en Limited o Ltd.",
-  "dash.activity.title": "Actividad comercial",
-  "dash.activity.sub": "Describe lo que hará tu empresa",
-  "dash.activity.ph": "ej. Comercio internacional, consultoría, e-commerce, gestión de activos...",
-  "dash.docs.required": "Documentos requeridos",
-  "dash.doc.passport": "Foto del pasaporte",
-  "dash.doc.passport.sub": "Pasaporte completo visible — sin recortar, todo el texto legible",
-  "dash.doc.selfie": "Selfie con pasaporte",
-  "dash.doc.selfie.sub": "Tu cara claramente visible, pasaporte abierto mostrando la página de foto",
-  "dash.doc.address": "Justificante de domicilio",
-  "dash.doc.address.sub": "Cualquier documento con tu dirección — factura, extracto bancario, DNI, etc.",
-  "dash.upload.btn": "Subir →",
-  "dash.upload.done": "Recibido ✓",
-  "dash.submit.btn": "Enviar mi expediente →",
-  "dash.submit.success": "✓ Tu expediente ha sido enviado. Nuestro equipo lo revisará en 24 horas.",
-  "dash.docs.title": "Documentos oficiales de la empresa",
-  "dash.docs.sub": "Tus documentos — disponibles según avanza tu expediente",
-  "dash.bank.title": "Abre tu cuenta Airwallex",
-  "dash.bank.sub": "Airwallex es nuestro socio bancario recomendado para empresas de Hong Kong. Cuenta multidivisa, transferencias internacionales y tarjeta empresarial — todo en una plataforma.",
-  "dash.bank.btn": "Crear mi cuenta →",
-  "dash.bank.hint": "Puedes abrir tu cuenta Airwallex en cuanto se emita tu Certificado de Constitución.",
-  "dash.aff.title": "Mi enlace de referido",
-  "dash.aff.sub": "Comparte tu enlace y gana $149–$250 por cada referido confirmado",
-  "dash.copy": "Copiar",
-  "dash.copied": "Copiado ✓",
-
-  "step.pending": "Pedido realizado",
-  "step.pending.desc": "Esperando confirmación de pago",
-  "step.payment": "Pago confirmado",
-  "step.payment.desc": "Pago completo recibido",
-  "step.docs": "Documentos verificados",
-  "step.docs.desc": "Pasaporte y justificante de domicilio validados",
-  "step.filing": "Tramitación en curso",
-  "step.filing.desc": "Solicitud presentada al Companies Registry HK",
-  "step.certificate": "Certificado emitido",
-  "step.certificate.desc": "Certificado de constitución emitido",
-  "step.bank": "Cuenta bancaria abierta",
-  "step.bank.desc": "Cuenta multidivisa activada",
-  "step.completed": "Expediente completado",
-  "step.completed.desc": "Todos los documentos entregados",
-  "step.done": "Hecho",
-  "step.inprogress": "En curso",
-  "step.waiting": "En espera",
-
-  "blog.back": "Volver al sitio",
-  "blog.all": "Todos los artículos",
-  "blog.read": "Leer artículo →",
-  "blog.min": "min de lectura",
-},
-
-zh: {
-  "nav.back": "返回网站",
-  "nav.login": "登录",
-  "nav.logout": "退出",
-
-  "login.eyebrow": "开始",
-  "login.title": "创建您的账户",
-  "login.sub": "注册以访问您的客户控制台并开始香港公司注册流程。",
-  "login.tab.register": "创建账户",
-  "login.tab.login": "已有账户",
-  "login.fname": "名字",
-  "login.lname": "姓氏",
-  "login.email": "电子邮件",
-  "login.whatsapp": "WhatsApp号码",
-  "login.whatsapp.hint": "我们将通过WhatsApp跟进您的档案",
-  "login.password": "密码",
-  "login.password.hint": "最少8个字符",
-  "login.btn.register": "创建我的账户 →",
-  "login.btn.login": "登录 →",
-  "login.err.name": "请输入您的姓名。",
-  "login.err.email": "请输入您的电子邮件地址。",
-  "login.err.whatsapp": "请输入您的WhatsApp号码。",
-  "login.err.password": "密码至少需要8个字符。",
-  "login.err.fields": "请填写所有字段。",
-  "login.err.invalid": "邮箱或密码无效。",
-
-  "dash.my.file": "我的档案",
-  "dash.progress": "进度",
-  "dash.upload": "我的文件",
-  "dash.documents": "文件",
-  "dash.affiliate": "联盟计划",
-  "dash.revenue": "收益",
-  "dash.main.site": "主网站",
-  "dash.progress.title": "公司注册进度",
-  "dash.no.order": "暂无活跃订单。下单以开始注册流程。",
-  "dash.order.now": "立即下单 →",
-  "dash.payment.ready": "准备就绪",
-  "dash.payment.choose": "选择您的服务",
-  "dash.payment.sub": "通过Stripe安全付款 — 银行卡或SEPA转账",
-  "dash.create.btn": "注册我的公司 — $1,490 →",
-  "dash.renew.btn": "续期我的公司 — $990 →",
-  "dash.payment.confirmed": "✓ 付款已确认",
-  "dash.submit.docs": "现在提交您的文件",
-  "dash.submit.docs.sub": "我们需要您的文件来启动注册流程",
-  "dash.submit.docs.btn": "提交文件 →",
-  "dash.upload.title": "提交您的文件",
-  "dash.upload.sub": "我们需要以下信息来开始您的注册。所有字段均为必填项。",
-  "dash.names.title": "期望的公司名称",
-  "dash.names.sub": "按优先顺序提供3个选项",
-  "dash.name1": "第一选择",
-  "dash.name2": "第二选择",
-  "dash.name3": "第三选择",
-  "dash.names.hint": "如果您的第一选择已被占用，我们将自动尝试下一个。所有名称必须以Limited或Ltd.结尾。",
-  "dash.activity.title": "经营活动",
-  "dash.activity.sub": "描述您的公司将从事的业务",
-  "dash.activity.ph": "例如：国际贸易、咨询、电商、资产管理...",
-  "dash.docs.required": "所需文件",
-  "dash.doc.passport": "护照照片",
-  "dash.doc.passport.sub": "护照完整可见 — 不得裁剪，所有文字清晰可读",
-  "dash.doc.selfie": "手持护照自拍",
-  "dash.doc.selfie.sub": "面部清晰可见，护照翻开至照片页",
-  "dash.doc.address": "住址证明",
-  "dash.doc.address.sub": "任何显示您地址的文件 — 水电账单、银行对账单、身份证等",
-  "dash.upload.btn": "上传 →",
-  "dash.upload.done": "已收到 ✓",
-  "dash.submit.btn": "提交我的档案 →",
-  "dash.submit.success": "✓ 您的档案已提交。我们的团队将在24小时内审核。",
-  "dash.docs.title": "公司官方文件",
-  "dash.docs.sub": "您的文件 — 随档案进度逐步提供",
-  "dash.bank.title": "开立您的Airwallex账户",
-  "dash.bank.sub": "Airwallex是我们为香港公司推荐的银行合作伙伴。多币种账户、国际转账和企业卡 — 一站式平台。",
-  "dash.bank.btn": "创建账户 →",
-  "dash.bank.hint": "一旦公司注册证书签发，您即可开立Airwallex账户。",
-  "dash.aff.title": "我的推荐链接",
-  "dash.aff.sub": "分享您的链接，每次确认推荐获得$149–$250",
-  "dash.copy": "复制",
-  "dash.copied": "已复制 ✓",
-
-  "step.pending": "已下单",
-  "step.pending.desc": "等待付款确认",
-  "step.payment": "付款已确认",
-  "step.payment.desc": "已收到全额付款",
-  "step.docs": "文件已验证",
-  "step.docs.desc": "护照和住址证明已验证",
-  "step.filing": "注册申请中",
-  "step.filing.desc": "申请已提交至香港公司注册处",
-  "step.certificate": "证书已签发",
-  "step.certificate.desc": "公司注册证书已签发",
-  "step.bank": "银行账户已开立",
-  "step.bank.desc": "多币种账户已激活",
-  "step.completed": "档案已完成",
-  "step.completed.desc": "所有文件已交付",
-  "step.done": "已完成",
-  "step.inprogress": "进行中",
-  "step.waiting": "等待中",
-
-  "blog.back": "返回网站",
-  "blog.all": "所有文章",
-  "blog.read": "阅读文章 →",
-  "blog.min": "分钟阅读",
-}
-};
-
-function getLang() {
-  try { return localStorage.getItem('lum_lang') || 'en'; } catch(e) { return 'en'; }
-}
-
-function setLangAll(lang) {
-  try { localStorage.setItem('lum_lang', lang); } catch(e) {}
-  document.documentElement.lang = lang;
-  document.body.className = lang === 'zh' ? 'lang-zh' : '';
-  const dict = T[lang] || T['en'];
-  document.querySelectorAll('[data-t]').forEach(el => {
-    const key = el.getAttribute('data-t');
-    if (dict[key]) el.textContent = dict[key];
-  });
-  document.querySelectorAll('[data-t-ph]').forEach(el => {
-    const key = el.getAttribute('data-t-ph');
-    if (dict[key]) el.placeholder = dict[key];
-  });
-  // Update active lang button
-  document.querySelectorAll('.lang-opt').forEach(btn => {
-    btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
-  });
-}
-
-function initLang() {
-  setLangAll(getLang());
-}
-
-</script>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script>
-const SB = supabase.createClient(
-  'https://nyqmhhtxqszlffqwjumw.supabase.co',
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im55cW1oaHR4cXN6bGZmcXdqdW13Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQyNjExMjMsImV4cCI6MjA4OTgzNzEyM30.ukSPu2axVpGkJ_op42qdROwjmvo0ml83QStPwixU7ls'
-);
-
-let currentUser = null;
-let profile = null;
-let dossier = null;
-let affiliate = null;
-let uploadType = '';
-let uploadName = '';
-
-function getSTEPS(){const d=T[getLang()]||T['en'];return[
-  {key:'pending',       label:d['step.pending'],    desc:d['step.pending.desc']},
-  {key:'payment_confirmed', label:d['step.payment'],desc:d['step.payment.desc']},
-  {key:'docs_verified', label:d['step.docs'],       desc:d['step.docs.desc']},
-  {key:'filing',        label:d['step.filing'],     desc:d['step.filing.desc']},
-  {key:'certificate_issued', label:d['step.certificate'],desc:d['step.certificate.desc']},
-  {key:'completed',     label:d['step.completed'],  desc:d['step.completed.desc']}
-];}
-const STATUS_ORDER = ['pending','payment_confirmed','docs_verified','filing','certificate_issued','bank_opened','completed'];
-
-// ── INIT ──
-async function init() {
-  const {data:{session}} = await SB.auth.getSession();
-  if (!session) { window.location.href = 'login.html'; return; }
-  currentUser = session.user;
-
-  // Load profile
-  const {data:p} = await SB.from('profiles').select('*').eq('id', currentUser.id).single();
-  profile = p;
-
-  // Display name — use profile name, or first part of email as fallback
-  const displayName = profile?.first_name || profile?.full_name?.split(' ')[0] || currentUser.email.split('@')[0];
-  document.getElementById('uName').textContent = displayName;
-
-  // If no profile yet (old account), create one
-  if (!profile) {
-    await SB.from('profiles').upsert({
-      id: currentUser.id,
-      email: currentUser.email,
-      full_name: currentUser.user_metadata?.full_name || currentUser.email.split('@')[0],
-      type: 'client',
-      created_at: new Date().toISOString()
-    });
-    profile = { id: currentUser.id, email: currentUser.email, full_name: displayName };
-  }
-
-  // Prefill email in Stripe links
-  const emailEnc = encodeURIComponent(currentUser.email);
-  const btnCreate = document.getElementById('btn-create');
-  const btnRenew = document.getElementById('btn-renew');
-  if (btnCreate) btnCreate.href = `https://buy.stripe.com/eVq14m3Eu07Mg9K2bf33W04?prefilled_email=${emailEnc}`;
-  if (btnRenew) btnRenew.href = `https://buy.stripe.com/00w4gyej8f2GcXycPT33W05?prefilled_email=${emailEnc}`;
-
-  // Load dossier
-  const {data:d} = await SB.from('dossiers').select('*').eq('user_id', currentUser.id).single();
-  dossier = d;
-  renderProcess();
-
-  // Load affiliate — create if doesn't exist
-  const {data:a} = await SB.from('affiliates').select('*').eq('user_id', currentUser.id).single();
-  affiliate = a;
-  if (!affiliate) {
-    const baseName = (profile?.full_name || currentUser.email.split('@')[0])
-      .replace(/\s+/g,'').toUpperCase().slice(0,8);
-    const code = baseName + Math.random().toString(36).slice(2,6).toUpperCase();
-    const {data:na} = await SB.from('affiliates').insert({
-      user_id: currentUser.id,
-      referral_code: code,
-      total_earned: 0,
-      pending_payout: 0,
-      conversions: 0,
-      created_at: new Date().toISOString()
-    }).select().single();
-    affiliate = na;
-  }
-  renderAffiliate();
-
-  // Check goto — URL param ?tab=uploads (from Stripe redirect) or sessionStorage
-  const urlParams = new URLSearchParams(window.location.search);
-  const tabParam = urlParams.get('tab');
-  const goto = tabParam || sessionStorage.getItem('lum_goto');
-  if (goto) {
-    sessionStorage.removeItem('lum_goto');
-    // Small delay to let everything render first
-    setTimeout(() => show(goto), 300);
-  }
-}
-
-function renderProcess() {
-  const status = dossier?.status || 'pending';
-  const statusIdx = STATUS_ORDER.indexOf(status);
-  const STEPS = getSTEPS();
-  const d = T[getLang()]||T['en'];
-  const company = dossier?.company_name || '—';
-
-  document.getElementById('p-company').textContent = company !== '—' ? company + ' · In progress' : 'No active order';
-
-  // Lock/unlock sidebar tabs based on status
-  const hasPaid = status !== 'pending';
-  const hasSubmittedDocs = ['docs_submitted','docs_verified','filing','certificate_issued','completed'].includes(status);
-  document.querySelectorAll('.ni[onclick="show(\'uploads\')"]').forEach(el => {
-    el.style.opacity = hasPaid ? '1' : '.35';
-    el.style.pointerEvents = hasPaid ? 'auto' : 'none';
-    el.title = hasPaid ? '' : 'Payment required to access this section';
-  });
-  document.querySelectorAll('.ni[onclick="show(\'documents\')"]').forEach(el => {
-    el.style.opacity = hasSubmittedDocs ? '1' : '.35';
-    el.style.pointerEvents = hasSubmittedDocs ? 'auto' : 'none';
-    el.title = hasSubmittedDocs ? '' : 'Available after submitting your documents';
-  });
-
-  // Show/hide payment block
-  document.getElementById('p-payment').style.display = hasPaid ? 'none' : 'block';
-
-  // Show/hide docs prompt
-  const docsPrompt = document.getElementById('p-docs-prompt');
-  if (docsPrompt) {
-    const showPrompt = hasPaid && !hasSubmittedDocs;
-    docsPrompt.style.display = showPrompt ? 'block' : 'none';
-  }
-
-  // Show processing banner if docs submitted
-  const processingBanner = document.getElementById('p-processing-banner');
-  if (processingBanner) {
-    processingBanner.style.display = hasSubmittedDocs ? 'block' : 'none';
-  }
-
-  // Banner
-  const banner = document.getElementById('p-banner');
-  if (status === 'pending') {
-    banner.innerHTML = '';
-  } else {
-    const labels = {
-      payment_confirmed: 'Payment confirmed — awaiting your documents',
-      docs_submitted: 'Documents received — under review',
-      docs_verified: 'Documents verified — filing in progress',
-      filing: 'Registration filing in progress at Companies Registry HK',
-      certificate_issued: 'Certificate of Incorporation issued — download in Documents',
-      completed: 'File completed — all documents available'
-    };
-    const isCompleted = status === 'completed';
-    banner.innerHTML = `<div class="banner" style="margin-bottom:20px;"><div class="b-dot ${isCompleted?'inactive':'active'}"></div><div class="b-txt">${labels[status]||'File in progress'}</div><div class="b-pill ${isCompleted?'pill-ok':'pill-rev'}">${isCompleted?'Completed':'In progress'}</div></div>`;
-  }
-
-  // Steps
-  const stepsEl = document.getElementById('p-steps');
-  stepsEl.innerHTML = STEPS.map((s,i) => {
-    const isDone = i < statusIdx;
-    const isProg = i === statusIdx && status !== 'pending';
-    const cls = isDone ? 'done' : isProg ? 'prog' : 'wait';
-    const ico = isDone ? '✓' : isProg ? '⟳' : '○';
-    const stat = isDone ? d['step.done'] : isProg ? d['step.inprogress'] : d['step.waiting'];
-    return `<div class="pi ${cls}"><div class="pi-ico">${ico}</div><div class="pi-info"><div class="pi-name">${s.label}</div><div class="pi-desc">${s.desc}</div></div><div class="pi-stat">${stat}</div></div>`;
-  }).join('');
-
-  // Details
-  document.getElementById('p-details').innerHTML = `
-    <div><div style="font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--sv);margin-bottom:3px;">Company name</div><div style="font-size:.85rem;color:var(--wh);">${company}</div></div>
-    <div><div style="font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--sv);margin-bottom:3px;">Jurisdiction</div><div style="font-size:.85rem;color:var(--wh);">Hong Kong SAR</div></div>
-    <div><div style="font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--sv);margin-bottom:3px;">Type</div><div style="font-size:.85rem;color:var(--wh);">Private Limited Company</div></div>
-    <div><div style="font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--sv);margin-bottom:3px;">Account created</div><div style="font-size:.85rem;color:var(--wh);">${new Date(dossier?.created_at||Date.now()).toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'})}</div></div>
-  `;
-
-  // Load official docs
-  loadOfficialDocs();
-}
-
-function renderAffiliate() {
-  if (!affiliate) return;
-  const code = affiliate.referral_code || 'LOADING';
-  const link = 'https://luminoscorp.com/?ref=' + code;
-  document.getElementById('aff-link').textContent = link;
-  document.getElementById('a-earned').textContent = '$' + (affiliate.total_earned || 0);
-  document.getElementById('a-pending-amt').textContent = '$' + (affiliate.pending_payout || 0);
-  document.getElementById('a-conv').textContent = affiliate.conversions || 0;
-  document.getElementById('a-clicks').textContent = affiliate.clicks || 0;
-
-  // Highlight current tier
-  const conv = affiliate.conversions || 0;
-  const tier = conv >= 10 ? 3 : conv >= 4 ? 2 : 1;
-  for (let i = 1; i <= 3; i++) {
-    const el = document.getElementById('tier-' + i);
-    if (!el) continue;
-    if (i === tier) {
-      el.style.border = '1px solid rgba(200,16,46,0.5)';
-      el.style.background = 'rgba(200,16,46,0.08)';
-      el.innerHTML += '<div style="font-size:.58rem;color:var(--red);letter-spacing:.1em;text-transform:uppercase;margin-top:6px;">Your tier ✓</div>';
-    }
-  }
-
-  // Load referrals
-  loadReferrals();
-}
-
-async function loadReferrals() {
-  if (!affiliate) return;
-  const {data} = await SB.from('referrals')
-    .select('*')
-    .eq('affiliate_id', affiliate.id)
-    .order('created_at', {ascending:false});
-
-  const tb = document.getElementById('ref-table');
-  if (!tb) return;
-
-  // Update pending count
-  const pending = data?.filter(r => r.status === 'registered').length || 0;
-  const pendingEl = document.getElementById('a-pending-count');
-  if (pendingEl) pendingEl.textContent = pending;
-
-  if (!data?.length) {
-    tb.innerHTML = '<tr><td colspan="4" class="empty-row">No referrals yet — share your link to start earning</td></tr>';
-    return;
-  }
-
-  const statusColors = {
-    registered: '#c89600',
-    converted: '#3cc468',
-    paid: '#3cc468'
-  };
-
-  tb.innerHTML = data.map(r => `<tr>
-    <td style="color:var(--lt);">${r.referred_email || '—'}</td>
-    <td style="color:var(--sv);">${new Date(r.created_at).toLocaleDateString('en-GB')}</td>
-    <td><span style="font-size:.66rem;letter-spacing:.07em;text-transform:uppercase;color:${statusColors[r.status]||'var(--sv)'};">${r.status}</span></td>
-    <td style="color:var(--wh);font-weight:500;">${r.commission ? '$'+r.commission : r.status==='registered'?'Pending':'—'}</td>
-  </tr>`).join('');
-}
-
-// ── UPLOAD ──
-function triggerUpload(type, name) {
-  uploadType = type;
-  uploadName = name;
-  document.getElementById('fileInput').click();
-}
-
-async function handleUpload(input) {
-  if (!input.files.length) return;
-  const file = input.files[0];
-  const btnId = uploadType === 'passport' ? 'btn-passport' : uploadType === 'selfie' ? 'btn-selfie' : 'btn-address';
-  const btn = document.getElementById(btnId);
-
-  btn.textContent = 'Uploading...';
-  btn.style.pointerEvents = 'none';
-
-  const reader = new FileReader();
-  reader.onload = async (e) => {
-    const base64 = e.target.result;
-    const {error} = await SB.from('documents').insert({
-      user_id: currentUser.id,
-      dossier_id: dossier?.id,
-      name: uploadName,
-      type: uploadType,
-      file_name: file.name,
-      file_size: file.size,
-      file_data: base64,
-      status: 'received'
-    });
-    if (!error) {
-      await SB.from('notifications').insert({
-        type: 'new_document',
-        user_id: currentUser.id,
-        title: 'New document uploaded',
-        message: (profile?.full_name||'A client') + ' uploaded: ' + uploadName + ' (' + file.name + ')'
-      });
-      btn.textContent = 'Received ✓';
-      btn.classList.add('done-btn');
-    } else {
-      alert('Upload failed: ' + error.message);
-      btn.textContent = 'Upload →';
-      btn.style.pointerEvents = 'auto';
-    }
-  };
-  reader.readAsDataURL(file);
-  input.value = '';
-}
-
-// ── SUBMIT DOSSIER ──
-async function submitDossier() {
-  const name1 = document.getElementById('name1').value.trim();
-  const name2 = document.getElementById('name2').value.trim();
-  const name3 = document.getElementById('name3').value.trim();
-  const activity = document.getElementById('activity').value.trim();
-
-  if (!name1 || !name2 || !name3) { alert('Please provide 3 company name options.'); return; }
-  if (!activity) { alert('Please describe your business activity.'); return; }
-
-  const {error} = await SB.from('dossiers').upsert({
-    user_id: currentUser.id,
-    company_name: name1,
-    company_name_2: name2,
-    company_name_3: name3,
-    business_activity: activity,
-    status: 'docs_submitted',
-    updated_at: new Date().toISOString()
-  }, { onConflict: 'user_id' });
-
-  if (!error) {
-    await SB.from('notifications').insert({
-      type: 'dossier_submitted',
-      user_id: currentUser.id,
-      title: 'Dossier submitted',
-      message: (profile?.full_name||'A client') + ' submitted their dossier. Company: ' + name1 + ' / ' + name2 + ' / ' + name3
-    });
-    document.getElementById('submit-msg').style.display = 'block';
-    document.querySelector('[onclick="submitDossier()"]').style.display = 'none';
-  } else {
-    alert('Error: ' + error.message);
-  }
-}
-
-// ── OFFICIAL DOCS ──
-async function loadOfficialDocs() {
-  if (!currentUser) return;
-  const {data:docs} = await SB.from('official_documents').select('*').eq('user_id', currentUser.id).order('created_at', {ascending:false});
-  const grid = document.getElementById('official-docs-grid');
-  if (!grid) return;
-
-  const allDocs = [
-    {key:'certificate', icon:'📄', name:'Certificate of Incorporation', meta:'Issued by Companies Registry HK'},
-    {key:'articles', icon:'📋', name:'Articles of Association', meta:'Memorandum & Articles'},
-    {key:'br_certificate', icon:'🗂️', name:'Business Registration Certificate', meta:'Annual business licence'},
-    {key:'directors_register', icon:'📊', name:'Register of Directors', meta:'Official register of company officers'},
-    {key:'payment_confirmation', icon:'✅', name:'Payment Confirmation', meta:'Available after order'},
-  ];
-
-  grid.innerHTML = allDocs.map(doc => {
-    const uploaded = docs?.find(d => d.doc_type === doc.key);
-    if (uploaded) {
-      return `<div class="dc" style="cursor:pointer;" onclick="downloadOfficialDoc('${uploaded.id}','${doc.name}')">
-        <div class="dc-ico">${doc.icon}</div>
-        <div style="flex:1"><div class="dc-name">${doc.name}</div><div class="dc-meta">${doc.meta}</div></div>
-        <div class="dpill pill-ok" style="background:rgba(50,200,100,0.1);border:1px solid rgba(50,200,100,0.2);color:#3cc468;">Download ↓</div>
-      </div>`;
-    } else {
-      return `<div class="dc" style="opacity:.6;cursor:default;">
-        <div class="dc-ico">${doc.icon}</div>
-        <div style="flex:1"><div class="dc-name">${doc.name}</div><div class="dc-meta">${doc.meta}</div></div>
-        <div class="dpill pill-pend">Pending</div>
-      </div>`;
-    }
-  }).join('');
-}
-
-let officialDocsCache = {};
-async function downloadOfficialDoc(id, name) {
-  if (!officialDocsCache[id]) {
-    const {data} = await SB.from('official_documents').select('file_data,file_name').eq('id',id).single();
-    officialDocsCache[id] = data;
-  }
-  const doc = officialDocsCache[id];
-  if (!doc?.file_data) { alert('File not available'); return; }
-  const a = document.createElement('a');
-  a.href = doc.file_data;
-  a.download = doc.file_name || name;
-  a.click();
-}
-
-// ── COPY LINK ──
-function copyLink() {
-  const link = document.getElementById('aff-link').textContent;
-  navigator.clipboard.writeText(link).then(() => {
-    const btn = document.querySelector('.copy-btn');
-    const orig = btn.textContent;
-    btn.textContent = 'Copied ✓';
-    btn.style.background = '#3cc468';
-    setTimeout(() => { btn.textContent = orig; btn.style.background = ''; }, 2000);
-  });
-}
-
-// ── NAV ──
-function show(name) {
-  document.querySelectorAll('.panel').forEach(p => p.classList.remove('act'));
-  document.querySelectorAll('.ni').forEach(n => n.classList.remove('act'));
-  document.getElementById('panel-' + name).classList.add('act');
-  document.querySelectorAll('.ni').forEach(n => {
-    if (n.getAttribute('onclick') === `show('${name}')`) n.classList.add('act');
-  });
-  window.scrollTo(0,0);
-}
-
-// ── LOGOUT ──
-async function logout() {
-  await SB.auth.signOut();
-  window.location.href = 'login.html';
-}
-
-
-// Theme
-function getPreferredTheme(){const s=localStorage.getItem('lum_theme');if(s)return s;return window.matchMedia('(prefers-color-scheme:light)').matches?'light':'dark';}
-function applyTheme(t){document.documentElement.setAttribute('data-theme',t);const b=document.getElementById('themeToggle');if(b)b.textContent=t==='light'?'🌙':'☀️';localStorage.setItem('lum_theme',t);}
-function toggleTheme(){const c=document.documentElement.getAttribute('data-theme')||getPreferredTheme();applyTheme(c==='dark'?'light':'dark');}
-applyTheme(getPreferredTheme());
-initLang();
-init();
-</script>
 <!-- MOBILE NAV -->
 <nav class="mobile-nav">
   <div class="mobile-nav-inner">
     <button class="mn-btn act" id="mn-progress" onclick="show('process');setMobileNav('progress')">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-      Progress
+      <span data-lk="dash.progress">Progress</span>
     </button>
     <button class="mn-btn" id="mn-uploads" onclick="show('uploads');setMobileNav('uploads')">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"/></svg>
-      Files
+      <span data-lk="dash.upload">Files</span>
     </button>
     <button class="mn-btn" id="mn-documents" onclick="show('documents');setMobileNav('documents')">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-      Docs
+      <span data-lk="dash.documents">Docs</span>
     </button>
     <button class="mn-btn" id="mn-affiliate" onclick="show('affiliate');setMobileNav('affiliate')">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
-      Affiliate
+      <span data-lk="dash.affiliate">Affiliate</span>
     </button>
   </div>
 </nav>
@@ -1394,24 +419,297 @@ init();
   <span>WhatsApp</span>
 </a>
 
+<script src="lang.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-function toggleLangDropdown(){document.getElementById('langSwitcher').classList.toggle('open');}
-document.addEventListener('click',e=>{if(!e.target.closest('#langSwitcher'))document.getElementById('langSwitcher')?.classList.remove('open');});
-const FLAGS = {en:'🇬🇧',fr:'🇫🇷',es:'🇪🇸',zh:'🇨🇳'};
-function updateFlag(lang){
-  const f = document.getElementById('currentFlag');
-  if(f) f.textContent = FLAGS[lang]||'🇬🇧';
-  document.querySelectorAll('.lang-option').forEach(el=>{
-    el.classList.toggle('active', el.getAttribute('onclick')?.includes("'"+lang+"'"));
+const SB = supabase.createClient(
+  'https://nyqmhhtxqszlffqwjumw.supabase.co',
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im55cW1oaHR4cXN6bGZmcXdqdW13Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQyNjExMjMsImV4cCI6MjA4OTgzNzEyM30.ukSPu2axVpGkJ_op42qdROwjmvo0ml83QStPwixU7ls'
+);
+
+let currentUser=null, profile=null, dossier=null, affiliate=null;
+let uploadType='', uploadName='';
+
+const STATUS_ORDER=['pending','payment_confirmed','docs_submitted','docs_verified','filing','certificate_issued','completed'];
+
+function getSTEPS(){
+  const d=LANG[getLang()]||LANG['en'];
+  return[
+    {key:'pending',label:d['step.pending'],desc:d['step.pending.desc']},
+    {key:'payment_confirmed',label:d['step.payment'],desc:d['step.payment.desc']},
+    {key:'docs_verified',label:d['step.docs'],desc:d['step.docs.desc']},
+    {key:'filing',label:d['step.filing'],desc:d['step.filing.desc']},
+    {key:'certificate_issued',label:d['step.certificate'],desc:d['step.certificate.desc']},
+    {key:'completed',label:d['step.completed'],desc:d['step.completed.desc']}
+  ];
+}
+
+async function init(){
+  const {data:{session}}=await SB.auth.getSession();
+  if(!session){window.location.href='login.html';return;}
+  currentUser=session.user;
+
+  const {data:p}=await SB.from('profiles').select('*').eq('id',currentUser.id).single();
+  profile=p;
+
+  const displayName=profile?.first_name||profile?.full_name?.split(' ')[0]||currentUser.email.split('@')[0];
+  document.getElementById('uName').textContent=displayName;
+
+  if(!profile){
+    await SB.from('profiles').upsert({id:currentUser.id,email:currentUser.email,full_name:displayName,type:'client',created_at:new Date().toISOString()});
+    profile={id:currentUser.id,email:currentUser.email,full_name:displayName};
+  }
+
+  const emailEnc=encodeURIComponent(currentUser.email);
+  const bc=document.getElementById('btn-create');
+  const br=document.getElementById('btn-renew');
+  if(bc) bc.href=`https://buy.stripe.com/eVq14m3Eu07Mg9K2bf33W04?prefilled_email=${emailEnc}`;
+  if(br) br.href=`https://buy.stripe.com/00w4gyej8f2GcXycPT33W05?prefilled_email=${emailEnc}`;
+
+  const {data:d}=await SB.from('dossiers').select('*').eq('user_id',currentUser.id).single();
+  dossier=d;
+  renderProcess();
+
+  const {data:a}=await SB.from('affiliates').select('*').eq('user_id',currentUser.id).single();
+  affiliate=a;
+  if(!affiliate){
+    const base=(profile?.full_name||currentUser.email.split('@')[0]).replace(/\s+/g,'').toUpperCase().slice(0,8);
+    const code=base+Math.random().toString(36).slice(2,6).toUpperCase();
+    const {data:na}=await SB.from('affiliates').insert({user_id:currentUser.id,referral_code:code,total_earned:0,pending_payout:0,conversions:0,clicks:0,created_at:new Date().toISOString()}).select().single();
+    affiliate=na;
+  }
+  renderAffiliate();
+
+  const urlParams=new URLSearchParams(window.location.search);
+  const tabParam=urlParams.get('tab');
+  const goto=tabParam||sessionStorage.getItem('lum_goto');
+  if(goto){sessionStorage.removeItem('lum_goto');setTimeout(()=>show(goto),300);}
+}
+
+function renderProcess(){
+  const d=LANG[getLang()]||LANG['en'];
+  const status=dossier?.status||'pending';
+  const statusIdx=STATUS_ORDER.indexOf(status);
+  const STEPS=getSTEPS();
+  const company=dossier?.company_name||'—';
+
+  document.getElementById('p-company').textContent=company!=='—'?company+' · In progress':'';
+
+  const hasPaid=status!=='pending';
+  const hasSubmitted=['docs_submitted','docs_verified','filing','certificate_issued','completed'].includes(status);
+
+  document.getElementById('p-payment').style.display=hasPaid?'none':'block';
+  const dp=document.getElementById('p-docs-prompt');
+  if(dp) dp.style.display=(hasPaid&&!hasSubmitted)?'block':'none';
+  const pb=document.getElementById('p-processing-banner');
+  if(pb) pb.style.display=hasSubmitted?'block':'none';
+  const pb2=document.getElementById('p-processing-banner2');
+  if(pb2) pb2.style.display=hasSubmitted?'block':'none';
+
+  // Lock tabs
+  document.querySelectorAll('.ni[onclick="show(\'uploads\')"]').forEach(el=>{
+    el.style.opacity=hasPaid?'1':'.35';
+    el.style.pointerEvents=hasPaid?'auto':'none';
+  });
+  document.querySelectorAll('.ni[onclick="show(\'documents\')"]').forEach(el=>{
+    el.style.opacity=hasSubmitted?'1':'.35';
+    el.style.pointerEvents=hasSubmitted?'auto':'none';
+  });
+
+  // Banner
+  const banner=document.getElementById('p-banner');
+  if(status==='pending'){
+    banner.innerHTML=`<div class="order-cta"><div class="order-cta-txt">${d['dash.no.order']||'No active order yet.'}</div><a href="index.html#pricing" class="order-cta-link">${d['dash.order.now']||'Order now →'}</a></div>`;
+  } else {
+    const labels={
+      payment_confirmed:d['dash.payment.confirmed']||'Payment confirmed',
+      docs_submitted:(d['dash.docs.required']||'Documents')+' received',
+      docs_verified:d['step.docs']||'Documents verified',
+      filing:d['step.filing.desc']||'Filing in progress',
+      certificate_issued:d['step.certificate']||'Certificate issued',
+      completed:d['step.completed']||'Completed'
+    };
+    const isCompleted=status==='completed';
+    banner.innerHTML=`<div class="banner"><div class="b-dot ${isCompleted?'inactive':'active'}"></div><div class="b-txt">${labels[status]||'In progress'}</div><div class="b-pill ${isCompleted?'pill-ok':'pill-rev'}">${isCompleted?'Completed':'In progress'}</div></div>`;
+  }
+
+  // Steps
+  document.getElementById('p-steps').innerHTML=STEPS.map((s,i)=>{
+    const isDone=i<statusIdx;
+    const isProg=i===statusIdx&&status!=='pending';
+    const cls=isDone?'done':isProg?'prog':'wait';
+    const ico=isDone?'✓':isProg?'⟳':'○';
+    const stat=isDone?d['step.done']:isProg?d['step.inprogress']:d['step.waiting'];
+    return `<div class="pi ${cls}"><div class="pi-ico">${ico}</div><div class="pi-info"><div class="pi-name">${s.label}</div><div class="pi-desc">${s.desc}</div></div><div class="pi-stat">${stat}</div></div>`;
+  }).join('');
+
+  // Details
+  document.getElementById('p-details').innerHTML=`
+    <div><div style="font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--sv);margin-bottom:3px;">${d['dash.company.name.label']||'Company name'}</div><div style="font-size:.85rem;color:var(--wh);">${company}</div></div>
+    <div><div style="font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--sv);margin-bottom:3px;">${d['dash.jurisdiction']||'Jurisdiction'}</div><div style="font-size:.85rem;color:var(--wh);">Hong Kong SAR</div></div>
+    <div><div style="font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--sv);margin-bottom:3px;">${d['dash.type']||'Type'}</div><div style="font-size:.85rem;color:var(--wh);">Private Limited Company</div></div>
+    <div><div style="font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--sv);margin-bottom:3px;">${d['dash.account.created']||'Account created'}</div><div style="font-size:.85rem;color:var(--wh);">${new Date(dossier?.created_at||Date.now()).toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'})}</div></div>
+  `;
+
+  loadOfficialDocs();
+}
+
+function renderAffiliate(){
+  if(!affiliate)return;
+  const d=LANG[getLang()]||LANG['en'];
+  const code=affiliate.referral_code||'';
+  document.getElementById('aff-link').textContent='https://luminoscorp.com/?ref='+code;
+  document.getElementById('a-earned').textContent='$'+(affiliate.total_earned||0);
+  document.getElementById('a-pending-amt').textContent='$'+(affiliate.pending_payout||0);
+  document.getElementById('a-conv').textContent=affiliate.conversions||0;
+  document.getElementById('a-clicks').textContent=affiliate.clicks||0;
+
+  const conv=affiliate.conversions||0;
+  const tier=conv>=10?3:conv>=4?2:1;
+  for(let i=1;i<=3;i++){
+    const el=document.getElementById('tier-'+i);
+    if(!el)continue;
+    if(i===tier){
+      el.style.border='1px solid rgba(200,16,46,0.5)';
+      el.style.background='rgba(200,16,46,0.08)';
+    }
+  }
+  loadReferrals();
+}
+
+async function loadReferrals(){
+  if(!affiliate)return;
+  const d=LANG[getLang()]||LANG['en'];
+  const {data}=await SB.from('referrals').select('*').eq('affiliate_id',affiliate.id).order('created_at',{ascending:false});
+  const tb=document.getElementById('ref-table');
+  if(!tb)return;
+  if(!data?.length){
+    tb.innerHTML=`<tr><td colspan="4" class="empty-row">${d['dash.aff.no.referrals']||'No referrals yet'}</td></tr>`;
+    return;
+  }
+  tb.innerHTML=data.map(r=>`<tr>
+    <td style="color:var(--lt);">${r.referred_email||'—'}</td>
+    <td style="color:var(--sv);">${new Date(r.created_at).toLocaleDateString('en-GB')}</td>
+    <td><span style="font-size:.66rem;color:${r.status==='converted'?'#3cc468':'#c89600'};">${r.status}</span></td>
+    <td style="color:var(--wh);font-weight:500;">${r.commission?'$'+r.commission:r.status==='registered'?(d['step.waiting']||'Pending'):'—'}</td>
+  </tr>`).join('');
+}
+
+async function loadOfficialDocs(){
+  if(!currentUser)return;
+  const {data:docs}=await SB.from('official_documents').select('*').eq('user_id',currentUser.id).order('created_at',{ascending:false});
+  const grid=document.getElementById('official-docs-grid');
+  if(!grid)return;
+  const allDocs=[
+    {key:'certificate',icon:'📄',name:'Certificate of Incorporation',meta:'Issued by Companies Registry HK'},
+    {key:'articles',icon:'📋',name:'Articles of Association',meta:'Memorandum & Articles'},
+    {key:'br_certificate',icon:'🗂️',name:'Business Registration Certificate',meta:'Annual business licence'},
+    {key:'directors_register',icon:'📊',name:'Register of Directors',meta:'Official register'},
+    {key:'payment_confirmation',icon:'✅',name:'Payment Confirmation',meta:'Available after order'},
+  ];
+  grid.innerHTML=allDocs.map(doc=>{
+    const uploaded=docs?.find(d=>d.doc_type===doc.key);
+    if(uploaded){
+      return `<div class="dc" onclick="downloadOfficialDoc('${uploaded.id}','${doc.name}')"><div class="dc-ico">${doc.icon}</div><div style="flex:1"><div class="dc-name">${doc.name}</div><div class="dc-meta">${doc.meta}</div></div><div class="dpill pill-ok" style="background:rgba(50,200,100,0.1);border:1px solid rgba(50,200,100,0.2);color:#3cc468;">Download ↓</div></div>`;
+    }
+    return `<div class="dc" style="opacity:.5;cursor:default;"><div class="dc-ico">${doc.icon}</div><div style="flex:1"><div class="dc-name">${doc.name}</div><div class="dc-meta">${doc.meta}</div></div><div class="dpill pill-pend" data-lk="step.waiting">Pending</div></div>`;
+  }).join('');
+}
+
+let officialDocsCache={};
+async function downloadOfficialDoc(id,name){
+  if(!officialDocsCache[id]){
+    const {data}=await SB.from('official_documents').select('file_data,file_name').eq('id',id).single();
+    officialDocsCache[id]=data;
+  }
+  const doc=officialDocsCache[id];
+  if(!doc?.file_data){alert('File not available');return;}
+  const a=document.createElement('a');
+  a.href=doc.file_data;a.download=doc.file_name||name;a.click();
+}
+
+function triggerUpload(type,name){uploadType=type;uploadName=name;document.getElementById('fileInput').click();}
+
+async function handleUpload(input){
+  if(!input.files.length)return;
+  const file=input.files[0];
+  const d=LANG[getLang()]||LANG['en'];
+  const btnId=uploadType==='passport'?'btn-passport':uploadType==='selfie'?'btn-selfie':'btn-address';
+  const btn=document.getElementById(btnId);
+  btn.textContent='...';btn.style.pointerEvents='none';
+  const reader=new FileReader();
+  reader.onload=async(e)=>{
+    const base64=e.target.result;
+    const {error}=await SB.from('documents').insert({user_id:currentUser.id,dossier_id:dossier?.id,name:uploadName,type:uploadType,file_name:file.name,file_size:file.size,file_data:base64,status:'received'});
+    if(!error){
+      await SB.from('notifications').insert({type:'new_document',user_id:currentUser.id,message:(profile?.full_name||'A client')+' uploaded: '+uploadName});
+      btn.textContent=d['dash.upload.done']||'Received ✓';
+      btn.classList.add('done-btn');
+    } else {
+      alert('Upload failed: '+error.message);
+      btn.textContent=d['dash.upload.btn']||'Upload →';
+      btn.style.pointerEvents='auto';
+    }
+  };
+  reader.readAsDataURL(file);
+  input.value='';
+}
+
+async function submitDossier(){
+  const d=LANG[getLang()]||LANG['en'];
+  const name1=document.getElementById('name1').value.trim();
+  const name2=document.getElementById('name2').value.trim();
+  const name3=document.getElementById('name3').value.trim();
+  const activity=document.getElementById('activity').value.trim();
+  if(!name1||!name2||!name3){alert('Please provide 3 company name options.');return;}
+  if(!activity){alert('Please describe your business activity.');return;}
+  const {error}=await SB.from('dossiers').upsert({user_id:currentUser.id,company_name:name1,company_name_2:name2,company_name_3:name3,business_activity:activity,status:'docs_submitted',updated_at:new Date().toISOString()},{onConflict:'user_id'});
+  if(!error){
+    await SB.from('notifications').insert({type:'dossier_submitted',message:(profile?.full_name||'A client')+' submitted dossier: '+name1+' / '+name2+' / '+name3});
+    const msg=document.getElementById('submit-msg');
+    msg.textContent=d['dash.submit.success']||'✓ Your file has been submitted.';
+    msg.style.display='block';
+    document.querySelector('[onclick="submitDossier()"]').style.display='none';
+  } else {
+    alert('Error: '+error.message);
+  }
+}
+
+function copyLink(){
+  const link=document.getElementById('aff-link').textContent;
+  const d=LANG[getLang()]||LANG['en'];
+  navigator.clipboard.writeText(link).then(()=>{
+    const btn=document.querySelector('.copy-btn');
+    const orig=btn.textContent;
+    btn.textContent=d['dash.aff.copied']||'Copied ✓';
+    btn.style.background='#3cc468';
+    setTimeout(()=>{btn.textContent=d['dash.aff.copy']||'Copy';btn.style.background='';},2000);
   });
 }
-// Set flag on load
-updateFlag(getLang());
-function setMobileNav(name) {
-  document.querySelectorAll('.mn-btn').forEach(b => b.classList.remove('act'));
-  const btn = document.getElementById('mn-' + name);
-  if (btn) btn.classList.add('act');
+
+function show(name){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('act'));
+  document.querySelectorAll('.ni').forEach(n=>n.classList.remove('act'));
+  document.getElementById('panel-'+name)?.classList.add('act');
+  document.querySelectorAll('.ni').forEach(n=>{if(n.getAttribute('onclick')===`show('${name}')`)n.classList.add('act');});
+  window.scrollTo(0,0);
 }
+
+function setMobileNav(name){
+  document.querySelectorAll('.mn-btn').forEach(b=>b.classList.remove('act'));
+  document.getElementById('mn-'+name)?.classList.add('act');
+}
+
+async function logout(){await SB.auth.signOut();window.location.href='login.html';}
+</script>
+<script>
+// Init lang + theme + mount switcher
+const lkStyle=document.createElement('style');lkStyle.textContent=LK_CSS;document.head.appendChild(lkStyle);
+applyTheme(getPreferredTheme());
+const lkMount=document.getElementById('lkMount');
+if(lkMount){lkMount.outerHTML='<div style="margin-right:6px;">'+langSwitcherHTML()+'</div>';}
+initLang();
+init();
 </script>
 </body>
 </html>
