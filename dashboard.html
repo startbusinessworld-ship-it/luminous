@@ -404,35 +404,33 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
         </div>
       </div>
 
-      <!-- PAYOUT REQUEST -->
-      <div class="scard" style="margin-top:18px;" id="payout-card">
+      <!-- PAYOUT -->
+      <div class="scard" id="payout-card" style="margin-top:18px;">
         <div class="scard-hd">
           <div class="scard-title" data-lk="dash.payout.title">Request payout</div>
           <div id="payout-status-badge"></div>
         </div>
         <div class="scard-body">
 
-          <!-- PENDING PAYOUT AMOUNT -->
+          <!-- AMOUNT + BUTTON -->
           <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;background:var(--d3);border:1px solid var(--gr);border-radius:4px;padding:16px 20px;margin-bottom:18px;">
             <div>
               <div style="font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;color:var(--sv);margin-bottom:4px;" data-lk="dash.payout.available">Available for payout</div>
-              <div style="font-size:2rem;font-weight:600;color:var(--wh);" id="payout-amount-display">$0</div>
+              <div style="font-size:2rem;font-weight:600;color:var(--wh);line-height:1;" id="payout-amount-display">$0</div>
             </div>
-            <div id="payout-request-btn-wrap">
-              <button id="payout-request-btn" onclick="requestPayout()" disabled style="background:var(--gr);color:var(--sv);padding:11px 24px;border:none;border-radius:2px;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;cursor:not-allowed;font-family:inherit;transition:all .3s;" data-lk="dash.payout.btn">Request payout →</button>
-            </div>
+            <button id="payout-request-btn" onclick="requestPayout()" disabled style="background:var(--gr);color:var(--sv);padding:11px 24px;border:none;border-radius:2px;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;cursor:not-allowed;font-family:inherit;transition:all .3s;" data-lk="dash.payout.btn">Request payout →</button>
           </div>
 
-          <!-- PENDING REQUEST STATUS -->
-          <div id="payout-pending-info" style="display:none;background:rgba(200,150,0,0.07);border:1px solid rgba(200,150,0,0.25);border-radius:4px;padding:14px 18px;margin-bottom:18px;display:none;align-items:center;gap:12px;">
+          <!-- PENDING STATUS -->
+          <div id="payout-pending-info" style="display:none;background:rgba(200,150,0,0.07);border:1px solid rgba(200,150,0,0.25);border-radius:4px;padding:14px 18px;margin-bottom:18px;align-items:center;gap:12px;">
             <div style="width:8px;height:8px;border-radius:50%;background:#c89600;animation:pulse 2s infinite;flex-shrink:0;"></div>
             <div>
               <div style="font-size:.78rem;color:var(--lt);font-weight:500;" data-lk="dash.payout.pending.title">Payout request received</div>
-              <div style="font-size:.7rem;color:var(--sv);margin-top:3px;" data-lk="dash.payout.pending.sub">Our team will process your payment within 3-5 business days.</div>
+              <div style="font-size:.7rem;color:var(--sv);margin-top:3px;" data-lk="dash.payout.pending.sub">Our team will process your payment within 3–5 business days.</div>
             </div>
           </div>
 
-          <!-- PAID CONFIRMATION -->
+          <!-- PAID STATUS -->
           <div id="payout-paid-info" style="display:none;background:rgba(50,200,100,0.07);border:1px solid rgba(50,200,100,0.2);border-radius:4px;padding:14px 18px;margin-bottom:18px;align-items:center;gap:12px;">
             <div style="font-size:1.2rem;">✓</div>
             <div>
@@ -441,9 +439,9 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
             </div>
           </div>
 
-          <!-- BANK DETAILS FORM -->
+          <!-- BANK FORM -->
           <div id="payout-form" style="display:none;">
-            <div style="font-size:.68rem;color:var(--sv);margin-bottom:14px;" data-lk="dash.payout.form.intro">Enter your bank details to receive your payment. This information is saved securely.</div>
+            <div style="font-size:.68rem;color:var(--sv);margin-bottom:14px;line-height:1.6;" data-lk="dash.payout.form.intro">Enter your bank details to receive your payment. Saved securely.</div>
             <div style="display:flex;flex-direction:column;gap:12px;">
               <div>
                 <div style="font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:var(--sv);margin-bottom:6px;" data-lk="dash.payout.beneficiary">Account holder name</div>
@@ -455,31 +453,31 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
               </div>
               <div>
                 <div style="font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:var(--sv);margin-bottom:6px;" data-lk="dash.payout.bic">BIC / SWIFT</div>
-                <input id="payout-bic" type="text" placeholder="e.g. BNPAFRPP" style="width:100%;background:var(--d3);border:1px solid var(--gr);border-radius:2px;padding:10px 14px;color:var(--wh);font-size:.82rem;font-family:inherit;outline:none;transition:border-color .3s;letter-spacing:.06em;" onfocus="this.style.borderColor='#C8102E'" onblur="this.style.borderColor='var(--gr)'">
+                <input id="payout-bic" type="text" placeholder="e.g. BNPAFRPP" style="width:100%;background:var(--d3);border:1px solid var(--gr);border-radius:2px;padding:10px 14px;color:var(--wh);font-size:.82rem;font-family:inherit;outline:none;transition:border-color .3s;" onfocus="this.style.borderColor='#C8102E'" onblur="this.style.borderColor='var(--gr)'">
               </div>
               <div style="display:flex;gap:10px;flex-wrap:wrap;">
-                <button onclick="saveBankDetails()" style="background:var(--red);color:#fff;padding:11px 24px;border:none;border-radius:2px;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;font-family:inherit;transition:background .3s;" data-lk="dash.payout.save">Save & request payout</button>
-                <button onclick="togglePayoutForm(false)" style="background:transparent;color:var(--sv);padding:11px 20px;border:1px solid var(--gr);border-radius:2px;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;font-family:inherit;transition:all .3s;" data-lk="dash.payout.cancel">Cancel</button>
+                <button onclick="saveBankAndRequest()" style="background:var(--red);color:#fff;padding:11px 24px;border:none;border-radius:2px;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;font-family:inherit;transition:background .3s;" data-lk="dash.payout.save">Save & request payout</button>
+                <button onclick="togglePayoutForm(false)" style="background:transparent;color:var(--sv);padding:11px 20px;border:1px solid var(--gr);border-radius:2px;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;font-family:inherit;" data-lk="dash.payout.cancel">Cancel</button>
               </div>
             </div>
           </div>
 
-          <!-- SAVED BANK DETAILS PREVIEW -->
+          <!-- SAVED BANK PREVIEW -->
           <div id="payout-bank-saved" style="display:none;">
             <div style="background:var(--d3);border:1px solid var(--gr);border-radius:4px;padding:14px 18px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;">
               <div>
                 <div style="font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:var(--sv);margin-bottom:4px;" data-lk="dash.payout.bank.saved">Bank account on file</div>
                 <div style="font-size:.82rem;color:var(--wh);font-weight:500;" id="saved-name-display">—</div>
-                <div style="font-size:.76rem;color:var(--sv);font-family:monospace;letter-spacing:.04em;" id="saved-iban-display">—</div>
+                <div style="font-size:.76rem;color:var(--sv);font-family:monospace;" id="saved-iban-display">—</div>
               </div>
-              <button onclick="togglePayoutForm(true)" style="background:transparent;color:var(--sv);padding:7px 14px;border:1px solid var(--gr);border-radius:2px;font-size:.64rem;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;font-family:inherit;transition:all .3s;" data-lk="dash.payout.edit">Edit</button>
+              <button onclick="togglePayoutForm(true)" style="background:transparent;color:var(--sv);padding:7px 14px;border:1px solid var(--gr);border-radius:2px;font-size:.64rem;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;font-family:inherit;" data-lk="dash.payout.edit">Edit</button>
             </div>
           </div>
 
           <!-- HISTORY -->
-          <div style="margin-top:18px;" id="payout-history-wrap" style="display:none;">
+          <div id="payout-history-wrap" style="display:none;margin-top:18px;">
             <div style="font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:var(--sv);margin-bottom:10px;" data-lk="dash.payout.history">Payout history</div>
-            <table class="stbl" id="payout-history-table">
+            <table class="stbl">
               <thead><tr><th data-lk="dash.aff.date.col">Date</th><th data-lk="dash.payout.amount.col">Amount</th><th data-lk="dash.aff.status.col">Status</th></tr></thead>
               <tbody id="payout-history-body"><tr><td colspan="3" class="empty-row" data-lk="dash.payout.no.history">No payout history yet</td></tr></tbody>
             </table>
@@ -803,204 +801,135 @@ function setMobileNav(name){
 }
 
 
-
-// ══════════════════════════════════════════════
+// ══════════════════════════════════
 //  PAYOUT SYSTEM
-// ══════════════════════════════════════════════
+// ══════════════════════════════════
+let payoutRequest=null;
 
-let payoutRequest = null;
-
-async function initPayout() {
-  if (!affiliate) return;
-
-  const pending = affiliate.pending_payout || 0;
-  const el = document.getElementById('payout-amount-display');
-  if (el) el.textContent = '$' + pending;
+async function initPayout(){
+  if(!affiliate)return;
+  const pending=affiliate.pending_payout||0;
+  const el=document.getElementById('payout-amount-display');
+  if(el)el.textContent='$'+pending;
 
   // Load saved bank details
-  const {data: bank} = await SB.from('payout_info')
-    .select('*').eq('user_id', currentUser.id).single().catch(() => ({data:null}));
-
-  if (bank) {
-    document.getElementById('saved-name-display').textContent = bank.beneficiary_name || '—';
-    document.getElementById('saved-iban-display').textContent = maskIBAN(bank.iban || '');
-    document.getElementById('payout-iban').value = bank.iban || '';
-    document.getElementById('payout-bic').value = bank.bic || '';
-    document.getElementById('payout-name').value = bank.beneficiary_name || '';
-    document.getElementById('payout-bank-saved').style.display = 'block';
+  const {data:bank}=await SB.from('payout_info').select('*').eq('user_id',currentUser.id).maybeSingle();
+  if(bank){
+    document.getElementById('saved-name-display').textContent=bank.beneficiary_name||'—';
+    document.getElementById('saved-iban-display').textContent=maskIBAN(bank.iban||'');
+    document.getElementById('payout-iban').value=bank.iban||'';
+    document.getElementById('payout-bic').value=bank.bic||'';
+    document.getElementById('payout-name').value=bank.beneficiary_name||'';
+    document.getElementById('payout-bank-saved').style.display='block';
   } else {
-    // No bank saved yet — show form directly if they have pending
-    if (pending > 0) togglePayoutForm(true);
+    if(pending>0)togglePayoutForm(true);
   }
 
-  // Load latest payout request
-  const {data: req} = await SB.from('payout_requests')
-    .select('*').eq('user_id', currentUser.id)
-    .order('created_at', {ascending:false}).limit(1).single().catch(() => ({data:null}));
-
-  payoutRequest = req;
-
-  updatePayoutUI(pending, req);
+  // Load latest request
+  const {data:req}=await SB.from('payout_requests').select('*').eq('user_id',currentUser.id).order('created_at',{ascending:false}).limit(1).maybeSingle();
+  payoutRequest=req;
+  updatePayoutUI(pending,req);
   loadPayoutHistory();
 }
 
-function updatePayoutUI(pending, req) {
-  const btn = document.getElementById('payout-request-btn');
-  const pendingInfo = document.getElementById('payout-pending-info');
-  const paidInfo = document.getElementById('payout-paid-info');
+function updatePayoutUI(pending,req){
+  const btn=document.getElementById('payout-request-btn');
+  const pendingInfo=document.getElementById('payout-pending-info');
+  const paidInfo=document.getElementById('payout-paid-info');
+  if(pendingInfo)pendingInfo.style.display='none';
+  if(paidInfo)paidInfo.style.display='none';
 
-  // Reset
-  if (pendingInfo) pendingInfo.style.display = 'none';
-  if (paidInfo) paidInfo.style.display = 'none';
-
-  if (req && req.status === 'pending') {
-    // Already has a pending request
-    if (pendingInfo) pendingInfo.style.display = 'flex';
-    if (btn) { btn.disabled = true; btn.style.background = 'var(--gr)'; btn.style.color = 'var(--sv)'; btn.style.cursor = 'not-allowed'; }
-  } else if (req && req.status === 'paid') {
-    // Last request was paid
-    if (paidInfo) {
-      paidInfo.style.display = 'flex';
-      const dateEl = document.getElementById('payout-paid-date');
-      if (dateEl) dateEl.textContent = 'Paid on ' + new Date(req.processed_at || req.created_at).toLocaleDateString('en-GB', {day:'numeric',month:'long',year:'numeric'});
+  if(req&&req.status==='pending'){
+    if(pendingInfo)pendingInfo.style.display='flex';
+    if(btn){btn.disabled=true;btn.style.background='var(--gr)';btn.style.color='var(--sv)';btn.style.cursor='not-allowed';}
+  } else if(req&&req.status==='paid'){
+    if(paidInfo){
+      paidInfo.style.display='flex';
+      const dateEl=document.getElementById('payout-paid-date');
+      if(dateEl)dateEl.textContent='Paid on '+new Date(req.processed_at||req.created_at).toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'});
     }
   }
 
-  // Enable button only if pending > 0 and no active request
-  const canRequest = pending > 0 && (!req || req.status === 'paid' || req.status === 'rejected');
-  if (btn) {
-    btn.disabled = !canRequest;
-    if (canRequest) {
-      btn.style.background = 'var(--red)';
-      btn.style.color = '#fff';
-      btn.style.cursor = 'pointer';
-    } else if (!req || req.status !== 'pending') {
-      btn.style.background = 'var(--gr)';
-      btn.style.color = 'var(--sv)';
-      btn.style.cursor = 'not-allowed';
-    }
+  const canRequest=pending>0&&(!req||req.status==='paid'||req.status==='rejected');
+  if(btn){
+    btn.disabled=!canRequest;
+    btn.style.background=canRequest?'var(--red)':'var(--gr)';
+    btn.style.color=canRequest?'#fff':'var(--sv)';
+    btn.style.cursor=canRequest?'pointer':'not-allowed';
   }
 }
 
-function togglePayoutForm(show) {
-  const form = document.getElementById('payout-form');
-  const saved = document.getElementById('payout-bank-saved');
-  if (form) form.style.display = show ? 'block' : 'none';
-  if (saved) saved.style.display = show ? 'none' : 'block';
+function togglePayoutForm(show){
+  const form=document.getElementById('payout-form');
+  const saved=document.getElementById('payout-bank-saved');
+  if(form)form.style.display=show?'block':'none';
+  if(saved)saved.style.display=show?'none':'block';
 }
 
-async function saveBankDetails() {
-  const name = document.getElementById('payout-name').value.trim();
-  const iban = document.getElementById('payout-iban').value.trim().replace(/\s/g,'');
-  const bic = document.getElementById('payout-bic').value.trim().toUpperCase();
-
-  const d = LANG[getLang()] || LANG['en'];
-
-  if (!name) { alert(d['dash.payout.err.name'] || 'Please enter the account holder name.'); return; }
-  if (iban.length < 15) { alert(d['dash.payout.err.iban'] || 'Please enter a valid IBAN.'); return; }
-
-  const btn = event.currentTarget;
-  const orig = btn.textContent;
-  btn.textContent = '...'; btn.disabled = true;
-
-  // Upsert bank info
-  const {error} = await SB.from('payout_info').upsert({
-    user_id: currentUser.id,
-    beneficiary_name: name,
-    iban: iban,
-    bic: bic,
-    updated_at: new Date().toISOString()
-  }, {onConflict: 'user_id'});
-
-  if (error) {
-    alert('Error saving bank details: ' + error.message);
-    btn.textContent = orig; btn.disabled = false;
-    return;
-  }
-
-  // Auto-submit payout request
-  await submitPayoutRequest(name, iban);
-
-  document.getElementById('saved-name-display').textContent = name;
-  document.getElementById('saved-iban-display').textContent = maskIBAN(iban);
-  togglePayoutForm(false);
-  btn.textContent = orig; btn.disabled = false;
-}
-
-async function requestPayout() {
-  const d = LANG[getLang()] || LANG['en'];
-  const pending = affiliate?.pending_payout || 0;
-  if (pending <= 0) return;
-
-  // Check if bank details saved
-  const {data: bank} = await SB.from('payout_info').select('*').eq('user_id', currentUser.id).single().catch(() => ({data:null}));
-
-  if (!bank) {
-    // Show form to fill bank details
+async function requestPayout(){
+  const pending=affiliate?.pending_payout||0;
+  if(pending<=0)return;
+  const {data:bank}=await SB.from('payout_info').select('*').eq('user_id',currentUser.id).maybeSingle();
+  if(!bank){
     togglePayoutForm(true);
-    document.getElementById('payout-form').scrollIntoView({behavior:'smooth', block:'center'});
+    document.getElementById('payout-form').scrollIntoView({behavior:'smooth',block:'center'});
     return;
   }
-
-  await submitPayoutRequest(bank.beneficiary_name, bank.iban);
+  await submitPayoutRequest(bank.beneficiary_name,bank.iban);
 }
 
-async function submitPayoutRequest(name, iban) {
-  const pending = affiliate?.pending_payout || 0;
-  const d = LANG[getLang()] || LANG['en'];
+async function saveBankAndRequest(){
+  const name=document.getElementById('payout-name').value.trim();
+  const iban=document.getElementById('payout-iban').value.trim().replace(/\s/g,'');
+  const bic=document.getElementById('payout-bic').value.trim().toUpperCase();
+  if(!name){alert('Please enter the account holder name.');return;}
+  if(iban.length<15){alert('Please enter a valid IBAN.');return;}
+  const btn=event.currentTarget;
+  const orig=btn.textContent;btn.textContent='...';btn.disabled=true;
+  const {error}=await SB.from('payout_info').upsert({user_id:currentUser.id,beneficiary_name:name,iban:iban,bic:bic,updated_at:new Date().toISOString()},{onConflict:'user_id'});
+  if(error){alert('Error: '+error.message);btn.textContent=orig;btn.disabled=false;return;}
+  document.getElementById('saved-name-display').textContent=name;
+  document.getElementById('saved-iban-display').textContent=maskIBAN(iban);
+  togglePayoutForm(false);
+  document.getElementById('payout-bank-saved').style.display='block';
+  await submitPayoutRequest(name,iban);
+  btn.textContent=orig;btn.disabled=false;
+}
 
-  const {data: req, error} = await SB.from('payout_requests').insert({
-    user_id: currentUser.id,
-    affiliate_id: affiliate.id,
-    amount: pending,
-    beneficiary_name: name,
-    iban_masked: maskIBAN(iban),
-    status: 'pending',
-    created_at: new Date().toISOString()
+async function submitPayoutRequest(name,iban){
+  const pending=affiliate?.pending_payout||0;
+  const {data:req}=await SB.from('payout_requests').insert({
+    user_id:currentUser.id,affiliate_id:affiliate.id,amount:pending,
+    beneficiary_name:name,iban_masked:maskIBAN(iban),
+    status:'pending',created_at:new Date().toISOString()
   }).select().single();
-
-  if (error) { console.error(error); return; }
-
-  // Notify admin
   await SB.from('notifications').insert({
-    type: 'payout_request',
-    title: 'Payout request',
-    message: (profile?.full_name || currentUser.email) + ' requested a payout of $' + pending + ' — IBAN: ' + maskIBAN(iban),
-    read: false,
-    created_at: new Date().toISOString()
+    type:'payout_request',title:'Payout request',
+    message:(profile?.full_name||currentUser.email)+' requested $'+pending+' — '+maskIBAN(iban),
+    read:false,created_at:new Date().toISOString()
   });
-
-  payoutRequest = req;
-  updatePayoutUI(pending, req);
-
-  const pendingInfo = document.getElementById('payout-pending-info');
-  if (pendingInfo) {
-    pendingInfo.style.display = 'flex';
-    pendingInfo.scrollIntoView({behavior:'smooth', block:'center'});
-  }
+  payoutRequest=req;
+  updatePayoutUI(pending,req);
+  const info=document.getElementById('payout-pending-info');
+  if(info){info.style.display='flex';info.scrollIntoView({behavior:'smooth',block:'center'});}
 }
 
-async function loadPayoutHistory() {
-  const {data} = await SB.from('payout_requests')
-    .select('*').eq('user_id', currentUser.id)
-    .order('created_at', {ascending:false});
-
-  const wrap = document.getElementById('payout-history-wrap');
-  const tbody = document.getElementById('payout-history-body');
-  if (!data?.length || !wrap || !tbody) return;
-
-  wrap.style.display = 'block';
-  const d = LANG[getLang()] || LANG['en'];
-  tbody.innerHTML = data.map(r => `<tr>
+async function loadPayoutHistory(){
+  const {data}=await SB.from('payout_requests').select('*').eq('user_id',currentUser.id).order('created_at',{ascending:false});
+  const wrap=document.getElementById('payout-history-wrap');
+  const tbody=document.getElementById('payout-history-body');
+  if(!data?.length||!wrap||!tbody)return;
+  wrap.style.display='block';
+  tbody.innerHTML=data.map(r=>`<tr>
     <td style="color:var(--sv);">${new Date(r.created_at).toLocaleDateString('en-GB')}</td>
     <td style="color:var(--wh);font-weight:500;">$${r.amount}</td>
     <td><span style="font-size:.66rem;color:${r.status==='paid'?'#3cc468':r.status==='pending'?'#c89600':'var(--sv)'};">${r.status}</span></td>
   </tr>`).join('');
 }
 
-function maskIBAN(iban) {
-  if (!iban || iban.length < 8) return iban;
-  return iban.slice(0,4) + ' •••• •••• ' + iban.slice(-4);
+function maskIBAN(iban){
+  if(!iban||iban.length<8)return iban;
+  return iban.slice(0,4)+' •••• •••• '+iban.slice(-4);
 }
 
 async function logout(){await SB.auth.signOut();window.location.href='login.html';}
