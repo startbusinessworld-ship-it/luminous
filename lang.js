@@ -345,7 +345,7 @@ fr: {
   'dash.payout.paid.title':     'Paiement envoyé',
   'dash.payout.form.intro':     'Entrez vos coordonnées bancaires pour recevoir votre paiement. Stocké de façon sécurisée.',
   'dash.payout.beneficiary':    'Nom du titulaire',
-  'dash.payout.beneficiary.ph': 'Nom complet tel qu'il apparaît sur votre compte bancaire',
+  'dash.payout.beneficiary.ph': 'Nom complet tel qu\'il apparaît sur votre compte bancaire',
   'dash.payout.iban':           'IBAN',
   'dash.payout.bic':            'BIC / SWIFT',
   'dash.payout.save':           'Enregistrer & demander le virement',
