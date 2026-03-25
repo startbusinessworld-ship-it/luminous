@@ -155,6 +155,29 @@ en: {
   'dash.bank.feat3':          'Stripe & processors',
   'dash.bank.feat4':          '100% remote',
 
+
+  // PAYOUT SYSTEM
+  'dash.payout.title':          'Request payout',
+  'dash.payout.available':      'Available for payout',
+  'dash.payout.btn':            'Request payout →',
+  'dash.payout.pending.title':  'Payout request received',
+  'dash.payout.pending.sub':    'Our team will process your payment within 3–5 business days.',
+  'dash.payout.paid.title':     'Payment sent',
+  'dash.payout.form.intro':     'Enter your bank details to receive your payment. Saved securely.',
+  'dash.payout.beneficiary':    'Account holder name',
+  'dash.payout.beneficiary.ph': 'Full name as on your bank account',
+  'dash.payout.iban':           'IBAN',
+  'dash.payout.bic':            'BIC / SWIFT',
+  'dash.payout.save':           'Save & request payout',
+  'dash.payout.cancel':         'Cancel',
+  'dash.payout.bank.saved':     'Bank account on file',
+  'dash.payout.edit':           'Edit',
+  'dash.payout.history':        'Payout history',
+  'dash.payout.amount.col':     'Amount',
+  'dash.payout.no.history':     'No payout history yet',
+  'dash.payout.err.name':       'Please enter the account holder name.',
+  'dash.payout.err.iban':       'Please enter a valid IBAN.',
+
   // BLOG
   'blog.eyebrow':             'Guides & Analysis',
   'blog.title':               'The blog for international entrepreneurs',
@@ -311,6 +334,29 @@ fr: {
   'dash.bank.feat2':          'Multi-devises',
   'dash.bank.feat3':          'Compatible Stripe',
   'dash.bank.feat4':          '100% en ligne',
+
+
+  // PAYOUT SYSTEM
+  'dash.payout.title':          'Demander un virement',
+  'dash.payout.available':      'Disponible pour virement',
+  'dash.payout.btn':            'Demander mon virement →',
+  'dash.payout.pending.title':  'Demande de virement reçue',
+  'dash.payout.pending.sub':    'Notre équipe traitera votre paiement sous 3 à 5 jours ouvrés.',
+  'dash.payout.paid.title':     'Paiement envoyé',
+  'dash.payout.form.intro':     'Entrez vos coordonnées bancaires pour recevoir votre paiement. Stocké de façon sécurisée.',
+  'dash.payout.beneficiary':    'Nom du titulaire',
+  'dash.payout.beneficiary.ph': 'Nom complet tel qu'il apparaît sur votre compte bancaire',
+  'dash.payout.iban':           'IBAN',
+  'dash.payout.bic':            'BIC / SWIFT',
+  'dash.payout.save':           'Enregistrer & demander le virement',
+  'dash.payout.cancel':         'Annuler',
+  'dash.payout.bank.saved':     'Compte bancaire enregistré',
+  'dash.payout.edit':           'Modifier',
+  'dash.payout.history':        'Historique des virements',
+  'dash.payout.amount.col':     'Montant',
+  'dash.payout.no.history':     'Aucun historique de virement',
+  'dash.payout.err.name':       'Veuillez entrer le nom du titulaire.',
+  'dash.payout.err.iban':       'Veuillez entrer un IBAN valide.',
 
   // BLOG
   'blog.eyebrow':             'Guides & Analyses',
@@ -469,6 +515,29 @@ es: {
   'dash.bank.feat3':          'Compatible con Stripe',
   'dash.bank.feat4':          '100% remoto',
 
+
+  // PAYOUT SYSTEM
+  'dash.payout.title':          'Solicitar pago',
+  'dash.payout.available':      'Disponible para pago',
+  'dash.payout.btn':            'Solicitar mi pago →',
+  'dash.payout.pending.title':  'Solicitud de pago recibida',
+  'dash.payout.pending.sub':    'Nuestro equipo procesará su pago en 3 a 5 días hábiles.',
+  'dash.payout.paid.title':     'Pago enviado',
+  'dash.payout.form.intro':     'Introduzca sus datos bancarios para recibir su pago. Almacenado de forma segura.',
+  'dash.payout.beneficiary':    'Nombre del titular',
+  'dash.payout.beneficiary.ph': 'Nombre completo tal como aparece en su cuenta bancaria',
+  'dash.payout.iban':           'IBAN',
+  'dash.payout.bic':            'BIC / SWIFT',
+  'dash.payout.save':           'Guardar y solicitar pago',
+  'dash.payout.cancel':         'Cancelar',
+  'dash.payout.bank.saved':     'Cuenta bancaria registrada',
+  'dash.payout.edit':           'Editar',
+  'dash.payout.history':        'Historial de pagos',
+  'dash.payout.amount.col':     'Importe',
+  'dash.payout.no.history':     'Sin historial de pagos aún',
+  'dash.payout.err.name':       'Por favor, introduzca el nombre del titular.',
+  'dash.payout.err.iban':       'Por favor, introduzca un IBAN válido.',
+
   // BLOG
   'blog.eyebrow':             'Guías & Análisis',
   'blog.title':               'El blog para emprendedores internacionales',
@@ -625,6 +694,29 @@ zh: {
   'dash.bank.feat2':          '多币种',
   'dash.bank.feat3':          '支持Stripe',
   'dash.bank.feat4':          '全程在线',
+
+
+  // PAYOUT SYSTEM
+  'dash.payout.title':          '申请提现',
+  'dash.payout.available':      '可提现金额',
+  'dash.payout.btn':            '申请提现 →',
+  'dash.payout.pending.title':  '提现申请已收到',
+  'dash.payout.pending.sub':    '我们的团队将在3至5个工作日内处理您的付款。',
+  'dash.payout.paid.title':     '付款已发送',
+  'dash.payout.form.intro':     '请输入您的银行信息以接收付款。信息已安全存储。',
+  'dash.payout.beneficiary':    '账户持有人姓名',
+  'dash.payout.beneficiary.ph': '与银行账户一致的全名',
+  'dash.payout.iban':           'IBAN',
+  'dash.payout.bic':            'BIC / SWIFT',
+  'dash.payout.save':           '保存并申请提现',
+  'dash.payout.cancel':         '取消',
+  'dash.payout.bank.saved':     '已保存的银行账户',
+  'dash.payout.edit':           '编辑',
+  'dash.payout.history':        '提现记录',
+  'dash.payout.amount.col':     '金额',
+  'dash.payout.no.history':     '暂无提现记录',
+  'dash.payout.err.name':       '请输入账户持有人姓名。',
+  'dash.payout.err.iban':       '请输入有效的IBAN。',
 
   // BLOG
   'blog.eyebrow':             '指南与分析',
