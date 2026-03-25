@@ -275,7 +275,7 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 
       <!-- PAYMENT ACTIONS -->
       <div id="p-payment" style="display:none;margin-bottom:24px;">
-        <div style="background:#0A0A0A;border:1px solid rgba(200,16,46,0.25);border-radius:4px;padding:24px 28px;">
+        <div style="background:var(--d2);border:1px solid rgba(200,16,46,0.25);border-radius:4px;padding:24px 28px;">
           <div style="font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;color:var(--red);margin-bottom:10px;"><span data-t="dash.payment.ready">Ready to proceed</span></div>
           <div style="font-size:1.1rem;color:var(--wh);margin-bottom:6px;"><span data-t="dash.payment.choose">Choose your service</span></div>
           <div style="font-size:.76rem;color:var(--sv);margin-bottom:20px;"><span data-t="dash.payment.sub">Secure payment via Stripe — card or SEPA bank transfer</span></div>
@@ -310,7 +310,7 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
     <!-- DOCUMENTS -->
     <div class="panel" id="panel-documents">
       <div class="ph">
-        <div class="pey">Documents</div>
+        <div class="pey"><span data-t="dash.documents">Documents</span></div>
         <div class="ptitle"><span data-t="dash.docs.title">Official Company Documents</span></div>
         <div class="psub"><span data-t="dash.docs.sub">Your documents — available as your file progresses</span></div>
       </div>
@@ -380,9 +380,7 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
             <div style="font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--sv);margin-bottom:6px;"><span data-t="dash.name3">3rd choice</span></div>
             <input id="name3" type="text" placeholder="e.g. Acme Holdings Ltd." style="width:100%;background:var(--d3);border:1px solid var(--gr);border-radius:2px;padding:10px 14px;color:var(--wh);font-size:.82rem;font-family:inherit;outline:none;transition:border .3s;" onfocus="this.style.borderColor='#C8102E'" onblur="this.style.borderColor='var(--gr)'">
           </div>
-          <div style="background:rgba(200,16,46,0.06);border:1px solid rgba(200,16,46,0.15);border-radius:3px;padding:10px 14px;font-size:.72rem;color:var(--sv);line-height:1.6;">
-            💡 If your first choice is already taken at the Companies Registry, we will automatically try the next one. All names must end in <strong style="color:var(--lt);">Limited</strong> or <strong style="color:var(--lt);">Ltd.</strong>
-          </div>
+          <div style="background:rgba(200,16,46,0.06);border:1px solid rgba(200,16,46,0.15);border-radius:3px;padding:10px 14px;font-size:.72rem;color:var(--sv);line-height:1.6;"><span data-t="dash.names.hint.full">💡 If your first choice is already taken at the Companies Registry, we will automatically try the next one. All names must end in Limited or Ltd.</span></div>
         </div>
       </div>
 
@@ -523,7 +521,7 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
               </div>
               <button onclick="connectStripe()" id="connect-stripe-btn" style="background:linear-gradient(135deg,#635BFF,#4F46E5);color:#fff;padding:11px 22px;border:none;border-radius:4px;font-size:.74rem;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;font-family:inherit;white-space:nowrap;display:flex;align-items:center;gap:8px;">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="white"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 3H8" stroke="white" stroke-width="2"/></svg>
-                Connect Stripe
+                <span data-t="dash.stripe.connect.btn">Connect Stripe</span>
               </button>
             </div>
           </div>
@@ -571,8 +569,8 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
         <div class="psub"><span data-t="dash.revenue.sub">Your affiliate commissions and payout history</span></div>
       </div>
       <div class="rev-cards">
-        <div class="rc hl"><div class="rc-lbl"><span data-t="dash.revenue.total">Total earned</span></div><div class="rc-num"><span>$</span><span id="r-total">0</span></div><div class="rc-sub" id="r-total-sub">No earnings yet</div></div>
-        <div class="rc"><div class="rc-lbl"><span data-t="dash.revenue.pending">Pending payout</span></div><div class="rc-num">$<span id="r-pending">0</span></div><div class="rc-sub" id="r-pending-sub">Nothing pending</div></div>
+        <div class="rc hl"><div class="rc-lbl"><span data-t="dash.revenue.total">Total earned</span></div><div class="rc-num"><span>$</span><span id="r-total">0</span></div><div class="rc-sub" id="r-total-sub"><span data-t="dash.revenue.no.earnings.sub">No earnings yet</span></div></div>
+        <div class="rc"><div class="rc-lbl"><span data-t="dash.revenue.pending">Pending payout</span></div><div class="rc-num">$<span id="r-pending">0</span></div><div class="rc-sub" id="r-pending-sub"><span data-t="dash.revenue.nothing.pending.sub">Nothing pending</span></div></div>
         <div class="rc"><div class="rc-lbl"><span data-t="dash.revenue.paid">Already paid</span></div><div class="rc-num">$<span id="r-paid">0</span></div><div class="rc-sub"><span data-t="dash.revenue.wire">Wire transfer</span></div></div>
       </div>
       <div class="scard">
@@ -690,6 +688,38 @@ en: {
 
   // BLOG
 
+  // JS DYNAMIC STRINGS
+  "dash.loading": "Loading your file...",
+  "dash.no.order": "No active order",
+  "dash.in.progress": "· In progress",
+  "dash.company.name.lbl": "Company name",
+  "dash.jurisdiction.lbl": "Jurisdiction",
+  "dash.type.lbl": "Type",
+  "dash.account.created.lbl": "Account created",
+  "dash.company.type": "Private Limited Company",
+  "dash.jurisdiction.val": "Hong Kong SAR",
+  "dash.banner.payment": "Payment confirmed — awaiting your documents",
+  "dash.banner.docs.received": "Documents received — under review",
+  "dash.banner.docs.verified": "Documents verified — filing in progress",
+  "dash.banner.filing": "Registration filing in progress at Companies Registry HK",
+  "dash.banner.certificate": "Certificate of Incorporation issued — download in Documents",
+  "dash.banner.completed": "File completed — all documents available",
+  "dash.banner.in.progress": "In progress",
+  "dash.banner.completed.pill": "Completed",
+  "dash.uploading": "Uploading...",
+  "dash.received": "Received ✓",
+  "dash.upload.fail": "Upload failed",
+  "dash.no.referrals": "No referrals yet — share your link to start earning",
+  "dash.pending.status": "Pending",
+  "dash.your.tier": "Your tier ✓",
+  "dash.revenue.no.earnings.sub": "No earnings yet",
+  "dash.revenue.nothing.pending.sub": "Nothing pending",
+  "dash.doc.pending": "Pending",
+  "dash.doc.download": "Download ↓",
+  "dash.names.hint.full": "💡 If your first choice is already taken at the Companies Registry, we will automatically try the next one. All names must end in Limited or Ltd.",
+  "dash.submit.success": "✓ Your file has been submitted. Our team will review it within 24 hours.",
+  "dash.submit.err.names": "Please provide 3 company name options.",
+  "dash.submit.err.activity": "Please describe your business activity.",
   // PAYOUT
   "dash.payout.title": "Get paid",
   "dash.payout.available": "Available for payout",
@@ -844,6 +874,38 @@ fr: {
   "step.waiting": "En attente",
 
 
+  // JS DYNAMIC STRINGS
+  "dash.loading": "Chargement de votre dossier...",
+  "dash.no.order": "Aucune commande active",
+  "dash.in.progress": "· En cours",
+  "dash.company.name.lbl": "Nom de la société",
+  "dash.jurisdiction.lbl": "Juridiction",
+  "dash.type.lbl": "Type",
+  "dash.account.created.lbl": "Compte créé le",
+  "dash.company.type": "Société Limitée Privée",
+  "dash.jurisdiction.val": "Hong Kong SAR",
+  "dash.banner.payment": "Paiement confirmé — en attente de vos documents",
+  "dash.banner.docs.received": "Documents reçus — en cours de vérification",
+  "dash.banner.docs.verified": "Documents vérifiés — dépôt en cours",
+  "dash.banner.filing": "Dépôt de l'immatriculation en cours au Companies Registry HK",
+  "dash.banner.certificate": "Certificat d'immatriculation délivré — télécharger dans Documents",
+  "dash.banner.completed": "Dossier terminé — tous les documents disponibles",
+  "dash.banner.in.progress": "En cours",
+  "dash.banner.completed.pill": "Terminé",
+  "dash.uploading": "Envoi en cours...",
+  "dash.received": "Reçu ✓",
+  "dash.upload.fail": "Échec de l'envoi",
+  "dash.no.referrals": "Aucun parrainage — partagez votre lien pour commencer à gagner",
+  "dash.pending.status": "En attente",
+  "dash.your.tier": "Votre palier ✓",
+  "dash.revenue.no.earnings.sub": "Aucun revenu pour l'instant",
+  "dash.revenue.nothing.pending.sub": "Rien en attente",
+  "dash.doc.pending": "En attente",
+  "dash.doc.download": "Télécharger ↓",
+  "dash.names.hint.full": "💡 Si votre premier choix est déjà pris au Companies Registry, nous essaierons automatiquement le suivant. Tous les noms doivent se terminer par Limited ou Ltd.",
+  "dash.submit.success": "✓ Votre dossier a été soumis. Notre équipe le traitera dans les 24 heures.",
+  "dash.submit.err.names": "Veuillez proposer 3 options de noms de société.",
+  "dash.submit.err.activity": "Veuillez décrire votre activité commerciale.",
   // PAYOUT
   "dash.payout.title": "Recevoir mon paiement",
   "dash.payout.available": "Disponible pour virement",
@@ -998,6 +1060,38 @@ es: {
   "step.waiting": "En espera",
 
 
+  // JS DYNAMIC STRINGS
+  "dash.loading": "Cargando tu expediente...",
+  "dash.no.order": "Sin pedido activo",
+  "dash.in.progress": "· En curso",
+  "dash.company.name.lbl": "Nombre de la empresa",
+  "dash.jurisdiction.lbl": "Jurisdicción",
+  "dash.type.lbl": "Tipo",
+  "dash.account.created.lbl": "Cuenta creada el",
+  "dash.company.type": "Sociedad Limitada Privada",
+  "dash.jurisdiction.val": "Hong Kong SAR",
+  "dash.banner.payment": "Pago confirmado — esperando tus documentos",
+  "dash.banner.docs.received": "Documentos recibidos — en revisión",
+  "dash.banner.docs.verified": "Documentos verificados — tramitación en curso",
+  "dash.banner.filing": "Tramitación en curso en el Companies Registry HK",
+  "dash.banner.certificate": "Certificado de constitución emitido — descarga en Documentos",
+  "dash.banner.completed": "Expediente completado — todos los documentos disponibles",
+  "dash.banner.in.progress": "En curso",
+  "dash.banner.completed.pill": "Completado",
+  "dash.uploading": "Subiendo...",
+  "dash.received": "Recibido ✓",
+  "dash.upload.fail": "Error al subir",
+  "dash.no.referrals": "Sin referidos — comparte tu enlace para empezar a ganar",
+  "dash.pending.status": "Pendiente",
+  "dash.your.tier": "Tu nivel ✓",
+  "dash.revenue.no.earnings.sub": "Sin ingresos aún",
+  "dash.revenue.nothing.pending.sub": "Nada pendiente",
+  "dash.doc.pending": "Pendiente",
+  "dash.doc.download": "Descargar ↓",
+  "dash.names.hint.full": "💡 Si tu primera opción ya está tomada en el Companies Registry, probaremos automáticamente la siguiente. Todos los nombres deben terminar en Limited o Ltd.",
+  "dash.submit.success": "✓ Tu expediente ha sido enviado. Nuestro equipo lo revisará en 24 horas.",
+  "dash.submit.err.names": "Por favor proporciona 3 opciones de nombre para la empresa.",
+  "dash.submit.err.activity": "Por favor describe tu actividad comercial.",
   // PAYOUT
   "dash.payout.title": "Cobrar",
   "dash.payout.available": "Disponible para cobrar",
@@ -1152,6 +1246,38 @@ zh: {
   "step.waiting": "等待中",
 
 
+  // JS DYNAMIC STRINGS
+  "dash.loading": "正在加载您的档案...",
+  "dash.no.order": "暂无活跃订单",
+  "dash.in.progress": "· 进行中",
+  "dash.company.name.lbl": "公司名称",
+  "dash.jurisdiction.lbl": "管辖地",
+  "dash.type.lbl": "类型",
+  "dash.account.created.lbl": "账户创建时间",
+  "dash.company.type": "私人有限公司",
+  "dash.jurisdiction.val": "香港特别行政区",
+  "dash.banner.payment": "付款已确认 — 等待您的文件",
+  "dash.banner.docs.received": "文件已收到 — 审核中",
+  "dash.banner.docs.verified": "文件已验证 — 注册申请中",
+  "dash.banner.filing": "注册申请正在香港公司注册处处理中",
+  "dash.banner.certificate": "公司注册证书已签发 — 在文件中下载",
+  "dash.banner.completed": "档案已完成 — 所有文件可下载",
+  "dash.banner.in.progress": "进行中",
+  "dash.banner.completed.pill": "已完成",
+  "dash.uploading": "上传中...",
+  "dash.received": "已收到 ✓",
+  "dash.upload.fail": "上传失败",
+  "dash.no.referrals": "暂无推荐记录 — 分享链接开始赚取佣金",
+  "dash.pending.status": "待处理",
+  "dash.your.tier": "您的等级 ✓",
+  "dash.revenue.no.earnings.sub": "暂无收益",
+  "dash.revenue.nothing.pending.sub": "暂无待处理",
+  "dash.doc.pending": "待处理",
+  "dash.doc.download": "下载 ↓",
+  "dash.names.hint.full": "💡 如果您的第一选择已被注册处占用，我们将自动尝试下一个。所有名称必须以Limited或Ltd.结尾。",
+  "dash.submit.success": "✓ 您的档案已提交。我们的团队将在24小时内审核。",
+  "dash.submit.err.names": "请提供3个公司名称选项。",
+  "dash.submit.err.activity": "请描述您的经营活动。",
   // PAYOUT
   "dash.payout.title": "提现",
   "dash.payout.available": "可提现金额",
@@ -1536,8 +1662,9 @@ async function submitDossier() {
   const name3 = document.getElementById('name3').value.trim();
   const activity = document.getElementById('activity').value.trim();
 
-  if (!name1 || !name2 || !name3) { alert('Please provide 3 company name options.'); return; }
-  if (!activity) { alert('Please describe your business activity.'); return; }
+  const dS=T[getLang()]||T['en'];
+  if (!name1 || !name2 || !name3) { alert(dS['dash.submit.err.names']||'Please provide 3 company name options.'); return; }
+  if (!activity) { alert(dS['dash.submit.err.activity']||'Please describe your business activity.'); return; }
 
   const {error} = await SB.from('dossiers').upsert({
     user_id: currentUser.id,
@@ -1556,7 +1683,10 @@ async function submitDossier() {
       title: 'Dossier submitted',
       message: (profile?.full_name||'A client') + ' submitted their dossier. Company: ' + name1 + ' / ' + name2 + ' / ' + name3
     });
-    document.getElementById('submit-msg').style.display = 'block';
+    const dSm=T[getLang()]||T['en'];
+    const smEl=document.getElementById('submit-msg');
+    smEl.textContent=dSm['dash.submit.success']||'Your file has been submitted.';
+    smEl.style.display = 'block';
     document.querySelector('[onclick="submitDossier()"]').style.display = 'none';
   } else {
     alert('Error: ' + error.message);
@@ -1581,16 +1711,18 @@ async function loadOfficialDocs() {
   grid.innerHTML = allDocs.map(doc => {
     const uploaded = docs?.find(d => d.doc_type === doc.key);
     if (uploaded) {
+      const dDoc=T[getLang()]||T['en'];
       return `<div class="dc" style="cursor:pointer;" onclick="downloadOfficialDoc('${uploaded.id}','${doc.name}')">
         <div class="dc-ico">${doc.icon}</div>
         <div style="flex:1"><div class="dc-name">${doc.name}</div><div class="dc-meta">${doc.meta}</div></div>
-        <div class="dpill pill-ok" style="background:rgba(50,200,100,0.1);border:1px solid rgba(50,200,100,0.2);color:#3cc468;">Download ↓</div>
+        <div class="dpill pill-ok" style="background:rgba(50,200,100,0.1);border:1px solid rgba(50,200,100,0.2);color:#3cc468;">${dDoc['dash.doc.download']||'Download ↓'}</div>
       </div>`;
     } else {
+      const dDocP=T[getLang()]||T['en'];
       return `<div class="dc" style="opacity:.6;cursor:default;">
         <div class="dc-ico">${doc.icon}</div>
         <div style="flex:1"><div class="dc-name">${doc.name}</div><div class="dc-meta">${doc.meta}</div></div>
-        <div class="dpill pill-pend">Pending</div>
+        <div class="dpill pill-pend">${dDocP['dash.doc.pending']||'Pending'}</div>
       </div>`;
     }
   }).join('');
@@ -1616,9 +1748,10 @@ function copyLink() {
   navigator.clipboard.writeText(link).then(() => {
     const btn = document.querySelector('.copy-btn');
     const orig = btn.textContent;
-    btn.textContent = 'Copied ✓';
+    const dC=T[getLang()]||T['en'];
+    btn.textContent = dC['dash.copied']||'Copied ✓';
     btn.style.background = '#3cc468';
-    setTimeout(() => { btn.textContent = orig; btn.style.background = ''; }, 2000);
+    setTimeout(() => { btn.textContent = dC['dash.copy']||orig; btn.style.background = ''; }, 2000);
   });
 }
 
