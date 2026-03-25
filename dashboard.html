@@ -1365,8 +1365,8 @@ function setLangAll(lang) {
   });
 
   // Re-render dynamic panels that use JS-generated content
-  if (typeof renderProcess === 'function' && dossier !== null) renderProcess();
-  if (typeof renderAffiliate === 'function' && affiliate !== null) renderAffiliate();
+  if (typeof renderProcess === 'function') renderProcess();
+  if (typeof renderAffiliate === 'function' && affiliate) renderAffiliate();
 }
 
 function initLang() {
@@ -1400,12 +1400,13 @@ const STATUS_ORDER = ['pending','payment_confirmed','docs_verified','filing','ce
 
 // ── INIT ──
 async function init() {
+  try {
   const {data:{session}} = await SB.auth.getSession();
   if (!session) { window.location.href = 'login.html'; return; }
   currentUser = session.user;
 
   // Load profile
-  const {data:p} = await SB.from('profiles').select('*').eq('id', currentUser.id).single();
+  const {data:p} = await SB.from('profiles').select('*').eq('id', currentUser.id).maybeSingle();
   profile = p;
 
   // Display name — use profile name, or first part of email as fallback
@@ -1432,12 +1433,12 @@ async function init() {
   if (btnRenew) btnRenew.href = `https://buy.stripe.com/00w4gyej8f2GcXycPT33W05?prefilled_email=${emailEnc}`;
 
   // Load dossier
-  const {data:d} = await SB.from('dossiers').select('*').eq('user_id', currentUser.id).single();
+  const {data:d} = await SB.from('dossiers').select('*').eq('user_id', currentUser.id).maybeSingle();
   dossier = d;
   renderProcess();
 
   // Load affiliate — create if doesn't exist
-  const {data:a} = await SB.from('affiliates').select('*').eq('user_id', currentUser.id).single();
+  const {data:a} = await SB.from('affiliates').select('*').eq('user_id', currentUser.id).maybeSingle();
   affiliate = a;
   if (!affiliate) {
     const baseName = (profile?.full_name || currentUser.email.split('@')[0])
@@ -1465,13 +1466,17 @@ async function init() {
     // Small delay to let everything render first
     setTimeout(() => show(goto), 300);
   }
+  } catch(err) {
+    console.error('Dashboard init error:', err);
+  }
 }
 
 function renderProcess() {
+  const lang = getLang();
+  const d = T[lang]||T['en'];
   const status = dossier?.status || 'pending';
   const statusIdx = STATUS_ORDER.indexOf(status);
   const STEPS = getSTEPS();
-  const d = T[getLang()]||T['en'];
   const company = dossier?.company_name || '—';
 
   document.getElementById('p-company').textContent = company !== '—' ? company + ' · In progress' : 'No active order';
