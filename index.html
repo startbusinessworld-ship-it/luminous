@@ -397,22 +397,24 @@ footer{background:var(--black);border-top:1px solid var(--grey);padding:44px 60p
 #trust-bar .trust-label{color:#888;}
 [data-theme="dark"] #trust-bar .trust-label{color:#555;}
 @media(prefers-color-scheme:dark){:root:not([data-theme="light"]) #trust-bar .trust-label{color:#555;}}
-.trust-sep{width:1px;height:28px;background:#333;flex-shrink:0;}
+.trust-sep{width:1px;height:28px;background:#333;flex-shrink:0;margin:0 40px;}
 [data-theme="dark"] .trust-sep{background:#CCC;}
 @media(prefers-color-scheme:dark){:root:not([data-theme="light"]) .trust-sep{background:#CCC;}}
 .trust-logo{display:flex;align-items:center;opacity:.85;transition:opacity .3s;}
 .trust-logo:hover{opacity:1;}
-.trust-logo img{border-radius:8px;}
+.trust-logo img{border-radius:4px;}
 .pricing-cards{display:grid;grid-template-columns:repeat(2,1fr);gap:24px;margin-top:52px;max-width:860px;margin-left:auto;margin-right:auto;}
 @media(max-width:960px){.pricing-cards{grid-template-columns:1fr;}.price-card-formation{order:1;}.price-card-renewal{order:2;}}
-.trust-bar-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;gap:48px;flex-wrap:wrap;justify-content:center;}
+.trust-bar-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;gap:0;flex-wrap:nowrap;justify-content:flex-start;}
+.trust-logos-row{display:flex;align-items:center;gap:40px;flex:1;}
 @media(max-width:960px){
-  #trust-bar{padding:16px 20px;}
-  .trust-bar-inner{flex-direction:column;gap:12px;align-items:center;}
-  .trust-sep{display:none;}
-  .trust-logos-row{display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:nowrap;width:100%;}
+  #trust-bar{padding:20px 16px;}
+  .trust-bar-inner{flex-direction:row;flex-wrap:nowrap;justify-content:center;align-items:center;gap:0;}
+  .trust-label{font-size:.55rem !important;white-space:nowrap;flex-shrink:0;}
+  .trust-sep{display:block;margin:0 16px !important;}
+  .trust-logos-row{display:flex;align-items:center;justify-content:center;gap:14px;flex:1;}
   .trust-logo{flex-shrink:0;}
-  .trust-logo img{height:28px !important;}
+  .trust-logo img{height:36px !important;}
   /* Partner section mobile */
   #partner .partner-card{flex-direction:column;align-items:center;text-align:center;padding:24px 20px;gap:20px;}
   #partner .partner-logo{justify-content:center;}
