@@ -108,6 +108,11 @@ body::before{content:'';position:fixed;inset:0;z-index:0;background-image:url("d
 nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:20px 60px;background:linear-gradient(to bottom,rgba(var(--black-rgb),0.96),transparent);backdrop-filter:blur(2px);}
 .nav-logo{display:flex;align-items:center;gap:12px;text-decoration:none;}
 .logo-svg{width:32px;height:32px;}
+
+.nav-logo svg text { fill: var(--white); transition: fill .3s; }
+.nav-logo svg ellipse { stroke: var(--white); transition: stroke .3s; }
+.nav-logo svg path { fill: var(--white); transition: fill .3s; }
+.nav-logo svg line { stroke: var(--black); transition: stroke .3s; }
 .nav-logo-text{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:600;color:var(--white);letter-spacing:.04em;}
 .nav-center{display:flex;gap:32px;list-style:none;}
 .nav-center a{color:var(--silver);text-decoration:none;font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;transition:color .3s;}
@@ -355,6 +360,8 @@ footer{background:var(--black);border-top:1px solid var(--grey);padding:44px 60p
   #hero,.section-inner{padding-left:24px;padding-right:24px;}
   .hero-photo{display:none;}
   .hero-stats{gap:20px;}
+  #hero{padding-top:100px;padding-bottom:40px;}
+  .hero-content{padding-top:0;}
   /* Services — 1 colonne */
   .services-grid{grid-template-columns:1fr !important;border:none;}
   .services-grid .service-card:nth-child(4){grid-column:auto !important;}
@@ -389,14 +396,14 @@ footer{background:var(--black);border-top:1px solid var(--grey);padding:44px 60p
     <svg viewBox="0 0 280 88" xmlns="http://www.w3.org/2000/svg" style="height:40px;width:auto;">
       <g transform="translate(5,5)">
         <g transform="translate(38,38)">
-          <ellipse cx="0" cy="3" rx="34" ry="10" fill="none" stroke="white" stroke-width="2.2" transform="rotate(-22)"/>
+          <ellipse cx="0" cy="3" rx="34" ry="10" fill="none" stroke-width="2.2" transform="rotate(-22)"/>
           <path d="M1.5,0 L1.5,-21 A21,21 0 0,1 22,0 Z" fill="white"/>
           <path d="M-1.5,0 L-1.5,21 A21,21 0 0,1 -22,0 Z" fill="white"/>
-          <line x1="0" y1="-24" x2="0" y2="24" stroke="#0A0A0A" stroke-width="2.5"/>
-          <line x1="-24" y1="0" x2="24" y2="0" stroke="#0A0A0A" stroke-width="2.5"/>
+          <line x1="0" y1="-24" x2="0" y2="24" stroke-width="2.5"/>
+          <line x1="-24" y1="0" x2="24" y2="0" stroke-width="2.5"/>
         </g>
-        <text x="84" y="34" font-family="DM Sans,Helvetica Neue,Arial,sans-serif" font-size="35" font-weight="300" fill="white" letter-spacing="-0.3">Luminos</text>
-        <text x="85" y="64" font-family="Noto Sans SC,PingFang SC,Microsoft YaHei,sans-serif" font-size="20" font-weight="300" fill="white" letter-spacing="5">徕米诺</text>
+        <text x="84" y="34" font-family="DM Sans,Helvetica Neue,Arial,sans-serif" font-size="35" font-weight="300" letter-spacing="-0.3">Luminos</text>
+        <text x="85" y="64" font-family="Noto Sans SC,PingFang SC,Microsoft YaHei,sans-serif" font-size="20" font-weight="300" letter-spacing="5">徕米诺</text>
       </g>
     </svg>
   </a>
@@ -449,33 +456,6 @@ footer{background:var(--black);border-top:1px solid var(--grey);padding:44px 60p
   </div>
 </section>
 
-<!-- SERVICES -->
-<section id="services"><div class="section-inner">
-  <div class="section-label" data-i18n="services.label">Our Services</div>
-  <h2 class="section-title" data-i18n="services.title">Everything you need</h2>
-  <p class="section-sub" data-i18n="services.sub">From registration to banking, we handle every step with precision.</p>
-  <div class="services-grid">
-    <div class="service-card"><div class="service-num">01</div><div class="service-icon">🏢</div><div class="service-name" data-i18n="s1n">Company Formation</div><p class="service-desc" data-i18n="s1d">Official registration of your Limited Company in Hong Kong, with Certificate of Incorporation and Articles of Association.</p></div>
-    <div class="service-card"><div class="service-num">02</div><div class="service-icon">🏦</div><div class="service-name" data-i18n="s2n">Bank Account</div><p class="service-desc" data-i18n="s2d">Opening of a multi-currency business bank account with our partner institutions in Hong Kong.</p></div>
-    <div class="service-card"><div class="service-num">03</div><div class="service-icon">📋</div><div class="service-name" data-i18n="s3n">Registered Address</div><p class="service-desc" data-i18n="s3d">Registered address in Hong Kong for your headquarters and receipt of official correspondence.</p></div>
-    <div class="service-card"><div class="service-num">04</div><div class="service-icon">🔄</div><div class="service-name" data-i18n="s4n">Annual Renewal</div><p class="service-desc" data-i18n="s4d">Management of your annual renewal: annual returns, business licences, and compliance maintenance.</p></div>
-    <div class="service-card"><div class="service-num">05</div><div class="service-icon">📊</div><div class="service-name" data-i18n="s5n">Client Dashboard</div><p class="service-desc" data-i18n="s5d">Track your file in real time and download your official documents from your secure client portal.</p></div>
-  </div>
-</div></section>
-
-<!-- PROCESS -->
-<section id="process"><div class="section-inner">
-  <div class="section-label" data-i18n="process.label">Process</div>
-  <h2 class="section-title" data-i18n="process.title">Simple. Fast. Reliable.</h2>
-  <p class="section-sub" data-i18n="process.sub">Four steps to have your Hong Kong company fully operational.</p>
-  <div class="process-steps">
-    <div class="step"><div class="step-circle">1</div><div class="step-title" data-i18n="p1t">Order & Payment</div><p class="step-desc" data-i18n="p1d">Choose your plan and pay securely online.</p></div>
-    <div class="step"><div class="step-circle">2</div><div class="step-title" data-i18n="p2t">Submit Documents</div><p class="step-desc" data-i18n="p2d">Passport, selfie with passport, proof of address — via your secure dashboard.</p></div>
-    <div class="step"><div class="step-circle">3</div><div class="step-title" data-i18n="p3t">Processing & Filing</div><p class="step-desc" data-i18n="p3d">Our experts submit your application to the Hong Kong authorities.</p></div>
-    <div class="step"><div class="step-circle">4</div><div class="step-title" data-i18n="p4t">Documents & Access</div><p class="step-desc" data-i18n="p4d">Download your official documents from your dashboard. Company operational.</p></div>
-  </div>
-</div></section>
-
 <!-- ABOUT -->
 <section id="about" style="background:var(--dark2);border-top:1px solid var(--grey);border-bottom:1px solid var(--grey);">
   <div class="section-inner" style="padding-top:80px;padding-bottom:80px;">
@@ -517,6 +497,33 @@ footer{background:var(--black);border-top:1px solid var(--grey);padding:44px 60p
     </div>
   </div>
 </section>
+
+<!-- SERVICES -->
+<section id="services"><div class="section-inner">
+  <div class="section-label" data-i18n="services.label">Our Services</div>
+  <h2 class="section-title" data-i18n="services.title">Everything you need</h2>
+  <p class="section-sub" data-i18n="services.sub">From registration to banking, we handle every step with precision.</p>
+  <div class="services-grid">
+    <div class="service-card"><div class="service-num">01</div><div class="service-icon">🏢</div><div class="service-name" data-i18n="s1n">Company Formation</div><p class="service-desc" data-i18n="s1d">Official registration of your Limited Company in Hong Kong, with Certificate of Incorporation and Articles of Association.</p></div>
+    <div class="service-card"><div class="service-num">02</div><div class="service-icon">🏦</div><div class="service-name" data-i18n="s2n">Bank Account</div><p class="service-desc" data-i18n="s2d">Opening of a multi-currency business bank account with our partner institutions in Hong Kong.</p></div>
+    <div class="service-card"><div class="service-num">03</div><div class="service-icon">📋</div><div class="service-name" data-i18n="s3n">Registered Address</div><p class="service-desc" data-i18n="s3d">Registered address in Hong Kong for your headquarters and receipt of official correspondence.</p></div>
+    <div class="service-card"><div class="service-num">04</div><div class="service-icon">🔄</div><div class="service-name" data-i18n="s4n">Annual Renewal</div><p class="service-desc" data-i18n="s4d">Management of your annual renewal: annual returns, business licences, and compliance maintenance.</p></div>
+    <div class="service-card"><div class="service-num">05</div><div class="service-icon">📊</div><div class="service-name" data-i18n="s5n">Client Dashboard</div><p class="service-desc" data-i18n="s5d">Track your file in real time and download your official documents from your secure client portal.</p></div>
+  </div>
+</div></section>
+
+<!-- PROCESS -->
+<section id="process"><div class="section-inner">
+  <div class="section-label" data-i18n="process.label">Process</div>
+  <h2 class="section-title" data-i18n="process.title">Simple. Fast. Reliable.</h2>
+  <p class="section-sub" data-i18n="process.sub">Four steps to have your Hong Kong company fully operational.</p>
+  <div class="process-steps">
+    <div class="step"><div class="step-circle">1</div><div class="step-title" data-i18n="p1t">Order & Payment</div><p class="step-desc" data-i18n="p1d">Choose your plan and pay securely online.</p></div>
+    <div class="step"><div class="step-circle">2</div><div class="step-title" data-i18n="p2t">Submit Documents</div><p class="step-desc" data-i18n="p2d">Passport, selfie with passport, proof of address — via your secure dashboard.</p></div>
+    <div class="step"><div class="step-circle">3</div><div class="step-title" data-i18n="p3t">Processing & Filing</div><p class="step-desc" data-i18n="p3d">Our experts submit your application to the Hong Kong authorities.</p></div>
+    <div class="step"><div class="step-circle">4</div><div class="step-title" data-i18n="p4t">Documents & Access</div><p class="step-desc" data-i18n="p4d">Download your official documents from your dashboard. Company operational.</p></div>
+  </div>
+</div></section>
 
 <!-- PRICING -->
 <section id="pricing" style="background:var(--dark);">
