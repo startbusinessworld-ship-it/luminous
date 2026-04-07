@@ -214,11 +214,17 @@ option{background:var(--d3);}
         <div class="ptitle">Notifications</div>
         <div class="psub">New registrations, documents and affiliates</div>
       </div>
-      <div class="stats-row" id="admin-stats">
-        <div class="stat"><div class="stat-num" id="s-clients">—</div><div class="stat-lbl">Total clients</div></div>
-        <div class="stat"><div class="stat-num" id="s-docs">—</div><div class="stat-lbl">Documents received</div></div>
-        <div class="stat"><div class="stat-num" id="s-aff">—</div><div class="stat-lbl">Affiliates</div></div>
-        <div class="stat"><div class="stat-num r" id="s-notif">—</div><div class="stat-lbl">Unread notifications</div></div>
+      <div class="stats-row" id="admin-stats" style="grid-template-columns:repeat(3,1fr);">
+        <div class="stat"><div class="stat-num" id="s-registered">—</div><div class="stat-lbl">Inscrits</div></div>
+        <div class="stat"><div class="stat-num r" id="s-paying">—</div><div class="stat-lbl">Clients payants</div></div>
+        <div class="stat"><div class="stat-num" id="s-active">—</div><div class="stat-lbl">Dossiers en cours</div></div>
+        <div class="stat"><div class="stat-num" id="s-docs">—</div><div class="stat-lbl">Documents reçus</div></div>
+        <div class="stat"><div class="stat-num" id="s-aff">—</div><div class="stat-lbl">Affiliés</div></div>
+        <div class="stat"><div class="stat-num r" id="s-notif">—</div><div class="stat-lbl">Non lus</div></div>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+        <div style="font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--sv);">Recent activity</div>
+        <button onclick="markAllRead()" style="font-size:.64rem;letter-spacing:.08em;text-transform:uppercase;color:var(--sv);background:none;border:1px solid var(--gr);padding:4px 10px;border-radius:2px;cursor:pointer;font-family:inherit;transition:all .2s;" onmouseover="this.style.borderColor='var(--red)';this.style.color='var(--red)'" onmouseout="this.style.borderColor='var(--gr)';this.style.color='var(--sv)'">Mark all read</button>
       </div>
       <div class="notif-list" id="notif-list">
         <div style="text-align:center;padding:32px;color:var(--sv);font-size:.8rem;">Loading notifications...</div>
@@ -398,43 +404,103 @@ async function loadAll() {
 }
 
 async function loadStats() {
-  const [cl, dc, af, nt] = await Promise.all([
-    SB.from('profiles').select('id', {count:'exact'}),
-    SB.from('documents').select('id', {count:'exact'}),
-    SB.from('affiliates').select('id', {count:'exact'}),
-    SB.from('notifications').select('id', {count:'exact'}).eq('read', false)
+  const [registered, paying, active, docs, aff, notif] = await Promise.all([
+    SB.from('profiles').select('id', {count:'exact', head:true}),
+    SB.from('dossiers').select('id', {count:'exact', head:true}).in('status', ['payment_confirmed','documents_received','under_review','completed']),
+    SB.from('dossiers').select('id', {count:'exact', head:true}).in('status', ['payment_confirmed','documents_received','under_review']),
+    SB.from('documents').select('id', {count:'exact', head:true}),
+    SB.from('affiliates').select('id', {count:'exact', head:true}),
+    SB.from('notifications').select('id', {count:'exact', head:true}).eq('read', false)
   ]);
-  document.getElementById('s-clients').textContent = cl.count || 0;
-  document.getElementById('s-docs').textContent = dc.count || 0;
-  document.getElementById('s-aff').textContent = af.count || 0;
-  document.getElementById('s-notif').textContent = nt.count || 0;
-  if ((nt.count||0) > 0) document.getElementById('nb-dot').style.display = 'block';
+  document.getElementById('s-registered').textContent = registered.count ?? 0;
+  document.getElementById('s-paying').textContent     = paying.count ?? 0;
+  document.getElementById('s-active').textContent     = active.count ?? 0;
+  document.getElementById('s-docs').textContent       = docs.count ?? 0;
+  document.getElementById('s-aff').textContent        = aff.count ?? 0;
+  document.getElementById('s-notif').textContent      = notif.count ?? 0;
+  document.getElementById('nb-dot').style.display = (notif.count||0) > 0 ? 'block' : 'none';
 }
 
 async function loadNotifications() {
   const {data} = await SB.from('notifications').select('*').order('created_at', {ascending:false}).limit(50);
   const el = document.getElementById('notif-list');
   if (!data?.length) { el.innerHTML = '<div style="text-align:center;padding:32px;color:var(--sv);font-size:.8rem;">No notifications yet</div>'; return; }
-  const icons = {new_client:'👤', new_document:'📄', new_affiliate:'🤝', new_referral:'🔗'};
-  const icoClass = {new_client:'ico-client', new_document:'ico-doc', new_affiliate:'ico-aff', new_referral:'ico-aff'};
-  el.innerHTML = data.map(n => `
-    <div class="notif ${n.read?'':'unread'}" id="notif-${n.id}">
+
+  const icons = {
+    new_client:'👤', new_lead:'👤',
+    new_document:'📄', dossier_submitted:'📋',
+    new_affiliate:'🤝', new_referral:'🔗',
+    new_payment:'💳'
+  };
+  const icoClass = {
+    new_client:'ico-client', new_lead:'ico-client',
+    new_document:'ico-doc', dossier_submitted:'ico-doc',
+    new_affiliate:'ico-aff', new_referral:'ico-aff',
+    new_payment:'ico-client'
+  };
+
+  el.innerHTML = data.map(n => {
+    const uid = n.user_id || '';
+    let action = '';
+    if (['new_document','dossier_submitted','new_client','new_lead'].includes(n.type) && uid) action = 'client:' + uid;
+    else if (n.type === 'new_referral') action = 'referrals';
+
+    return `
+    <div class="notif ${n.read?'':'unread'}" id="notif-${n.id}"
+      onclick="handleNotifClick('${n.id}','${action}')"
+      style="cursor:pointer;transition:background .15s;"
+      onmouseover="this.style.background='rgba(255,255,255,0.03)'"
+      onmouseout="this.style.background=''">
       <div class="notif-ico ${icoClass[n.type]||'ico-client'}">${icons[n.type]||'🔔'}</div>
-      <div class="notif-body">
-        <div class="notif-title">${n.title}</div>
+      <div class="notif-body" style="flex:1;">
+        <div class="notif-title">${n.title||n.type}</div>
         <div class="notif-msg">${n.message}</div>
         <div class="notif-time">${new Date(n.created_at).toLocaleString('en-GB')}</div>
       </div>
-      ${!n.read?`<button class="notif-mark" onclick="markRead('${n.id}')">Mark read</button>`:''}
-    </div>`).join('');
+      ${!n.read?'<div style="width:8px;height:8px;border-radius:50%;background:var(--red);flex-shrink:0;align-self:center;"></div>':''}
+    </div>`;
+  }).join('');
+}
+
+async function handleNotifClick(notifId, action) {
+  await SB.from('notifications').update({read:true}).eq('id', notifId);
+  const el = document.getElementById('notif-' + notifId);
+  if (el) {
+    el.classList.remove('unread');
+    const dot = el.querySelector('div[style*="border-radius:50%"]');
+    if (dot) dot.remove();
+  }
+  loadStats();
+  if (!action) return;
+  if (action.startsWith('client:')) {
+    const uid = action.split(':')[1];
+    show('clients');
+    setTimeout(() => openClientModal(uid), 300);
+  } else if (action === 'referrals') {
+    show('referrals');
+  }
 }
 
 async function markRead(id) {
   await SB.from('notifications').update({read:true}).eq('id',id);
   const el = document.getElementById('notif-' + id);
-  if (el) { el.classList.remove('unread'); el.querySelector('.notif-mark')?.remove(); }
+  if (el) {
+    el.classList.remove('unread');
+    el.querySelector('.notif-mark')?.remove();
+    const timeEl = el.querySelector('.notif-time');
+    if (timeEl) timeEl.insertAdjacentHTML('afterend', '<span style="font-size:.62rem;color:var(--g2);">Read</span>');
+  }
   loadStats();
 }
+
+async function markAllRead() {
+  await SB.from('notifications').update({read:true}).eq('read', false);
+  loadNotifications();
+  loadStats();
+}
+
+// Auto-refresh notifications every 30 seconds
+setInterval(() => { loadStats(); loadNotifications(); }, 30000);
 
 async function loadClients() {
   const {data:profiles} = await SB.from('profiles').select('*').order('created_at',{ascending:false});
