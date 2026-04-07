@@ -96,7 +96,7 @@ footer{padding:18px 40px;text-align:center;font-size:.64rem;color:var(--g2);bord
         </div>
         <div class="fg">
           <label class="flbl" data-lk="login.whatsapp">WhatsApp number</label>
-          <input class="finp" id="reg-whatsapp" type="tel" placeholder="+1 234 567 8900" autocomplete="tel">
+          <input class="finp" id="reg-whatsapp" type="tel" placeholder="+1 234 567 8900" autocomplete="tel" required minlength="8">
         </div>
         <div class="wa-hint">
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
@@ -174,7 +174,7 @@ async function register(){
   const password=document.getElementById('reg-password').value;
   if(!fname||!lname){showError('reg-alert',d['login.err.name']);return;}
   if(!email){showError('reg-alert',d['login.err.email']);return;}
-  if(!whatsapp){showError('reg-alert',d['login.err.whatsapp']);return;}
+  if(!whatsapp || whatsapp.length < 8){showError('reg-alert',d['login.err.whatsapp']);return;}
   if(password.length<8){showError('reg-alert',d['login.err.password']);return;}
   const btn=document.getElementById('reg-btn');
   setLoading(btn,true);
