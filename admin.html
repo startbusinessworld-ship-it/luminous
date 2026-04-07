@@ -59,7 +59,10 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 
 /* STATS ROW */
 .stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:22px;}
-.stat{background:var(--d2);border:1px solid var(--gr);border-radius:4px;padding:18px;}
+.stat{background:var(--d2);border:1px solid var(--gr);border-radius:4px;padding:18px;transition:border-color .2s,background .2s;}
+.stat[onclick]:hover{border-color:var(--red);background:rgba(200,16,46,0.06);}
+.cf-btn{font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;font-family:inherit;background:none;border:1px solid var(--gr);color:var(--sv);padding:4px 10px;border-radius:2px;cursor:pointer;transition:all .2s;}
+.cf-btn:hover,.cf-btn.cf-active{border-color:var(--red);color:var(--red);background:rgba(200,16,46,0.08);}
 .stat-num{font-size:1.9rem;font-weight:600;color:var(--wh);line-height:1;}
 .stat-num.r{color:var(--red);}
 .stat-lbl{font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--sv);margin-top:5px;}
@@ -215,12 +218,12 @@ option{background:var(--d3);}
         <div class="psub">New registrations, documents and affiliates</div>
       </div>
       <div class="stats-row" id="admin-stats" style="grid-template-columns:repeat(3,1fr);">
-        <div class="stat"><div class="stat-num" id="s-registered">—</div><div class="stat-lbl">Inscrits</div></div>
-        <div class="stat"><div class="stat-num r" id="s-paying">—</div><div class="stat-lbl">Clients payants</div></div>
-        <div class="stat"><div class="stat-num" id="s-active">—</div><div class="stat-lbl">Dossiers en cours</div></div>
-        <div class="stat"><div class="stat-num" id="s-docs">—</div><div class="stat-lbl">Documents reçus</div></div>
-        <div class="stat"><div class="stat-num" id="s-aff">—</div><div class="stat-lbl">Affiliés</div></div>
-        <div class="stat"><div class="stat-num r" id="s-notif">—</div><div class="stat-lbl">Non lus</div></div>
+        <div class="stat" onclick="showFiltered('all')" title="Voir tous les inscrits" style="cursor:pointer;"><div class="stat-num" id="s-registered">—</div><div class="stat-lbl">Inscrits</div></div>
+        <div class="stat" onclick="showFiltered('paying')" title="Voir clients payants" style="cursor:pointer;"><div class="stat-num r" id="s-paying">—</div><div class="stat-lbl">Clients payants</div></div>
+        <div class="stat" onclick="showFiltered('active')" title="Voir dossiers en cours" style="cursor:pointer;"><div class="stat-num" id="s-active">—</div><div class="stat-lbl">Dossiers en cours</div></div>
+        <div class="stat" onclick="show('documents')" title="Voir les documents" style="cursor:pointer;"><div class="stat-num" id="s-docs">—</div><div class="stat-lbl">Documents reçus</div></div>
+        <div class="stat" onclick="show('affiliates')" title="Voir les affiliés" style="cursor:pointer;"><div class="stat-num" id="s-aff">—</div><div class="stat-lbl">Affiliés</div></div>
+        <div class="stat" style="cursor:default;"><div class="stat-num r" id="s-notif">—</div><div class="stat-lbl">Non lus</div></div>
       </div>
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
         <div style="font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--sv);">Recent activity</div>
@@ -239,7 +242,14 @@ option{background:var(--d3);}
         <div class="psub">Manage client files, review documents and update statuses</div>
       </div>
       <div class="scard">
-        <div class="scard-hd"><div class="scard-title">Client list</div></div>
+        <div class="scard-hd" style="display:flex;justify-content:space-between;align-items:center;">
+          <div class="scard-title" id="clients-filter-label">All clients</div>
+          <div style="display:flex;gap:6px;flex-wrap:wrap;">
+            <button onclick="applyClientFilter('all')" id="cf-all" class="cf-btn cf-active">Tous</button>
+            <button onclick="applyClientFilter('paying')" id="cf-paying" class="cf-btn">Payants</button>
+            <button onclick="applyClientFilter('active')" id="cf-active" class="cf-btn">En cours</button>
+          </div>
+        </div>
         <div class="tbl-wrap">
           <table>
             <thead><tr><th>Name</th><th>Email</th><th>WhatsApp</th><th>Company (1st choice)</th><th>Status</th><th>Registered</th><th>Actions</th></tr></thead>
@@ -442,22 +452,28 @@ async function loadNotifications() {
   el.innerHTML = data.map(n => {
     const uid = n.user_id || '';
     let action = '';
-    if (['new_document','dossier_submitted','new_client','new_lead'].includes(n.type) && uid) action = 'client:' + uid;
-    else if (n.type === 'new_referral') action = 'referrals';
+    let actionHint = '';
+    if (['new_document','dossier_submitted','new_client','new_lead','new_payment'].includes(n.type) && uid) {
+      action = 'client:' + uid;
+      actionHint = '<span style="font-size:.62rem;letter-spacing:.06em;text-transform:uppercase;color:var(--red);margin-top:3px;display:inline-block;">Voir la fiche →</span>';
+    } else if (n.type === 'new_referral' || n.type === 'new_affiliate') {
+      action = 'referrals';
+      actionHint = '<span style="font-size:.62rem;letter-spacing:.06em;text-transform:uppercase;color:var(--red);margin-top:3px;display:inline-block;">Voir les referrals →</span>';
+    }
 
     return `
     <div class="notif ${n.read?'':'unread'}" id="notif-${n.id}"
       onclick="handleNotifClick('${n.id}','${action}')"
-      style="cursor:pointer;transition:background .15s;"
-      onmouseover="this.style.background='rgba(255,255,255,0.03)'"
-      onmouseout="this.style.background=''">
+      style="cursor:${action?'pointer':'default'};transition:background .15s;"
+      ${action?`onmouseover="this.style.background='rgba(200,16,46,0.05)'" onmouseout="this.style.background=''"`:''}>
       <div class="notif-ico ${icoClass[n.type]||'ico-client'}">${icons[n.type]||'🔔'}</div>
-      <div class="notif-body" style="flex:1;">
+      <div class="notif-body" style="flex:1;min-width:0;">
         <div class="notif-title">${n.title||n.type}</div>
         <div class="notif-msg">${n.message}</div>
         <div class="notif-time">${new Date(n.created_at).toLocaleString('en-GB')}</div>
+        ${actionHint}
       </div>
-      ${!n.read?'<div style="width:8px;height:8px;border-radius:50%;background:var(--red);flex-shrink:0;align-self:center;"></div>':''}
+      ${!n.read?'<div style="width:8px;height:8px;border-radius:50%;background:var(--red);flex-shrink:0;align-self:center;margin-left:8px;"></div>':''}
     </div>`;
   }).join('');
 }
@@ -475,7 +491,7 @@ async function handleNotifClick(notifId, action) {
   if (action.startsWith('client:')) {
     const uid = action.split(':')[1];
     show('clients');
-    setTimeout(() => openClientModal(uid), 300);
+    openClientModal(uid);
   } else if (action === 'referrals') {
     show('referrals');
   }
@@ -502,20 +518,38 @@ async function markAllRead() {
 // Auto-refresh notifications every 30 seconds
 setInterval(() => { loadStats(); loadNotifications(); }, 30000);
 
+// ── CLIENTS DATA CACHE ──
+let _allProfiles = [];
+let _allDossiers = {};
+
 async function loadClients() {
   const {data:profiles} = await SB.from('profiles').select('*').order('created_at',{ascending:false});
   const {data:dossiers} = await SB.from('dossiers').select('*');
+  _allProfiles = profiles || [];
+  _allDossiers = Object.fromEntries((dossiers||[]).map(d=>[d.user_id,d]));
+  renderClients('all');
+}
+
+function renderClients(filter) {
   const tb = document.getElementById('clients-table');
-  if (!profiles?.length) { tb.innerHTML = '<tr><td colspan="7" class="empty">No clients yet</td></tr>'; return; }
-  const dos = Object.fromEntries((dossiers||[]).map(d=>[d.user_id,d]));
-  tb.innerHTML = profiles.map(p => {
-    const d = dos[p.id];
+  const payingStatuses = ['payment_confirmed','documents_received','under_review','completed','docs_submitted','docs_verified','filing','certificate_issued'];
+  const activeStatuses = ['payment_confirmed','documents_received','under_review','docs_submitted','docs_verified','filing'];
+
+  let list = _allProfiles;
+  if (filter === 'paying') list = list.filter(p => { const d = _allDossiers[p.id]; return d && payingStatuses.includes(d.status); });
+  if (filter === 'active') list = list.filter(p => { const d = _allDossiers[p.id]; return d && activeStatuses.includes(d.status); });
+
+  if (!list.length) { tb.innerHTML = '<tr><td colspan="7" class="empty">Aucun client</td></tr>'; return; }
+
+  tb.innerHTML = list.map(p => {
+    const d = _allDossiers[p.id];
+    const statusClass = d?.status==='completed' ? 'pill-ok' : (!d || d.status==='pending') ? 'pill-pend' : 'pill-rev';
     return `<tr>
       <td style="font-weight:500;color:var(--wh);">${p.full_name||'—'}</td>
       <td>${p.email}</td>
       <td style="color:var(--lt);">${p.whatsapp||'—'}</td>
       <td>${d?.company_name||'—'}</td>
-      <td><span class="pill ${d?.status==='completed'?'pill-ok':d?.status==='pending'||!d?'pill-pend':'pill-rev'}">${d?.status||'no order'}</span></td>
+      <td><span class="pill ${statusClass}">${d?.status||'no order'}</span></td>
       <td style="color:var(--sv);">${new Date(p.created_at).toLocaleDateString('en-GB')}</td>
       <td style="display:flex;gap:6px;">
         <button onclick="openClientModal('${p.id}')" style="font-size:.64rem;letter-spacing:.08em;text-transform:uppercase;color:var(--red);background:rgba(200,16,46,0.1);border:1px solid rgba(200,16,46,0.2);padding:4px 10px;border-radius:2px;cursor:pointer;font-family:inherit;white-space:nowrap;">Open →</button>
@@ -531,6 +565,22 @@ async function loadClients() {
       </td>
     </tr>`;
   }).join('');
+}
+
+function applyClientFilter(filter) {
+  // Update button states
+  document.querySelectorAll('.cf-btn').forEach(b => b.classList.remove('cf-active'));
+  document.getElementById('cf-' + filter)?.classList.add('cf-active');
+  // Update label
+  const labels = {all:'All clients', paying:'Paying clients', active:'Active dossiers'};
+  document.getElementById('clients-filter-label').textContent = labels[filter] || 'Clients';
+  renderClients(filter);
+}
+
+function showFiltered(filter) {
+  show('clients');
+  // Wait for panel to be visible then apply filter
+  requestAnimationFrame(() => applyClientFilter(filter));
 }
 
 // ── CLIENT MODAL ──
