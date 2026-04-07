@@ -289,8 +289,8 @@ option{background:var(--d3);}
         <div class="scard-hd"><div class="scard-title">Affiliate list</div></div>
         <div class="tbl-wrap">
           <table>
-            <thead><tr><th>Name</th><th>Email</th><th>Referral code</th><th>Total earned</th><th>Pending</th><th>Paid out</th><th>Joined</th></tr></thead>
-            <tbody id="aff-table"><tr><td colspan="7" class="empty">Loading...</td></tr></tbody>
+            <thead><tr><th>Name</th><th>Email</th><th>Referral code</th><th>Clicks</th><th>Conversions</th><th>Total earned</th><th>Pending</th><th>Paid out</th><th>Joined</th></tr></thead>
+            <tbody id="aff-table"><tr><td colspan="9" class="empty">Loading...</td></tr></tbody>
           </table>
         </div>
       </div>
@@ -749,15 +749,22 @@ async function loadAffiliates() {
   const {data} = await SB.from('affiliates').select('*, profiles(full_name,email)').order('created_at',{ascending:false});
   const tb = document.getElementById('aff-table');
   if (!data?.length) { tb.innerHTML = '<tr><td colspan="7" class="empty">No affiliates yet</td></tr>'; return; }
-  tb.innerHTML = data.map(a => `<tr>
+  tb.innerHTML = data.map(a => {
+    const conv = a.conversions || 0;
+    const clicks = a.clicks || 0;
+    const cvr = clicks > 0 ? Math.round(conv/clicks*100) : 0;
+    return `<tr>
     <td style="font-weight:500;color:var(--wh);">${a.profiles?.full_name||'—'}</td>
     <td>${a.profiles?.email||'—'}</td>
     <td style="font-family:monospace;color:var(--red);">${a.referral_code}</td>
+    <td style="color:var(--wh);font-weight:500;">${clicks}<div style="font-size:.64rem;color:var(--sv);">link clicks</div></td>
+    <td style="color:#c89600;font-weight:500;">${conv}<div style="font-size:.64rem;color:var(--sv);">CVR ${cvr}%</div></td>
     <td style="color:#3cc468;font-weight:500;">$${a.total_earned||0}</td>
     <td style="color:#c89600;">$${a.pending_payout||0}</td>
     <td style="color:var(--sv);">$${a.paid_out||0}</td>
     <td style="color:var(--sv);">${new Date(a.created_at).toLocaleDateString('en-GB')}</td>
-  </tr>`).join('');
+  </tr>`;
+  }).join('');
 }
 
 async function loadReferrals() {
