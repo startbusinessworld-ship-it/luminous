@@ -452,14 +452,23 @@ async function openClientModal(userId) {
   document.getElementById('client-modal').style.display = 'block';
   document.getElementById('client-detail').innerHTML = '<div style="color:var(--sv);text-align:center;padding:40px;">Loading...</div>';
 
-  const [{data:p}, {data:d}, {data:docs}, {data:officialDocs}] = await Promise.all([
-    SB.from('profiles').select('*').eq('id', userId).single(),
-    SB.from('dossiers').select('*').eq('user_id', userId).single(),
-    SB.from('documents').select('*').eq('user_id', userId).order('uploaded_at', {ascending:false}),
-    SB.from('official_documents').select('*').eq('user_id', userId)
-  ]);
+  try {
+    const [
+      {data:p, error:pe},
+      {data:d, error:de},
+      {data:docs},
+      {data:officialDocs}
+    ] = await Promise.all([
+      SB.from('profiles').select('*').eq('id', userId).maybeSingle(),
+      SB.from('dossiers').select('*').eq('user_id', userId).maybeSingle(),
+      SB.from('documents').select('id,name,type,file_name,file_size,status,created_at').eq('user_id', userId).order('created_at', {ascending:false}),
+      SB.from('official_documents').select('id,doc_type,name,file_name,created_at').eq('user_id', userId)
+    ]);
 
-  currentDossierId = d?.id || null;
+    if (pe) console.error('Profile error:', pe.message);
+    if (de) console.error('Dossier error:', de.message);
+
+    currentDossierId = d?.id || null;
 
   const docTypes = {
     passport: '🛂 Passport',
@@ -544,6 +553,10 @@ async function openClientModal(userId) {
       <input type="file" id="official-file-input" style="display:none" accept="image/*,.pdf" onchange="handleOfficialUpload(this)">
     </div>
   `;
+  } catch(err) {
+    document.getElementById('client-detail').innerHTML = `<div style="color:#ff7070;text-align:center;padding:40px;">Error loading client data: ${err.message}</div>`;
+    console.error('openClientModal error:', err);
+  }
 }
 
 function closeClientModal() {
@@ -606,7 +619,7 @@ async function updateStatus(dossierId, newStatus) {
 }
 
 async function loadDocuments() {
-  const {data:docs} = await SB.from('documents').select('*, profiles(full_name,email)').order('uploaded_at',{ascending:false});
+  const {data:docs} = await SB.from('documents').select('id,name,type,file_name,file_size,status,created_at, profiles(full_name,email)').order('created_at',{ascending:false});
   const tb = document.getElementById('docs-table');
   if (!docs?.length) { tb.innerHTML = '<tr><td colspan="7" class="empty">No documents uploaded yet</td></tr>'; return; }
   tb.innerHTML = docs.map(d => `<tr>
@@ -614,10 +627,10 @@ async function loadDocuments() {
     <td>${d.name}</td>
     <td style="color:var(--sv);font-size:.74rem;">${d.file_name||'—'}</td>
     <td style="color:var(--sv);">${d.file_size?Math.round(d.file_size/1024)+' KB':'—'}</td>
-    <td style="color:var(--sv);">${new Date(d.uploaded_at).toLocaleDateString('en-GB')}</td>
+    <td style="color:var(--sv);">${new Date(d.created_at).toLocaleDateString('en-GB')}</td>
     <td><span class="pill ${d.status==='verified'?'pill-ok':d.status==='rejected'?'pill-pend':'pill-rev'}">${d.status}</span></td>
     <td>
-      ${d.file_data?`<button onclick="viewDoc('${d.id}','${d.name}','${d.file_name||''}')" style="font-size:.66rem;letter-spacing:.08em;text-transform:uppercase;color:var(--red);background:none;border:none;cursor:pointer;font-family:inherit;">View →</button>`:'—'}
+      <button onclick="viewDoc('${d.id}','${d.name}','${d.file_name||''}')" style="font-size:.66rem;letter-spacing:.08em;text-transform:uppercase;color:var(--red);background:none;border:none;cursor:pointer;font-family:inherit;">View →</button>
       <select class="status-sel" style="margin-left:6px;" onchange="updateDocStatus('${d.id}',this.value)">
         <option value="received" ${d.status==='received'?'selected':''}>Received</option>
         <option value="verified" ${d.status==='verified'?'selected':''}>Verified</option>
