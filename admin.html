@@ -461,14 +461,19 @@ async function openClientModal(userId) {
     ] = await Promise.all([
       SB.from('profiles').select('*').eq('id', userId).maybeSingle(),
       SB.from('dossiers').select('*').eq('user_id', userId).maybeSingle(),
-      SB.from('documents').select('id,name,type,file_name,file_size,status,created_at').eq('user_id', userId).order('created_at', {ascending:false}),
-      SB.from('official_documents').select('id,doc_type,name,file_name,created_at').eq('user_id', userId)
+      SB.from('documents').select('id,name,type,file_name,file_size,file_data,status,created_at').eq('user_id', userId).order('created_at', {ascending:false}),
+      SB.from('official_documents').select('id,doc_type,name,file_name,file_data,created_at').eq('user_id', userId)
     ]);
 
     if (pe) console.error('Profile error:', pe.message);
     if (de) console.error('Dossier error:', de.message);
 
     currentDossierId = d?.id || null;
+
+    // Pre-cache document file_data so viewDoc is instant
+    if (docs?.length) {
+      docs.forEach(doc => { if (doc.file_data) docsCache[doc.id] = doc; });
+    }
 
   const docTypes = {
     passport: '🛂 Passport',
@@ -644,11 +649,12 @@ async function loadDocuments() {
 let docsCache = {};
 async function viewDoc(id, name, filename) {
   if (!docsCache[id]) {
-    const {data} = await SB.from('documents').select('file_data,file_name').eq('id',id).single();
+    const {data, error} = await SB.from('documents').select('file_data,file_name').eq('id',id).maybeSingle();
+    if (error) { alert('Error loading document: ' + error.message); return; }
     docsCache[id] = data;
   }
   const doc = docsCache[id];
-  if (!doc?.file_data) { alert('File not available'); return; }
+  if (!doc?.file_data) { alert('File not available — it may not have been uploaded yet.'); return; }
   document.getElementById('doc-modal-title').textContent = name + (filename?' — '+filename:'');
   const preview = document.getElementById('doc-preview');
   const pdfMsg = document.getElementById('doc-pdf-msg');
