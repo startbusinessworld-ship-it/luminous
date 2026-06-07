@@ -43,7 +43,7 @@ export default async function handler(req, res) {
   const product = PRODUCTS[type];
   if (!product) return res.status(400).json({ error: 'Invalid product type' });
 
-  const origin = req.headers.origin || 'https://luminoscorp.com';
+  const origin = req.headers.origin || 'https://www.luminoscorp.com';
 
   try {
     const token = await getAirwallexToken();
