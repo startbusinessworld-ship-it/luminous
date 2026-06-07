@@ -934,7 +934,7 @@ async function startCheckout(type){
   btn.textContent='...';
   btn.style.pointerEvents='none';
   try{
-    const res=await fetch('/api/checkout',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({type})});
+    const res=await fetch('/api/airwallex-checkout',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({type})});
     const data=await res.json();
     if(data.url){window.location.href=data.url;}
     else{throw new Error(data.error||'Unknown error');}
