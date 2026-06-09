@@ -135,40 +135,6 @@ https://wa.me/33612345678
 
 ---
 
-## 💳 Encaissement Airwallex (remplace Stripe)
-
-L'encaissement client passe désormais par **Airwallex** (page de paiement hébergée).
-Stripe Connect reste utilisé uniquement pour **payer les affiliés**.
-
-### Fichiers
-- `api/airwallex-checkout.js` — crée le Payment Intent et renvoie l'URL de la page de paiement hébergée.
-- `api/airwallex-webhook.js` — reçoit `payment_intent.succeeded`, crée le client/dossier + commission affilié.
-
-### Variables d'environnement à ajouter sur Vercel (Settings → Environment Variables)
-```
-AIRWALLEX_CLIENT_ID        = <votre Client ID Airwallex>
-AIRWALLEX_API_KEY          = <votre API Key Airwallex>
-AIRWALLEX_WEBHOOK_SECRET   = <secret du webhook Airwallex>
-# Optionnel — pour basculer en mode test :
-AIRWALLEX_BASE_URL         = https://api-demo.airwallex.com
-AIRWALLEX_CHECKOUT_URL     = https://checkout-demo.airwallex.com
-```
-> En production, laissez `AIRWALLEX_BASE_URL` / `AIRWALLEX_CHECKOUT_URL` vides (valeurs par défaut = prod).
-> ⚠️ Ne jamais committer ces clés dans le code — uniquement dans Vercel.
-
-### Configurer le webhook dans Airwallex
-1. Dashboard Airwallex → **Developer → Webhooks → Add webhook**.
-2. URL : `https://VOTRE-DOMAINE/api/airwallex-webhook`
-3. Événement : `payment_intent.succeeded`.
-4. Copier le **Webhook Secret** généré → le coller dans `AIRWALLEX_WEBHOOK_SECRET` sur Vercel.
-
-### Test
-✅ Connectez-vous au dashboard → cliquez "Create my company" → la page Airwallex doit s'ouvrir.
-✅ Faites un paiement test (cartes de test Airwallex en mode demo).
-✅ Vérifiez l'arrivée sur `/success` et la création du dossier dans Supabase.
-
----
-
 ## Support
 
 En cas de problème, contactez-nous sur WhatsApp ou ouvrez une issue sur GitHub.

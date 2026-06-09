@@ -278,10 +278,10 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
         <div style="background:var(--d2);border:1px solid rgba(200,16,46,0.25);border-radius:4px;padding:24px 28px;">
           <div style="font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;color:var(--red);margin-bottom:10px;"><span data-t="dash.payment.ready">Ready to proceed</span></div>
           <div style="font-size:1.1rem;color:var(--wh);margin-bottom:6px;"><span data-t="dash.payment.choose">Choose your service</span></div>
-          <div style="font-size:.76rem;color:var(--sv);margin-bottom:20px;"><span data-t="dash.payment.sub">Secure payment via Airwallex — card or bank transfer</span></div>
+          <div style="font-size:.76rem;color:var(--sv);margin-bottom:20px;"><span data-t="dash.payment.sub">Secure payment via Stripe — card or SEPA bank transfer</span></div>
           <div style="display:flex;gap:12px;flex-wrap:wrap;">
-            <button id="btn-create" type="button" onclick="goToCheckout('creation', this)" style="background:var(--red);color:#fff;padding:12px 24px;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;border:none;cursor:pointer;font-family:inherit;border-radius:2px;transition:background .3s;white-space:nowrap;" onmouseover="this.style.background='#9B0B22'" onmouseout="this.style.background='#C8102E'"><span data-t="dash.create.btn">Create my company — $1,490 →</span></button>
-            <button id="btn-renew" type="button" onclick="goToCheckout('renewal', this)" style="background:transparent;color:var(--lt);padding:12px 24px;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;border:1px solid var(--gr);cursor:pointer;font-family:inherit;border-radius:2px;transition:all .3s;white-space:nowrap;" onmouseover="this.style.borderColor='#C8102E';this.style.color='#C8102E'" onmouseout="this.style.borderColor='var(--gr)';this.style.color='var(--lt)'"><span data-t="dash.renew.btn">Renew my company — $990 →</span></button>
+            <a id="btn-create" href="https://buy.stripe.com/eVq14m3Eu07Mg9K2bf33W04" target="_blank" style="background:var(--red);color:#fff;padding:12px 24px;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;border-radius:2px;transition:background .3s;white-space:nowrap;" onmouseover="this.style.background='#9B0B22'" onmouseout="this.style.background='#C8102E'"><span data-t="dash.create.btn">Create my company — $1,490 →</span></a>
+            <a id="btn-renew" href="https://buy.stripe.com/00w4gyej8f2GcXycPT33W05" target="_blank" style="background:transparent;color:var(--lt);padding:12px 24px;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;border-radius:2px;border:1px solid var(--gr);transition:all .3s;white-space:nowrap;" onmouseover="this.style.borderColor='#C8102E';this.style.color='#C8102E'" onmouseout="this.style.borderColor='var(--gr)';this.style.color='var(--lt)'"><span data-t="dash.renew.btn">Renew my company — $990 →</span></a>
           </div>
         </div>
       </div>
@@ -1426,7 +1426,12 @@ async function init() {
     profile = { id: currentUser.id, email: currentUser.email, full_name: displayName };
   }
 
-  // (Airwallex checkout is started on demand via goToCheckout — see below)
+  // Prefill email in Stripe links
+  const emailEnc = encodeURIComponent(currentUser.email);
+  const btnCreate = document.getElementById('btn-create');
+  const btnRenew = document.getElementById('btn-renew');
+  if (btnCreate) btnCreate.href = `https://buy.stripe.com/eVq14m3Eu07Mg9K2bf33W04?prefilled_email=${emailEnc}`;
+  if (btnRenew) btnRenew.href = `https://buy.stripe.com/00w4gyej8f2GcXycPT33W05?prefilled_email=${emailEnc}`;
 
   // Load dossier
   const {data:d} = await SB.from('dossiers').select('*').eq('user_id', currentUser.id).maybeSingle();
@@ -1885,23 +1890,6 @@ async function handlePayoutClick() {
   } catch (err) {
     alert('Network error: ' + err.message);
     btn.textContent = orig; btn.disabled = false;
-  }
-}
-
-async function goToCheckout(type, btn) {
-  const orig = btn ? btn.innerHTML : '';
-  if (btn) { btn.style.pointerEvents = 'none'; btn.style.opacity = '0.6'; }
-  try {
-    const res = await fetch('/api/airwallex-checkout', {
-      method: 'POST', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ type, email: currentUser.email, user_id: currentUser.id })
-    });
-    const data = await res.json();
-    if (data.url) { window.location.href = data.url; }
-    else { throw new Error(data.error || 'Could not start checkout'); }
-  } catch (err) {
-    alert('Payment error: ' + err.message);
-    if (btn) { btn.innerHTML = orig; btn.style.pointerEvents = 'auto'; btn.style.opacity = '1'; }
   }
 }
 

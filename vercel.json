@@ -2,11 +2,8 @@
   "cleanUrls": true,
   "trailingSlash": false,
   "rewrites": [
-    { "source": "/api/airwallex-checkout", "destination": "/api/airwallex-checkout.js" },
-    { "source": "/api/airwallex-webhook", "destination": "/api/airwallex-webhook.js" },
-    { "source": "/api/stripe-connect", "destination": "/api/stripe-connect.js" },
-    { "source": "/api/stripe-connect-webhook", "destination": "/api/stripe-connect-webhook.js" },
-    { "source": "/api/stripe-payout", "destination": "/api/stripe-payout.js" },
+    { "source": "/api/checkout", "destination": "/api/checkout.js" },
+    { "source": "/api/webhook", "destination": "/api/webhook.js" },
     { "source": "/api/track", "destination": "/api/track.js" }
   ],
   "headers": [
