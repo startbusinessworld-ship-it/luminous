@@ -928,23 +928,6 @@ function switchTab(btn,tabId){
   document.getElementById(tabId).classList.add('active');
 }
 
-async function startCheckout(type){
-  const btn=event.currentTarget;
-  const orig=btn.textContent;
-  btn.textContent='...';
-  btn.style.pointerEvents='none';
-  try{
-    const res=await fetch('/api/checkout',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({type})});
-    const data=await res.json();
-    if(data.url){window.location.href=data.url;}
-    else{throw new Error(data.error||'Unknown error');}
-  }catch(err){
-    alert('Payment error: '+err.message);
-    btn.textContent=orig;
-    btn.style.pointerEvents='auto';
-  }
-}
-
 const obs=new IntersectionObserver(entries=>{
   entries.forEach(e=>{if(e.isIntersecting){e.target.style.animation='fadeUp 0.6s ease forwards';e.target.style.opacity='1';}});
 },{threshold:0.1});

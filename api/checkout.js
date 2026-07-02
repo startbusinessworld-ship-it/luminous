@@ -35,7 +35,7 @@ export default async function handler(req, res) {
             product_data: {
               name: product.name,
               description: product.description,
-              images: ['https://luminous.hk/logo.png'], // update with your real domain
+              images: ['https://luminoscorp.com/kit.jpg'],
             },
             unit_amount: product.amount,
           },
