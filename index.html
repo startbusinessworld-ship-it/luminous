@@ -443,7 +443,7 @@ footer{background:var(--black);border-top:1px solid var(--grey);padding:44px 60p
     </svg>
   </a>
   <button class="menu-toggle" aria-label="Menu" aria-expanded="false" aria-controls="main-menu">☰</button><ul class="nav-center" id="main-menu">
-    <li><a href="#services" data-i18n="nav.services">Services</a></li>
+    <li><a href="#services" data-i18n="nav.services">Services</a></li><li><a href="#china" data-i18n="dest.cn.name">Chine</a></li>
     <li><a href="#pricing" data-i18n="nav.pricing">Pricing</a></li>
     <li><a href="#people" data-i18n="photos.nav">Luminos</a></li>
     <li><a href="#faq">FAQ</a></li>
@@ -479,7 +479,7 @@ footer{background:var(--black);border-top:1px solid var(--grey);padding:44px 60p
     <div class="hero-badge"><span class="dot"></span><span data-i18n="hero.badge">Hong Kong · Official Registration</span></div>
     <h1 class="hero-title" data-i18n-html="hero.title">Create your<br>company in <em>Hong Kong</em><br>in days</h1>
     <p class="hero-sub" data-i18n="hero.sub">Luminous guides entrepreneurs worldwide through incorporating and managing their Hong Kong entity — bank account included.</p>
-    <div class="hero-actions">
+    <div class="hero-destinations"><a href="#hong-kong"><span role="img" aria-label="Hong Kong">🇭🇰</span> Hong Kong</a><a href="#china"><span role="img" aria-label="Chine">🇨🇳</span> <span data-i18n="dest.cn.name">Chine</span></a></div><div class="hero-actions">
       <a href="login.html" class="btn-primary" data-i18n="hero.cta1">Start Now</a>
       <a href="#process" class="btn-secondary" data-i18n="hero.cta2">How it works</a>
     </div>
@@ -520,9 +520,16 @@ footer{background:var(--black);border-top:1px solid var(--grey);padding:44px 60p
 
 
 <!-- SERVICES -->
+<section id="destinations" class="destinations-section"><div class="section-inner">
+<div class="section-label" data-i18n="dest.label">Hong Kong & Chine</div>
+<h2 class="section-title" data-i18n="dest.title">Deux destinations.<br>Votre prochaine étape.</h2>
+<div class="destinations-grid">
+<article class="destination-card" id="hong-kong"><div class="destination-photo"><img src="photos/hong-kong.jpg" alt="Skyline de Hong Kong et baie Victoria" width="1400" height="875" loading="lazy"><span class="destination-badge"><span class="destination-flag" role="img" aria-label="Hong Kong">🇭🇰</span>Hong Kong</span></div><div class="destination-body"><h3 data-i18n="dest.hk.title">Votre société à Hong Kong</h3><p data-i18n="dest.hk.text">Création de société, accompagnement bancaire et suivi annuel : retrouvez notre offre pour lancer votre activité à Hong Kong.</p><a class="btn-primary" href="#pricing" data-i18n="dest.hk.cta">Découvrir l’offre Hong Kong</a></div></article>
+<article class="destination-card destination-china" id="china"><div class="destination-photo"><img src="photos/guangzhou.jpg" alt="Guangzhou, Chine : ville illuminée au bord de la rivière des Perles" width="1280" height="853" loading="lazy"><span class="destination-badge"><span class="destination-flag" role="img" aria-label="Chine">🇨🇳</span><span data-i18n="dest.cn.name">Chine</span></span><span class="city-caption">Guangzhou · 广州</span></div><div class="destination-body"><h3 data-i18n="dest.cn.title">Votre société en Chine</h3><p data-i18n="dest.cn.text">Vous souhaitez développer votre activité en Chine ? Luminos vous accompagne dans votre projet de création de société. Échangeons sur votre activité et la ville envisagée.</p><a class="btn-secondary china-enquiry" href="#contact" data-i18n="dest.cn.cta">Demander un devis pour la Chine</a></div></article>
+</div></div></section>
 <section id="people" class="people-section"><div class="section-inner">
 <div class="people-heading"><div><div class="section-label" data-i18n="photos.label">Dans les coulisses de Luminos</div><h2 class="section-title" data-i18n="photos.title">Des visages derrière<br>votre projet.</h2></div><div><p class="section-sub" data-i18n="photos.intro">Une société, c’est le début d’une histoire. De vos premières questions à la préparation de votre dossier, échangez avec des personnes qui vous accompagnent.</p><a href="#contact" class="people-link" data-i18n="photos.cta">Parlons de votre projet ↗</a></div></div>
-<div class="people-gallery"><figure class="people-brand"><img src="photos/luminos-bureaux.jpeg" alt="Portrait devant l’enseigne Luminos dans les bureaux" width="871" height="1536" loading="lazy"><figcaption><span class="photo-index">01 / LUMINOS</span><span data-i18n="photos.caption1">Bienvenue dans nos bureaux.</span></figcaption></figure><figure class="people-work"><img src="photos/au-bureau.jpeg" alt="Un membre de l’équipe au bureau devant son ordinateur" width="869" height="1536" loading="lazy"><figcaption><span class="photo-index">02 / LUMINOS</span><span data-i18n="photos.caption2">Votre projet, au cœur du quotidien.</span></figcaption></figure></div>
+<div class="people-gallery"><figure class="people-brand"><img src="photos/luminos-bureaux-retouche.jpeg" alt="Portrait devant l’enseigne Luminos dans les bureaux" width="944" height="1665" loading="lazy"><figcaption><span class="photo-index">01 / LUMINOS</span><span data-i18n="photos.caption1">Bienvenue dans nos bureaux.</span></figcaption></figure><figure class="people-work"><img src="photos/au-bureau-retouche.jpeg" alt="Un membre de l’équipe au bureau devant son ordinateur" width="943" height="1667" loading="lazy"><figcaption><span class="photo-index">02 / LUMINOS</span><span data-i18n="photos.caption2">Votre projet, au cœur du quotidien.</span></figcaption></figure></div>
 </div></section>
 <section id="services"><div class="section-inner">
   <div class="section-label" data-i18n="services.label">Our Services</div>
@@ -554,7 +561,7 @@ footer{background:var(--black);border-top:1px solid var(--grey);padding:44px 60p
     <div class="about-inner">
       <div class="about-img-wrap">
         <div class="about-deco"></div>
-        <div class="document-photos"><img class="certificate-photo" src="photos/certificat.jpeg" alt="Présentation du certificat de constitution de société" width="869" height="1536" loading="lazy"><img class="kit-photo" src="photos/coffret.jpeg" alt="Présentation du coffret et des tampons de société" width="873" height="1536" loading="lazy"></div>
+        <div class="document-photos"><img class="certificate-photo" src="photos/certificat.jpeg" alt="Présentation du certificat de constitution de société" width="869" height="1536" loading="lazy"><img class="kit-photo" src="photos/coffret-retouche.jpeg" alt="Présentation du coffret et des tampons de société" width="946" height="1663" loading="lazy"></div>
         <div class="about-caption">
           <div style="font-size:.58rem;letter-spacing:.15em;text-transform:uppercase;color:#aaa;margin-bottom:4px;" data-i18n="about.caption.label">What you receive</div>
           <div style="font-family:'Cormorant Garamond',serif;font-size:1rem;color:#fff;" data-i18n="about.caption.text">Your complete incorporation kit</div>
@@ -735,7 +742,7 @@ footer{background:var(--black);border-top:1px solid var(--grey);padding:44px 60p
         <label class="form-label" data-i18n="cf.svc">Desired service</label>
         <select class="form-select">
           <option data-i18n="cf.o1">Company Formation HK — $1,490</option>
-          <option data-i18n="cf.o2">Annual Renewal — $990</option>
+          <option value="china" data-i18n="cf.china">Création de société en Chine — sur devis</option><option data-i18n="cf.o2">Annual Renewal — $990</option>
           <option data-i18n="cf.o3">Affiliate Programme</option>
           <option data-i18n="cf.o4">Question / Information</option>
         </select>
@@ -795,7 +802,7 @@ footer{background:var(--black);border-top:1px solid var(--grey);padding:44px 60p
   <div class="footer-inner">
     <div><div class="footer-logo-text">Luminous</div><div class="footer-tagline">徕米诺 · Hong Kong Corporate Services</div></div>
     <ul class="footer-links">
-      <li><a href="#services" data-i18n="nav.services">Services</a></li>
+      <li><a href="#services" data-i18n="nav.services">Services</a></li><li><a href="#china" data-i18n="dest.cn.name">Chine</a></li>
       <li><a href="#pricing" data-i18n="nav.pricing">Pricing</a></li>
       <li><a href="#faq">FAQ</a></li>
       <li><a href="blog.html">Blog</a></li>

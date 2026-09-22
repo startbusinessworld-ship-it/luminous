@@ -12,6 +12,13 @@ es:{'photos.hero':'A tu lado en los negocios','photos.label':'Dentro de Luminos'
 zh:{'photos.hero':'陪伴您的事业','photos.label':'走进徕米诺','photos.title':'您项目背后的伙伴。','photos.intro':'一家公司，是一个故事的开始。从最初的咨询到申请资料的准备，我们陪伴您迈出每一步。','photos.cta':'与我们聊聊您的计划 ↗','photos.caption1':'欢迎来到我们的办公室。','photos.caption2':'您的项目，我们的日常。','photos.nav':'徕米诺'}
 };
 Object.entries(photosCopy).forEach(([key,value])=>Object.assign(copy[key],value));
+const destinationsCopy={
+fr:{'dest.label':'Hong Kong & Chine','dest.title':'Deux destinations. Votre prochaine étape.','dest.hk.title':'Votre société à Hong Kong','dest.hk.text':'Création de société, accompagnement bancaire et suivi annuel : retrouvez notre offre pour lancer votre activité à Hong Kong.','dest.hk.cta':'Découvrir l’offre Hong Kong','dest.cn.name':'Chine','dest.cn.title':'Votre société en Chine','dest.cn.text':'Vous souhaitez développer votre activité en Chine ? Luminos vous accompagne dans votre projet de création de société. Échangeons sur votre activité et la ville envisagée.','dest.cn.cta':'Demander un devis pour la Chine','cf.china':'Création de société en Chine — sur devis'},
+en:{'dest.label':'Hong Kong & China','dest.title':'Two destinations. Your next chapter.','dest.hk.title':'Your company in Hong Kong','dest.hk.text':'Company formation, banking support and annual maintenance: explore our offer to start your business in Hong Kong.','dest.hk.cta':'Explore the Hong Kong offer','dest.cn.name':'China','dest.cn.title':'Your company in China','dest.cn.text':'Looking to grow your business in China? Luminos supports your company formation project. Let’s discuss your business and preferred city.','dest.cn.cta':'Request a quote for China','cf.china':'Company formation in China — request a quote'},
+es:{'dest.label':'Hong Kong y China','dest.title':'Dos destinos. Tu próximo paso.','dest.hk.title':'Tu empresa en Hong Kong','dest.hk.text':'Constitución de empresas, apoyo bancario y mantenimiento anual: descubre nuestra oferta para empezar en Hong Kong.','dest.hk.cta':'Ver la oferta de Hong Kong','dest.cn.name':'China','dest.cn.title':'Tu empresa en China','dest.cn.text':'¿Quieres desarrollar tu actividad en China? Luminos te acompaña en tu proyecto de constitución. Hablemos de tu actividad y de la ciudad elegida.','dest.cn.cta':'Pedir presupuesto para China','cf.china':'Constitución en China — presupuesto personalizado'},
+zh:{'dest.label':'香港及中国内地','dest.title':'两地选择，开启新篇章。','dest.hk.title':'在香港成立公司','dest.hk.text':'公司注册、银行开户协助及年度维护：了解我们的香港公司注册服务。','dest.hk.cta':'了解香港服务','dest.cn.name':'中国内地','dest.cn.title':'在中国内地成立公司','dest.cn.text':'希望在中国内地开展业务？徕米诺协助您的公司注册计划。欢迎与我们沟通业务及意向城市。','dest.cn.cta':'咨询中国内地注册报价','cf.china':'中国内地公司注册 — 咨询报价'}
+};
+Object.entries(destinationsCopy).forEach(([key,value])=>Object.assign(copy[key],value));
 Object.entries(copy).forEach(([key,value])=>Object.assign(T[key],value));
 const form=document.querySelector('.contact-form');
 const note=document.createElement('p');note.className='form-note';note.dataset.i18n='new.note';form.append(note);
@@ -35,3 +42,5 @@ document.querySelectorAll('.faq-q').forEach((q,i)=>{
  q.addEventListener('click',()=>document.querySelectorAll('.faq-q').forEach(item=>item.setAttribute('aria-expanded',String(item.parentElement.classList.contains('open')))));
 });
 setLang(localStorage.getItem('lum_lang')||'fr');
+
+document.querySelectorAll('.china-enquiry').forEach(link=>link.addEventListener('click',()=>{const select=document.querySelector('.contact-form select');select.value='china';select.dispatchEvent(new Event('change',{bubbles:true}));}));
