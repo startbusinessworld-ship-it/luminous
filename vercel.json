@@ -2,9 +2,18 @@
   "cleanUrls": true,
   "trailingSlash": false,
   "rewrites": [
-    { "source": "/api/checkout", "destination": "/api/checkout.js" },
-    { "source": "/api/webhook", "destination": "/api/webhook.js" },
-    { "source": "/api/track", "destination": "/api/track.js" }
+    {
+      "source": "/api/checkout",
+      "destination": "/api/checkout.js"
+    },
+    {
+      "source": "/api/webhook",
+      "destination": "/api/webhook.js"
+    },
+    {
+      "source": "/api/track",
+      "destination": "/api/track.js"
+    }
   ],
   "headers": [
     {
@@ -15,6 +24,38 @@
           "value": ""
         }
       ]
+    }
+  ],
+  "redirects": [
+    {
+      "source": "/bank-account-guide",
+      "destination": "/articles/bank-account-guide",
+      "permanent": true
+    },
+    {
+      "source": "/compte-bancaire-hong-kong",
+      "destination": "/articles/compte-bancaire-hong-kong",
+      "permanent": true
+    },
+    {
+      "source": "/creer-societe-hong-kong",
+      "destination": "/articles/creer-societe-hong-kong",
+      "permanent": true
+    },
+    {
+      "source": "/hk-vs-singapore",
+      "destination": "/articles/hk-vs-singapore",
+      "permanent": true
+    },
+    {
+      "source": "/hong-kong-vs-singapour",
+      "destination": "/articles/hong-kong-vs-singapour",
+      "permanent": true
+    },
+    {
+      "source": "/why-hong-kong",
+      "destination": "/articles/why-hong-kong",
+      "permanent": true
     }
   ]
 }
