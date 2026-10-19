@@ -11,7 +11,7 @@
 <meta name="description" content="DESCRIPTION COURTE DE L'ARTICLE (1-2 phrases, pour Google)">
 <!-- ============================================================ -->
 
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+
 <style>
 :root{--red:#C8102E;--rd:#9B0B22;--blk:#0A0A0A;--drk:#111;--d2:#181818;--d3:#222;--gr:#2E2E2E;--g2:#3A3A3A;--sv:#8A8A8A;--lt:#D4D4D4;--wh:#F5F5F5;}
 *{margin:0;padding:0;box-sizing:border-box;}
@@ -89,33 +89,13 @@ footer{border-top:1px solid var(--gr);padding:28px 60px;display:flex;justify-con
   .related-grid{grid-template-columns:1fr;}
 }
 </style>
-</head>
-<body>
 
-<nav>
-  <a href="index.html" class="nav-logo">
-    <svg viewBox="0 0 280 88" xmlns="http://www.w3.org/2000/svg" style="height:38px;width:auto;">
-      <g transform="translate(5,5)">
-        <g transform="translate(38,38)">
-          <ellipse cx="0" cy="3" rx="34" ry="10" fill="none" stroke="white" stroke-width="2.2" transform="rotate(-22)"/>
-          <path d="M1.5,0 L1.5,-21 A21,21 0 0,1 22,0 Z" fill="white"/>
-          <path d="M-1.5,0 L-1.5,21 A21,21 0 0,1 -22,0 Z" fill="white"/>
-          <line x1="0" y1="-24" x2="0" y2="24" stroke="#0A0A0A" stroke-width="2.5"/>
-          <line x1="-24" y1="0" x2="24" y2="0" stroke="#0A0A0A" stroke-width="2.5"/>
-        </g>
-        <text x="84" y="34" font-family="DM Sans,Arial,sans-serif" font-size="35" font-weight="300" fill="white" letter-spacing="-0.3">Luminos</text>
-        <text x="85" y="64" font-family="Noto Sans SC,PingFang SC,sans-serif" font-size="20" font-weight="300" fill="white" letter-spacing="5">徕米诺</text>
-      </g>
-    </svg>
-  </a>
-  <div style="display:flex;align-items:center;gap:20px;">
-    <a href="blog.html" class="nav-back">
-      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
-      All articles
-    </a>
-    <a href="index.html#contact" class="nav-cta">Get Started</a>
-  </div>
-</nav>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;450;500;550;600;650;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/site-design.css?v=1"><script src="/site-design.js?v=1" defer></script>
+</head>
+<body data-page="article">
+
+<header class="unified-header"><a class="brand" href="/" aria-label="Luminos, home"><svg viewBox="0 0 60 50" aria-hidden="true"><ellipse cx="30" cy="28" rx="27" ry="9" transform="rotate(-25 30 28)" fill="none" stroke="currentColor" stroke-width="2"/><path d="M31 24V4a20 20 0 0 1 20 20ZM27 28v20A20 20 0 0 1 7 28Z" fill="currentColor"/></svg><span>Luminos<small>徕米诺</small></span></a><button class="menu-toggle" aria-expanded="false" aria-controls="unified-navigation" aria-label="Open menu">☰</button><nav id="unified-navigation" aria-label="Main navigation"><a href="/#hong-kong">Why Hong Kong</a><a href="/#services">Our solutions</a><a href="/#process">How it works</a><a href="/#pricing">Pricing</a></nav><div class="nav-actions"><a href="/login?mode=login" class="unified-cta" lang="fr">Créer Maintenant</a></div></header>
 
 <article class="article-wrap">
 
@@ -223,11 +203,7 @@ footer{border-top:1px solid var(--gr);padding:28px 60px;display:flex;justify-con
 
 </article>
 
-<footer>
-  <div class="footer-logo">Luminous</div>
-  <div class="footer-copy">© 2025 Luminous · Hong Kong Corporate Services</div>
-  <a href="../blog.html" class="footer-link">← Blog</a>
-</footer>
+<footer class="unified-footer"><a class="brand" href="/" aria-label="Luminos, home"><svg viewBox="0 0 60 50" aria-hidden="true"><ellipse cx="30" cy="28" rx="27" ry="9" transform="rotate(-25 30 28)" fill="none" stroke="currentColor" stroke-width="2"/><path d="M31 24V4a20 20 0 0 1 20 20ZM27 28v20A20 20 0 0 1 7 28Z" fill="currentColor"/></svg><span>Luminos<small>徕米诺</small></span></a><p>Company formation · Banking assistance · Annual support</p><div><a href="/blog">Guides</a><a href="/affiliate">Partners</a><a href="/login?mode=login">Client portal</a><a href="/#contact">Contact</a></div><small>© 2026 Luminos</small></footer>
 
 </body>
 </html>

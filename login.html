@@ -53,9 +53,12 @@ footer{padding:18px 40px;text-align:center;font-size:.64rem;color:var(--g2);bord
 @keyframes spin{to{transform:rotate(360deg)}}
 @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
 </style>
+
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;450;500;550;600;650;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/site-design.css?v=1"><script src="/site-design.js?v=1" defer></script>
 </head>
-<body>
-<nav>
+<body data-page="login">
+<nav class="auth-header"><a class="brand" href="/" aria-label="Luminos, home"><svg viewBox="0 0 60 50" aria-hidden="true"><ellipse cx="30" cy="28" rx="27" ry="9" transform="rotate(-25 30 28)" fill="none" stroke="currentColor" stroke-width="2"/><path d="M31 24V4a20 20 0 0 1 20 20ZM27 28v20A20 20 0 0 1 7 28Z" fill="currentColor"/></svg><span>Luminos<small>徕米诺</small></span></a>
   <a href="index.html" class="nav-back">
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
     <span data-lk="nav.back">Back to site</span>
