@@ -1395,9 +1395,24 @@ function getSTEPS(){const d=T[getLang()]||T['en'];return[
   {key:'docs_verified', label:d['step.docs'],       desc:d['step.docs.desc']},
   {key:'filing',        label:d['step.filing'],     desc:d['step.filing.desc']},
   {key:'certificate_issued', label:d['step.certificate'],desc:d['step.certificate.desc']},
+  {key:'bank_opened',   label:d['step.bank'],       desc:d['step.bank.desc']},
   {key:'completed',     label:d['step.completed'],  desc:d['step.completed.desc']}
 ];}
-const STATUS_ORDER = ['pending','payment_confirmed','docs_verified','filing','certificate_issued','bank_opened','completed'];
+const STATUS_ORDER = ['pending','payment_confirmed','docs_submitted','docs_verified','filing','certificate_issued','bank_opened','completed'];
+
+function getProgressState(status) {
+  const index = STATUS_ORDER.indexOf(status);
+  return {
+    hasPaid: index > 0,
+    hasSubmittedDocs: index >= STATUS_ORDER.indexOf('docs_submitted'),
+    stepClass(key) {
+      const stepIndex = STATUS_ORDER.indexOf(key);
+      if (status === 'completed' || stepIndex < index) return 'done';
+      if (status === 'docs_submitted' && key === 'docs_verified') return 'prog';
+      return stepIndex === index && status !== 'pending' ? 'prog' : 'wait';
+    }
+  };
+}
 
 // ── INIT ──
 async function init() {
@@ -1476,15 +1491,14 @@ function renderProcess() {
   const lang = getLang();
   const d = T[lang]||T['en'];
   const status = dossier?.status || 'pending';
-  const statusIdx = STATUS_ORDER.indexOf(status);
+  const progress = getProgressState(status);
   const STEPS = getSTEPS();
   const company = dossier?.company_name || '—';
 
   document.getElementById('p-company').textContent = company !== '—' ? company + ' · In progress' : 'No active order';
 
   // Lock/unlock sidebar tabs based on status
-  const hasPaid = status !== 'pending';
-  const hasSubmittedDocs = ['docs_submitted','docs_verified','filing','certificate_issued','completed'].includes(status);
+  const { hasPaid, hasSubmittedDocs } = progress;
   document.querySelectorAll('.ni[onclick="show(\'uploads\')"]').forEach(el => {
     el.style.opacity = hasPaid ? '1' : '.35';
     el.style.pointerEvents = hasPaid ? 'auto' : 'none';
@@ -1523,6 +1537,7 @@ function renderProcess() {
       docs_verified: 'Documents verified — filing in progress',
       filing: 'Registration filing in progress at Companies Registry HK',
       certificate_issued: 'Certificate of Incorporation issued — download in Documents',
+      bank_opened: 'Bank account opened — finalising your file',
       completed: 'File completed — all documents available'
     };
     const isCompleted = status === 'completed';
@@ -1532,9 +1547,9 @@ function renderProcess() {
   // Steps
   const stepsEl = document.getElementById('p-steps');
   stepsEl.innerHTML = STEPS.map((s,i) => {
-    const isDone = i < statusIdx;
-    const isProg = i === statusIdx && status !== 'pending';
-    const cls = isDone ? 'done' : isProg ? 'prog' : 'wait';
+    const cls = progress.stepClass(s.key);
+    const isDone = cls === 'done';
+    const isProg = cls === 'prog';
     const ico = isDone ? '✓' : isProg ? '⟳' : '○';
     const stat = isDone ? d['step.done'] : isProg ? d['step.inprogress'] : d['step.waiting'];
     return `<div class="pi ${cls}"><div class="pi-ico">${ico}</div><div class="pi-info"><div class="pi-name">${s.label}</div><div class="pi-desc">${s.desc}</div></div><div class="pi-stat">${stat}</div></div>`;
@@ -1703,6 +1718,8 @@ async function submitDossier() {
       title: 'Dossier submitted',
       message: (profile?.full_name||'A client') + ' submitted their dossier. Company: ' + name1 + ' / ' + name2 + ' / ' + name3
     });
+    dossier = { ...dossier, user_id: currentUser.id, company_name: name1, company_name_2: name2, company_name_3: name3, business_activity: activity, status: 'docs_submitted' };
+    renderProcess();
     const dSm=T[getLang()]||T['en'];
     const smEl=document.getElementById('submit-msg');
     smEl.textContent=dSm['dash.submit.success']||'Your file has been submitted.';
@@ -1777,9 +1794,12 @@ function copyLink() {
 
 // ── NAV ──
 function show(name) {
+  const panel = document.getElementById('panel-' + name);
+  if (!panel || !panel.classList.contains('panel')) return;
   document.querySelectorAll('.panel').forEach(p => p.classList.remove('act'));
   document.querySelectorAll('.ni').forEach(n => n.classList.remove('act'));
-  document.getElementById('panel-' + name).classList.add('act');
+  panel.classList.add('act');
+  setMobileNav(name === 'process' ? 'progress' : name);
   document.querySelectorAll('.ni').forEach(n => {
     if (n.getAttribute('onclick') === `show('${name}')`) n.classList.add('act');
   });
