@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Paiement confirmé — Luminous</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+
 <style>
   :root { --red:#C8102E; --black:#0A0A0A; --dark:#111; --dark2:#181818; --grey:#2E2E2E; --silver:#8A8A8A; --white:#F5F5F5; }
   * { margin:0; padding:0; box-sizing:border-box; }
@@ -35,8 +35,12 @@
   .wa-btn { display:inline-flex; align-items:center; gap:8px; background:#25D366; color:#fff; padding:13px 24px; border-radius:2px; text-decoration:none; font-size:.78rem; letter-spacing:.05em; margin:8px; transition:all .3s; }
   .wa-btn:hover { background:#1da851; transform:translateY(-1px); }
 </style>
+
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;450;500;550;600;650;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/site-design.css?v=1"><script src="/site-design.js?v=1" defer></script>
 </head>
-<body>
+<body data-page="success">
+<div class="confirmation-brand"><a class="brand" href="/" aria-label="Luminos, home"><svg viewBox="0 0 60 50" aria-hidden="true"><ellipse cx="30" cy="28" rx="27" ry="9" transform="rotate(-25 30 28)" fill="none" stroke="currentColor" stroke-width="2"/><path d="M31 24V4a20 20 0 0 1 20 20ZM27 28v20A20 20 0 0 1 7 28Z" fill="currentColor"/></svg><span>Luminos<small>徕米诺</small></span></a></div>
 <div class="card">
   <div class="check-circle">✓</div>
   <h1>Paiement confirmé !</h1>

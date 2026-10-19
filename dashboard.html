@@ -200,13 +200,14 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
   .copy-btn{width:100%;}
 }
 </style>
+
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;450;500;550;600;650;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/site-design.css?v=1"><script src="/site-design.js?v=1" defer></script>
 </head>
-<body>
+<body data-page="dashboard">
 
 <div class="topbar">
-  <a href="index.html" style="text-decoration:none;">
-    <svg viewBox="0 0 280 88" xmlns="http://www.w3.org/2000/svg" style="height:32px;width:auto;"><g transform="translate(5,5)"><g transform="translate(38,38)"><ellipse cx="0" cy="3" rx="34" ry="10" fill="none" stroke="var(--wh)" stroke-width="2.2" transform="rotate(-22)"/><path d="M1.5,0 L1.5,-21 A21,21 0 0,1 22,0 Z" fill="var(--wh)"/><path d="M-1.5,0 L-1.5,21 A21,21 0 0,1 -22,0 Z" fill="var(--wh)"/><line x1="0" y1="-24" x2="0" y2="24" stroke="#0A0A0A" stroke-width="2.5"/><line x1="-24" y1="0" x2="24" y2="0" stroke="#0A0A0A" stroke-width="2.5"/></g><text x="84" y="34" font-family="system-ui,sans-serif" font-size="35" font-weight="300" fill="var(--wh)" letter-spacing="-0.3">Luminos</text><text x="85" y="64" font-family="system-ui,sans-serif" font-size="20" font-weight="300" fill="var(--wh)" letter-spacing="5">徕米诺</text></g></svg>
-  </a>
+  <a class="brand" href="/" aria-label="Luminos, home"><svg viewBox="0 0 60 50" aria-hidden="true"><ellipse cx="30" cy="28" rx="27" ry="9" transform="rotate(-25 30 28)" fill="none" stroke="currentColor" stroke-width="2"/><path d="M31 24V4a20 20 0 0 1 20 20ZM27 28v20A20 20 0 0 1 7 28Z" fill="currentColor"/></svg><span>Luminos<small>徕米诺</small></span></a>
   <div class="topbar-right">
     <div class="lang-bar" style="margin-right:8px;">
       <div class="lang-switcher" id="langSwitcher">
