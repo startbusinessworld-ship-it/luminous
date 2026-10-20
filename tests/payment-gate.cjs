@@ -1,0 +1,33 @@
+const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
+const libCode=fs.readFileSync('lib/payment.cjs','utf8');
+const moduleStub={exports:{}};
+vm.runInNewContext(libCode,{module:moduleStub,require:()=>({}),process:{env:{}},Object});
+const {paidProduct,fulfill}=moduleStub.exports;
+const userId='10000000-0000-4000-8000-000000000001';
+const paid={id:'cs_test_123',mode:'payment',payment_status:'paid',currency:'usd',amount_total:149000,client_reference_id:userId,metadata:{integration:'luminos_checkout_v1',user_id:userId,product_type:'creation'}};
+assert.equal(paidProduct(paid).userId,userId);
+for(const change of [{payment_status:'unpaid'},{payment_status:'no_payment_required'},{amount_total:99000},{currency:'eur'},{mode:'subscription'},{client_reference_id:'someone-else'},{metadata:{product_type:'creation',user_id:userId}},{metadata:{...paid.metadata,product_type:'toString'}}])assert.equal(paidProduct({...paid,...change}),null);
+const html=fs.readFileSync('dashboard.html','utf8');
+for(const m of html.matchAll(/<script\b[^>]*>([\s\S]*?)<\/script>/g))new vm.Script(m[1]);
+for(const m of fs.readFileSync('admin.html','utf8').matchAll(/<script\b[^>]*>([\s\S]*?)<\/script>/g))new vm.Script(m[1]);
+const nodes={};for(const name of ['process','uploads','documents']){const set=new Set(['panel',...(name==='process'?['act']:[])]);nodes['panel-'+name]={classList:{contains:k=>set.has(k),add:k=>set.add(k),remove:k=>set.delete(k)}};}
+const context=vm.createContext({currentUser:{id:userId},dossier:{id:'dossier',status:'payment_confirmed'},document:{getElementById:id=>nodes[id]||null,querySelectorAll:s=>s==='.panel'?Object.values(nodes):[]},window:{scrollTo(){},addEventListener(){}},setMobileNav:n=>{context.mobile=n;},URLSearchParams,console});
+vm.runInContext(html.slice(html.indexOf('const STATUS_ORDER'),html.indexOf('// ── INIT')),context);
+vm.runInContext(html.slice(html.indexOf('function show(name)'),html.indexOf('//  STRIPE CONNECT PAYOUT')),context);
+context.show('uploads');assert.ok(nodes['panel-process'].classList.contains('act'));assert.equal(context.mobile,'progress');
+vm.runInContext('paymentAccess=true',context);context.show('uploads');assert.ok(nodes['panel-uploads'].classList.contains('act'));
+context.show('documents');assert.ok(nodes['panel-process'].classList.contains('act'));
+context.dossier.status='docs_submitted';context.show('documents');assert.ok(nodes['panel-documents'].classList.contains('act'));
+vm.runInContext('paymentAccess=false',context);context.show('uploads');assert.ok(nodes['panel-process'].classList.contains('act'));
+let mutations=0;
+context.refreshPaymentAccess=async()=>false;
+context.SB={from:()=>{mutations++;throw Error('Unexpected database write');}};
+vm.runInContext(html.slice(html.indexOf('async function handleUpload(input)'),html.indexOf('// ── OFFICIAL DOCS')),context);
+(async()=>{
+ await context.submitDossier();await context.handleUpload({value:'file',files:[{}]});assert.equal(mutations,0);
+ let calls=0;const db={rpc:async(name,args)=>{calls++;assert.equal(name,'record_verified_payment');assert.equal(args.p_user_id,userId);return{error:null};}};
+ assert.equal(await fulfill({...paid,payment_status:'unpaid'},db),false);assert.equal(calls,0);
+ await fulfill(paid,db);assert.equal(calls,1);
+ await assert.rejects(fulfill(paid,{rpc:async()=>({error:{message:'db down'}})}));
+ console.log('PASS: unpaid/incorrect payments rejected, account binding, direct/mobile navigation guard, unpaid uploads/submission perform zero writes, persistence errors propagated.');
+})().catch(e=>{console.error(e);process.exitCode=1});
