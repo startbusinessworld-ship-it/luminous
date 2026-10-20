@@ -267,6 +267,7 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 
     <!-- PROCESS -->
     <div class="panel act" id="panel-process">
+      <p id="payment-access-message" role="status" class="banner" hidden></p>
       <div class="ph">
         <div class="pey"><span data-t="dash.my.file">My file</span></div>
         <div class="ptitle"><span data-t="dash.progress.title">Company Formation Progress</span></div>
@@ -281,8 +282,8 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
           <div style="font-size:1.1rem;color:var(--wh);margin-bottom:6px;"><span data-t="dash.payment.choose">Choose your service</span></div>
           <div style="font-size:.76rem;color:var(--sv);margin-bottom:20px;"><span data-t="dash.payment.sub">Secure payment via Stripe — card or SEPA bank transfer</span></div>
           <div style="display:flex;gap:12px;flex-wrap:wrap;">
-            <a id="btn-create" href="https://buy.stripe.com/eVq14m3Eu07Mg9K2bf33W04" target="_blank" style="background:var(--red);color:#fff;padding:12px 24px;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;border-radius:2px;transition:background .3s;white-space:nowrap;" onmouseover="this.style.background='#9B0B22'" onmouseout="this.style.background='#C8102E'"><span data-t="dash.create.btn">Create my company — $1,490 →</span></a>
-            <a id="btn-renew" href="https://buy.stripe.com/00w4gyej8f2GcXycPT33W05" target="_blank" style="background:transparent;color:var(--lt);padding:12px 24px;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;border-radius:2px;border:1px solid var(--gr);transition:all .3s;white-space:nowrap;" onmouseover="this.style.borderColor='#C8102E';this.style.color='#C8102E'" onmouseout="this.style.borderColor='var(--gr)';this.style.color='var(--lt)'"><span data-t="dash.renew.btn">Renew my company — $990 →</span></a>
+            <a id="btn-create" href="#" style="background:var(--red);color:#fff;padding:12px 24px;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;border-radius:2px;transition:background .3s;white-space:nowrap;" onmouseover="this.style.background='#9B0B22'" onmouseout="this.style.background='#C8102E'"><span data-t="dash.create.btn">Create my company — $1,490 →</span></a>
+            <a id="btn-renew" href="#" style="background:transparent;color:var(--lt);padding:12px 24px;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;border-radius:2px;border:1px solid var(--gr);transition:all .3s;white-space:nowrap;" onmouseover="this.style.borderColor='#C8102E';this.style.color='#C8102E'" onmouseout="this.style.borderColor='var(--gr)';this.style.color='var(--lt)'"><span data-t="dash.renew.btn">Renew my company — $990 →</span></a>
           </div>
         </div>
       </div>
@@ -1415,6 +1416,59 @@ function getProgressState(status) {
   };
 }
 
+let paymentAccess = false;
+let checkoutBusy = false;
+let paymentRefresh = null;
+function canUploadDocuments() { return !!currentUser && paymentAccess && !!dossier?.id; }
+function requireUploadAccess() {
+  if (canUploadDocuments()) return true;
+  show('process');
+  const el = document.getElementById('payment-access-message');
+  if (el) { el.hidden = false; el.textContent = 'Payment must be confirmed before you can send documents. / Le paiement doit être confirmé avant l’envoi des documents.'; }
+  return false;
+}
+async function paymentRequest(path, body) {
+  const {data:{session}} = await SB.auth.getSession();
+  if (!session) throw new Error('Please sign in again.');
+  const response = await fetch(path, {method:'POST',headers:{'Content-Type':'application/json',Authorization:'Bearer '+session.access_token},body:JSON.stringify(body)});
+  const data = await response.json();
+  if (!response.ok) throw new Error(data.error || 'Payment verification unavailable.');
+  return data;
+}
+async function refreshPaymentAccess() {
+  if (paymentRefresh) return paymentRefresh;
+  paymentRefresh = (async () => {
+    try {
+      const id = new URLSearchParams(window.location.search).get('session_id');
+      const data = await paymentRequest('/api/payment-status', id ? {session_id:id} : {});
+      paymentAccess = data.can_upload === true;
+      const el = document.getElementById('payment-access-message');
+      if (el) { el.hidden = paymentAccess; el.textContent = 'Your payment must be confirmed before document upload. / Le paiement doit être confirmé avant l’envoi des documents.'; }
+    } catch (error) {
+      paymentAccess = false;
+      const el = document.getElementById('payment-access-message');
+      if (el) { el.hidden = false; el.textContent = 'Unable to verify payment. Please refresh or contact our team. / Vérification du paiement indisponible : actualisez ou contactez notre équipe.'; }
+    }
+    return paymentAccess;
+  })();
+  try { return await paymentRefresh; } finally { paymentRefresh = null; }
+}
+async function startCheckout(type) {
+  if (checkoutBusy) return;
+  checkoutBusy = true;
+  try { const data = await paymentRequest('/api/checkout', {type}); window.location.href = data.url; }
+  catch (error) { alert(error.message); }
+  finally { checkoutBusy = false; }
+}
+window.addEventListener('focus', async () => {
+  if (!currentUser) return;
+  await refreshPaymentAccess();
+  const {data,error} = await SB.from('dossiers').select('*').eq('user_id',currentUser.id).maybeSingle();
+  if (!error) dossier = data;
+  renderProcess();
+  if (!canUploadDocuments() && document.getElementById('panel-uploads')?.classList.contains('act')) show('process');
+});
+
 // ── INIT ──
 async function init() {
   try {
@@ -1442,12 +1496,12 @@ async function init() {
     profile = { id: currentUser.id, email: currentUser.email, full_name: displayName };
   }
 
-  // Prefill email in Stripe links
-  const emailEnc = encodeURIComponent(currentUser.email);
+  // Only authenticated, server-created Checkout sessions can unlock uploads.
   const btnCreate = document.getElementById('btn-create');
   const btnRenew = document.getElementById('btn-renew');
-  if (btnCreate) btnCreate.href = `https://buy.stripe.com/eVq14m3Eu07Mg9K2bf33W04?prefilled_email=${emailEnc}`;
-  if (btnRenew) btnRenew.href = `https://buy.stripe.com/00w4gyej8f2GcXycPT33W05?prefilled_email=${emailEnc}`;
+  btnCreate.onclick = event => { event.preventDefault(); startCheckout('creation'); };
+  btnRenew.onclick = event => { event.preventDefault(); startCheckout('renewal'); };
+  await refreshPaymentAccess();
 
   // Load dossier
   const {data:d} = await SB.from('dossiers').select('*').eq('user_id', currentUser.id).maybeSingle();
@@ -1499,13 +1553,18 @@ function renderProcess() {
   document.getElementById('p-company').textContent = company !== '—' ? company + ' · In progress' : 'No active order';
 
   // Lock/unlock sidebar tabs based on status
-  const { hasPaid, hasSubmittedDocs } = progress;
-  document.querySelectorAll('.ni[onclick="show(\'uploads\')"]').forEach(el => {
+  const hasPaid = canUploadDocuments();
+  const hasSubmittedDocs = hasPaid && progress.hasSubmittedDocs;
+  document.querySelectorAll('[onclick="show(\'uploads\')"]').forEach(el => {
+    el.disabled = !hasPaid;
+    el.setAttribute('aria-disabled', String(!hasPaid));
     el.style.opacity = hasPaid ? '1' : '.35';
     el.style.pointerEvents = hasPaid ? 'auto' : 'none';
     el.title = hasPaid ? '' : 'Payment required to access this section';
   });
-  document.querySelectorAll('.ni[onclick="show(\'documents\')"]').forEach(el => {
+  document.querySelectorAll('[onclick="show(\'documents\')"]').forEach(el => {
+    el.disabled = !hasSubmittedDocs;
+    el.setAttribute('aria-disabled', String(!hasSubmittedDocs));
     el.style.opacity = hasSubmittedDocs ? '1' : '.35';
     el.style.pointerEvents = hasSubmittedDocs ? 'auto' : 'none';
     el.title = hasSubmittedDocs ? '' : 'Available after submitting your documents';
@@ -1631,12 +1690,14 @@ async function loadReferrals() {
 
 // ── UPLOAD ──
 function triggerUpload(type, name) {
+  if (!requireUploadAccess()) return;
   uploadType = type;
   uploadName = name;
   document.getElementById('fileInput').click();
 }
 
 async function handleUpload(input) {
+  if (!await refreshPaymentAccess() || !requireUploadAccess()) { input.value = ''; show('process'); return; }
   if (!input.files.length) return;
   const file = input.files[0];
   const btnId = uploadType === 'passport' ? 'btn-passport' : uploadType === 'selfie' ? 'btn-selfie' : 'btn-address';
@@ -1679,6 +1740,7 @@ async function handleUpload(input) {
 
 // ── SUBMIT DOSSIER ──
 async function submitDossier() {
+  if (!await refreshPaymentAccess() || !requireUploadAccess()) { show('process'); return; }
   const name1 = document.getElementById('name1').value.trim();
   const name2 = document.getElementById('name2').value.trim();
   const name3 = document.getElementById('name3').value.trim();
@@ -1702,15 +1764,14 @@ async function submitDossier() {
     return;
   }
 
-  const {error} = await SB.from('dossiers').upsert({
-    user_id: currentUser.id,
+  const {data: savedDossier,error} = await SB.from('dossiers').update({
     company_name: name1,
     company_name_2: name2,
     company_name_3: name3,
     business_activity: activity,
     status: 'docs_submitted',
     updated_at: new Date().toISOString()
-  }, { onConflict: 'user_id' });
+  }).eq('id', dossier.id).eq('user_id', currentUser.id).select('id').single();
 
   if (!error) {
     await SB.from('notifications').insert({
@@ -1795,6 +1856,8 @@ function copyLink() {
 
 // ── NAV ──
 function show(name) {
+  if (name === 'uploads' && !canUploadDocuments()) name = 'process';
+  if (name === 'documents' && (!canUploadDocuments() || !getProgressState(dossier?.status).hasSubmittedDocs)) name = 'process';
   const panel = document.getElementById('panel-' + name);
   if (!panel || !panel.classList.contains('panel')) return;
   document.querySelectorAll('.panel').forEach(p => p.classList.remove('act'));
@@ -1824,7 +1887,7 @@ async function initPayout() {
   if (params.get('stripe') === 'success') {
     await SB.from('payout_info').upsert({
       user_id: currentUser.id, stripe_onboarded: true, updated_at: new Date().toISOString()
-    }, { onConflict: 'user_id' });
+    }).eq('id', dossier.id).eq('user_id', currentUser.id).select('id').single();
     window.history.replaceState({}, '', 'dashboard.html');
     setTimeout(() => show('affiliate'), 100);
   }
@@ -1963,19 +2026,19 @@ init();
 <!-- MOBILE NAV -->
 <nav class="mobile-nav">
   <div class="mobile-nav-inner">
-    <button class="mn-btn act" id="mn-progress" onclick="show('process');setMobileNav('progress')">
+    <button class="mn-btn act" id="mn-progress" onclick="show('process')">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
       Progress
     </button>
-    <button class="mn-btn" id="mn-uploads" onclick="show('uploads');setMobileNav('uploads')">
+    <button class="mn-btn" id="mn-uploads" onclick="show('uploads')">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"/></svg>
       Files
     </button>
-    <button class="mn-btn" id="mn-documents" onclick="show('documents');setMobileNav('documents')">
+    <button class="mn-btn" id="mn-documents" onclick="show('documents')">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
       Docs
     </button>
-    <button class="mn-btn" id="mn-affiliate" onclick="show('affiliate');setMobileNav('affiliate')">
+    <button class="mn-btn" id="mn-affiliate" onclick="show('affiliate')">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
       <span data-t="dash.affiliate">Affiliate</span>
     </button>
