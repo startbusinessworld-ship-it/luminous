@@ -22,3 +22,28 @@ body{background:#f6f8fc}.site-header{background:#0c1425f5;color:#fff;border-bott
 .site-header .menu-toggle{color:#fff}.footer-main>p{color:#a8b5c9}.team-points span:before{color:#ff9eaf}
 
 @media(max-width:600px){.nav-actions .account-cta{max-width:130px;white-space:normal;text-align:center;line-height:1.35}}
+
+/* Decorative motion only. Existing layout, colours and content stay intact. */
+@media (prefers-reduced-motion:no-preference){
+ @keyframes luminos-neon-orbit{0%{transform:rotate(35deg) translateY(-35px);opacity:.25}50%{transform:rotate(42deg) translateY(35px);opacity:.8}100%{transform:rotate(35deg) translateY(-35px);opacity:.25}}
+ @keyframes luminos-light-pass{0%,15%{transform:translateX(-180%) skewX(-18deg);opacity:0}30%{opacity:.7}65%,100%{transform:translateX(450%) skewX(-18deg);opacity:0}}
+ @keyframes luminos-route{0%{transform:translateX(-120%);opacity:0}12%,70%{opacity:1}100%{transform:translateX(600%);opacity:0}}
+ @keyframes luminos-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
+ @keyframes luminos-pulse{0%,100%{box-shadow:0 0 0 4px #cd123810,0 0 12px #d3093230}50%{box-shadow:0 0 0 8px #cd123805,0 0 23px #d3093270}}
+ @keyframes luminos-grid-drift{from{background-position:0 0}to{background-position:88px 88px}}
+ .hero:before{animation:luminos-grid-drift 45s linear infinite}
+ .hero:after{border-color:#f45b8245;box-shadow:inset 0 0 32px #d3093209,0 0 26px #d3093212;animation:luminos-neon-orbit 18s ease-in-out infinite}
+ .status-dot{animation:luminos-pulse 3.8s ease-in-out infinite}
+ .hero-art:before{content:"";position:absolute;z-index:1;inset:-15% auto -15% 0;width:28%;background:linear-gradient(90deg,transparent,#fff2,transparent);pointer-events:none;animation:luminos-light-pass 12s ease-in-out infinite}
+ .hero-card-icon{animation:luminos-float 6s ease-in-out infinite}
+ .banking-visual{position:relative;isolation:isolate}
+ .banking-visual:after{content:"";position:absolute;z-index:-1;top:0;bottom:0;left:-30%;width:25%;background:linear-gradient(90deg,transparent,#d309321c,transparent);pointer-events:none;animation:luminos-light-pass 14s ease-in-out 2s infinite}
+ .orbit:before{border-color:#ff9db455;animation:luminos-neon-orbit 24s ease-in-out infinite}
+ .orbit-currency{animation:luminos-float 6s ease-in-out infinite;box-shadow:0 0 20px #d3093212}
+ .c-eur{animation-delay:-2s}.c-hkd{animation-delay:-4s}
+ .steps li>span{position:relative;overflow:hidden}
+ .steps li>span:after{content:"";position:absolute;bottom:0;left:0;width:30%;height:2px;background:linear-gradient(90deg,transparent,#d30932,#ff94b1,transparent);box-shadow:0 0 10px #d3093255;pointer-events:none;animation:luminos-route 6s ease-in-out infinite}
+ .steps li:nth-child(2)>span:after{animation-delay:1.2s}.steps li:nth-child(3)>span:after{animation-delay:2.4s}.steps li:nth-child(4)>span:after{animation-delay:3.6s}
+ .solution-card,.price-card,.resource-grid>a{transition:box-shadow .35s ease,border-color .35s ease}
+ .solution-card:hover,.price-card:hover,.resource-grid>a:hover{box-shadow:0 15px 40px #17254012,0 0 18px #d3093214}
+}
