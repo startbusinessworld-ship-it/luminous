@@ -14,3 +14,29 @@ const projectForm=document.querySelector('#project-form');
 projectForm.addEventListener('submit',event=>{event.preventDefault();if(!projectForm.reportValidity())return;const service=projectForm.elements.service;const message=['Hello Luminos,',`Name: ${projectForm.elements.name.value.trim()}`,`Email: ${projectForm.elements.email.value.trim()}`,`Project: ${service.options[service.selectedIndex].text}`, '',projectForm.elements.message.value.trim()].join('\n');const url='https://wa.me/85266455426?text='+encodeURIComponent(message);window.open(url,'_blank','noopener,noreferrer');const status=document.querySelector('#form-status');status.replaceChildren(document.createTextNode('If WhatsApp does not open, '));const link=document.createElement('a');link.href=url;link.target='_blank';link.rel='noopener noreferrer';link.textContent='open your message here';status.append(link);});
 // Preserve referral attribution and the existing production tracking endpoint.
 (function(){try{const ref=new URLSearchParams(window.location.search).get('ref');if(ref){localStorage.setItem('lum_ref',ref);localStorage.setItem('lum_ref_ts',Date.now().toString());fetch('/api/track',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({code:ref})}).catch(()=>{});}}catch(e){}})();
+
+/* Progressive decorative effects; forms and navigation remain independent. */
+(function(){
+ if(!window.matchMedia || window.matchMedia('(prefers-reduced-motion:reduce)').matches)return;
+ const hero=document.querySelector('.hero');
+ if(hero&&!hero.querySelector('.luminos-beams')){
+  const beams=document.createElement('div');beams.className='luminos-beams';beams.setAttribute('aria-hidden','true');
+  for(let i=0;i<3;i++)beams.append(document.createElement('span'));
+  hero.append(beams);
+ }
+ const logos=document.querySelector('.bank-logos');
+ if(logos&&!logos.classList.contains('luminos-marquee')){
+  const track=document.createElement('div');track.className='luminos-logo-track';
+  while(logos.firstChild)track.append(logos.firstChild);
+  const copy=track.cloneNode(true);copy.setAttribute('aria-hidden','true');copy.querySelectorAll('img').forEach(img=>img.alt='');
+  logos.append(track,copy);logos.classList.add('luminos-marquee');
+ }
+ if('IntersectionObserver' in window){
+  const observer=new IntersectionObserver(entries=>entries.forEach(entry=>{
+   if(entry.isIntersecting){entry.target.classList.add('is-visible');observer.unobserve(entry.target);}
+  }),{threshold:.08,rootMargin:'0px 0px -25px 0px'});
+  document.querySelectorAll('.section-heading,.benefits article,.solution-card,.banking-step,.steps li,.kit-grid figure,.team-copy,.price-card,.review-card,.resource-grid>a').forEach((node,i)=>{
+   node.style.setProperty('--luminos-delay',String((i%3)*90)+'ms');node.classList.add('luminos-reveal');observer.observe(node);
+  });
+ }
+})();
