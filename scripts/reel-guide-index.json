@@ -1,0 +1,492 @@
+[
+  {
+    "id": 1,
+    "slug": "hong-kong-company-first-conversation",
+    "title": "Starting a Hong Kong company: your first conversation",
+    "category": "Formation",
+    "url": "https://www.luminoscorp.com/articles/hong-kong-company-first-conversation",
+    "video": "https://static.metricool.com/video/3376650/202611/ef21de506aa84fb3.mp4",
+    "poster": "/media/reels/01.webp",
+    "duration": 18.8
+  },
+  {
+    "id": 2,
+    "slug": "hong-kong-international-business-payment-planning",
+    "title": "Planning international business through Hong Kong",
+    "category": "International business",
+    "url": "https://www.luminoscorp.com/articles/hong-kong-international-business-payment-planning",
+    "video": "https://static.metricool.com/planner/202611/4307244-file-16155045340590878207.mp4",
+    "poster": "/media/reels/02.webp",
+    "duration": 19.27
+  },
+  {
+    "id": 3,
+    "slug": "hong-kong-company-setup-time-offshore-conditions",
+    "title": "Hong Kong setup timing and offshore tax conditions",
+    "category": "Tax and setup",
+    "url": "https://www.luminoscorp.com/articles/hong-kong-company-setup-time-offshore-conditions",
+    "video": "https://static.metricool.com/planner/202611/4307244-file-3482882717810266039.mp4",
+    "poster": "/media/reels/03.webp",
+    "duration": 15.87
+  },
+  {
+    "id": 4,
+    "slug": "hong-kong-director-residence-company-address",
+    "title": "Director residence and your Hong Kong company address",
+    "category": "Remote formation",
+    "url": "https://www.luminoscorp.com/articles/hong-kong-director-residence-company-address",
+    "video": "https://static.metricool.com/planner/202611/4307244-file-5446959487988327003.mp4",
+    "poster": "/media/reels/04.webp",
+    "duration": 15.57
+  },
+  {
+    "id": 5,
+    "slug": "import-export-business-account-currency-flows",
+    "title": "Match an import-export account to your trade flows",
+    "category": "Business accounts",
+    "url": "https://www.luminoscorp.com/articles/import-export-business-account-currency-flows",
+    "video": "https://static.metricool.com/planner/202611/4307244-file-15425661935489402013.mp4",
+    "poster": "/media/reels/05.webp",
+    "duration": 18.97
+  },
+  {
+    "id": 6,
+    "slug": "airwallex-payments-invoices-overseas-suppliers",
+    "title": "Airwallex: payments, invoices and overseas suppliers",
+    "category": "Airwallex",
+    "url": "https://www.luminoscorp.com/articles/airwallex-payments-invoices-overseas-suppliers",
+    "video": "https://static.metricool.com/planner/202611/4307244-file-7580480030684703916.mp4",
+    "poster": "/media/reels/06.webp",
+    "duration": 18.07
+  },
+  {
+    "id": 7,
+    "slug": "turn-business-idea-into-hong-kong-company",
+    "title": "Turn your business idea into a Hong Kong company plan",
+    "category": "Formation",
+    "url": "https://www.luminoscorp.com/articles/turn-business-idea-into-hong-kong-company",
+    "video": "https://static.metricool.com/planner/202611/4307244-file-2915091432218150317.mp4",
+    "poster": "/media/reels/07.webp",
+    "duration": 13.57
+  },
+  {
+    "id": 8,
+    "slug": "sole-director-company-secretary-hong-kong",
+    "title": "Can a sole director also be the company secretary?",
+    "category": "Company roles",
+    "url": "https://www.luminoscorp.com/articles/sole-director-company-secretary-hong-kong",
+    "video": "https://static.metricool.com/planner/202611/4307244-file-16019862997302661300.mp4",
+    "poster": "/media/reels/08.webp",
+    "duration": 15.43
+  },
+  {
+    "id": 9,
+    "slug": "ecommerce-import-export-company-structure",
+    "title": "A company structure for e-commerce and import-export",
+    "category": "International business",
+    "url": "https://www.luminoscorp.com/articles/ecommerce-import-export-company-structure",
+    "video": "https://static.metricool.com/planner/202611/4307244-file-7733848478086636422.mp4",
+    "poster": "/media/reels/09.webp",
+    "duration": 19.2
+  },
+  {
+    "id": 10,
+    "slug": "where-hong-kong-registered-office-must-be",
+    "title": "Where must a Hong Kong registered office be?",
+    "category": "Remote formation",
+    "url": "https://www.luminoscorp.com/articles/where-hong-kong-registered-office-must-be",
+    "video": "https://static.metricool.com/planner/202611/4307244-file-18442690003272004614.mp4",
+    "poster": "/media/reels/10.webp",
+    "duration": 18.43
+  },
+  {
+    "id": 11,
+    "slug": "remote-hong-kong-incorporation-no-travel",
+    "title": "Create a Hong Kong company without flying there",
+    "category": "Remote formation",
+    "url": "https://www.luminoscorp.com/articles/remote-hong-kong-incorporation-no-travel",
+    "video": "https://static.metricool.com/planner/202611/4307244-file-13954181076686759616.mp4",
+    "poster": "/media/reels/11.webp",
+    "duration": 20.3
+  },
+  {
+    "id": 12,
+    "slug": "hong-kong-company-overseas-service-clients",
+    "title": "A Hong Kong company serving overseas clients",
+    "category": "International business",
+    "url": "https://www.luminoscorp.com/articles/hong-kong-company-overseas-service-clients",
+    "video": "https://static.metricool.com/planner/202611/4307244-file-17120166822173427982.mp4",
+    "poster": "/media/reels/12.webp",
+    "duration": 14.03
+  },
+  {
+    "id": 13,
+    "slug": "company-registration-versus-trademark-protection",
+    "title": "Company registration is not trade mark protection",
+    "category": "Company names",
+    "url": "https://www.luminoscorp.com/articles/company-registration-versus-trademark-protection",
+    "video": "https://static.metricool.com/planner/202611/4307244-file-11576936502444887148.mp4",
+    "poster": "/media/reels/13.webp",
+    "duration": 18.43
+  },
+  {
+    "id": 14,
+    "slug": "overseas-founder-local-hong-kong-support",
+    "title": "Local support for an overseas Hong Kong founder",
+    "category": "Remote formation",
+    "url": "https://www.luminoscorp.com/articles/overseas-founder-local-hong-kong-support",
+    "video": "https://static.metricool.com/planner/202611/4307244-file-1337833097558034954.mp4",
+    "poster": "/media/reels/14.webp",
+    "duration": 15.37
+  },
+  {
+    "id": 15,
+    "slug": "english-chinese-hong-kong-company-name",
+    "title": "English or Chinese: choosing a Hong Kong company name",
+    "category": "Company names",
+    "url": "https://www.luminoscorp.com/articles/english-chinese-hong-kong-company-name",
+    "video": "https://static.metricool.com/planner/202611/4307244-file-1311420074591937667.mp4",
+    "poster": "/media/reels/15.webp",
+    "duration": 14.03
+  },
+  {
+    "id": 16,
+    "slug": "limited-by-shares-member-liability-hong-kong",
+    "title": "What limited by shares means in Hong Kong",
+    "category": "Company structure",
+    "url": "https://www.luminoscorp.com/articles/limited-by-shares-member-liability-hong-kong",
+    "video": "https://static.metricool.com/planner/202611/4307244-file-12031468310347635915.mp4",
+    "poster": "/media/reels/16.webp",
+    "duration": 19.47
+  },
+  {
+    "id": 17,
+    "slug": "hong-kong-company-online-store-operations",
+    "title": "The company behind your online store",
+    "category": "E-commerce",
+    "url": "https://www.luminoscorp.com/articles/hong-kong-company-online-store-operations",
+    "video": "https://static.metricool.com/planner/202611/4307244-file-1125819512963133675.mp4",
+    "poster": "/media/reels/17.webp",
+    "duration": 15.3
+  },
+  {
+    "id": 18,
+    "slug": "share-capital-operating-budget-hong-kong",
+    "title": "Share capital and your operating budget are different",
+    "category": "Company structure",
+    "url": "https://www.luminoscorp.com/articles/share-capital-operating-budget-hong-kong",
+    "video": "https://static.metricool.com/planner/202611/4307244-file-277998809467652048.mp4",
+    "poster": "/media/reels/18.webp",
+    "duration": 17.8
+  },
+  {
+    "id": 19,
+    "slug": "prepare-airwallex-business-account-application",
+    "title": "Prepare an Airwallex business account application",
+    "category": "Airwallex",
+    "url": "https://www.luminoscorp.com/articles/prepare-airwallex-business-account-application",
+    "video": "https://static.metricool.com/planner/202611/4307244-file-8737945878262574938.mp4",
+    "poster": "/media/reels/19.webp",
+    "duration": 18.03
+  },
+  {
+    "id": 20,
+    "slug": "online-seller-overseas-supplier-payment-setup",
+    "title": "Payment setup for online sellers with overseas suppliers",
+    "category": "E-commerce",
+    "url": "https://www.luminoscorp.com/articles/online-seller-overseas-supplier-payment-setup",
+    "video": "https://static.metricool.com/planner/202611/4307244-file-9245378764344956660.mp4",
+    "poster": "/media/reels/20.webp",
+    "duration": 18.23
+  },
+  {
+    "id": 21,
+    "slug": "same-person-shareholder-director-hong-kong",
+    "title": "Can one person be shareholder and director?",
+    "category": "Company roles",
+    "url": "https://www.luminoscorp.com/articles/same-person-shareholder-director-hong-kong",
+    "video": "https://static.metricool.com/planner/202611/4307244-file-4029666586197261035.mp4",
+    "poster": "/media/reels/21.webp",
+    "duration": 19.47
+  },
+  {
+    "id": 22,
+    "slug": "hong-kong-company-consultants-digital-services",
+    "title": "Hong Kong companies for consultants and digital services",
+    "category": "International business",
+    "url": "https://www.luminoscorp.com/articles/hong-kong-company-consultants-digital-services",
+    "video": "https://static.metricool.com/planner/202611/4307244-file-4360318068665879360.mp4",
+    "poster": "/media/reels/22.webp",
+    "duration": 15.97
+  },
+  {
+    "id": 23,
+    "slug": "incorporation-does-not-guarantee-bank-account",
+    "title": "Why incorporation does not guarantee bank approval",
+    "category": "Business accounts",
+    "url": "https://www.luminoscorp.com/articles/incorporation-does-not-guarantee-bank-account",
+    "video": "https://static.metricool.com/planner/202611/4307244-file-6118585393171293752.mp4",
+    "poster": "/media/reels/23.webp",
+    "duration": 8.17
+  },
+  {
+    "id": 24,
+    "slug": "stay-overseas-after-hong-kong-incorporation",
+    "title": "Do you need to move after Hong Kong incorporation?",
+    "category": "Remote formation",
+    "url": "https://www.luminoscorp.com/articles/stay-overseas-after-hong-kong-incorporation",
+    "video": "https://static.metricool.com/planner/202611/4307244-file-4836830980432414460.mp4",
+    "poster": "/media/reels/24.webp",
+    "duration": 18.3
+  },
+  {
+    "id": 25,
+    "slug": "sequence-hong-kong-incorporation-business-banking",
+    "title": "Company first, banking next: plan both stages",
+    "category": "Business accounts",
+    "url": "https://www.luminoscorp.com/articles/sequence-hong-kong-incorporation-business-banking",
+    "video": "https://static.metricool.com/planner/202611/4307244-file-14531819980324764043.mp4",
+    "poster": "/media/reels/25.webp",
+    "duration": 14.67
+  },
+  {
+    "id": 26,
+    "slug": "business-registration-certificate-business-licence",
+    "title": "Business registration is not a business licence",
+    "category": "Compliance",
+    "url": "https://www.luminoscorp.com/articles/business-registration-certificate-business-licence",
+    "video": "https://static.metricool.com/planner/202611/4307244-file-17529765938422355267.mp4",
+    "poster": "/media/reels/26.webp",
+    "duration": 18.6
+  },
+  {
+    "id": 27,
+    "slug": "overseas-customers-hong-kong-home-base",
+    "title": "A Hong Kong home base for overseas customer sales",
+    "category": "E-commerce",
+    "url": "https://www.luminoscorp.com/articles/overseas-customers-hong-kong-home-base",
+    "video": "https://static.metricool.com/planner/202611/4307244-file-14287120373694108254.mp4",
+    "poster": "/media/reels/27.webp",
+    "duration": 18.2
+  },
+  {
+    "id": 28,
+    "slug": "annual-return-versus-profits-tax-return",
+    "title": "Annual return or tax return: which filing is which?",
+    "category": "Annual obligations",
+    "url": "https://www.luminoscorp.com/articles/annual-return-versus-profits-tax-return",
+    "video": "https://static.metricool.com/planner/202611/4307244-file-1755949339720660341.mp4",
+    "poster": "/media/reels/28.webp",
+    "duration": 19.47
+  },
+  {
+    "id": 29,
+    "slug": "first-business-bank-review-after-incorporation",
+    "title": "After incorporation: prepare for the first bank review",
+    "category": "Business accounts",
+    "url": "https://www.luminoscorp.com/articles/first-business-bank-review-after-incorporation",
+    "video": "https://static.metricool.com/planner/202611/4307244-file-5151935958211785022.mp4",
+    "poster": "/media/reels/29.webp",
+    "duration": 17.27
+  },
+  {
+    "id": 30,
+    "slug": "organise-hong-kong-company-application-file",
+    "title": "Organise your Hong Kong company application file",
+    "category": "Formation",
+    "url": "https://www.luminoscorp.com/articles/organise-hong-kong-company-application-file",
+    "video": "https://static.metricool.com/planner/202611/4307244-file-13619830776580560290.mp4",
+    "poster": "/media/reels/30.webp",
+    "duration": 17.57
+  },
+  {
+    "id": 31,
+    "slug": "42-day-annual-return-deadline-hong-kong",
+    "title": "Calculate the 42-day annual return deadline",
+    "category": "Annual obligations",
+    "url": "https://www.luminoscorp.com/articles/42-day-annual-return-deadline-hong-kong",
+    "video": "https://static.metricool.com/planner/202611/4307244-file-16538756711071567900.mp4",
+    "poster": "/media/reels/31.webp",
+    "duration": 14.87
+  },
+  {
+    "id": 32,
+    "slug": "airwallex-invoices-payment-records-workflow",
+    "title": "Airwallex invoices: connect billing and payment records",
+    "category": "Airwallex",
+    "url": "https://www.luminoscorp.com/articles/airwallex-invoices-payment-records-workflow",
+    "video": "https://static.metricool.com/planner/202611/4307244-file-8239539304207190443.mp4",
+    "poster": "/media/reels/32.webp",
+    "duration": 17.43
+  },
+  {
+    "id": 33,
+    "slug": "notify-company-address-director-detail-changes",
+    "title": "Company changes: do not wait for the annual return",
+    "category": "Annual obligations",
+    "url": "https://www.luminoscorp.com/articles/notify-company-address-director-detail-changes",
+    "video": "https://static.metricool.com/planner/202611/4307244-file-17902646542109080808.mp4",
+    "poster": "/media/reels/33.webp",
+    "duration": 18.43
+  },
+  {
+    "id": 34,
+    "slug": "what-happens-after-hong-kong-company-formation",
+    "title": "What happens after your Hong Kong company is formed?",
+    "category": "Annual obligations",
+    "url": "https://www.luminoscorp.com/articles/what-happens-after-hong-kong-company-formation",
+    "video": "https://static.metricool.com/planner/202611/4307244-file-2531583934007256787.mp4",
+    "poster": "/media/reels/34.webp",
+    "duration": 15.3
+  },
+  {
+    "id": 35,
+    "slug": "solo-founder-hong-kong-company-roles",
+    "title": "Starting a Hong Kong company as a solo founder",
+    "category": "Company roles",
+    "url": "https://www.luminoscorp.com/articles/solo-founder-hong-kong-company-roles",
+    "video": "https://static.metricool.com/planner/202611/4307244-file-4695062128881030472.mp4",
+    "poster": "/media/reels/35.webp",
+    "duration": 17.93
+  },
+  {
+    "id": 36,
+    "slug": "hong-kong-seven-year-business-records",
+    "title": "Business records: what the seven-year rule means",
+    "category": "Records",
+    "url": "https://www.luminoscorp.com/articles/hong-kong-seven-year-business-records",
+    "video": "https://static.metricool.com/planner/202611/4307244-file-10776531374918334375.mp4",
+    "poster": "/media/reels/36.webp",
+    "duration": 14.53
+  },
+  {
+    "id": 37,
+    "slug": "airwallex-overseas-supplier-payment-preparation",
+    "title": "Prepare overseas supplier payments with Airwallex",
+    "category": "Airwallex",
+    "url": "https://www.luminoscorp.com/articles/airwallex-overseas-supplier-payment-preparation",
+    "video": "https://static.metricool.com/planner/202611/4307244-file-11025665323418164823.mp4",
+    "poster": "/media/reels/37.webp",
+    "duration": 14.53
+  },
+  {
+    "id": 38,
+    "slug": "choose-contact-for-hong-kong-company-support",
+    "title": "Who handles questions about your Hong Kong company?",
+    "category": "Formation",
+    "url": "https://www.luminoscorp.com/articles/choose-contact-for-hong-kong-company-support",
+    "video": "https://static.metricool.com/planner/202611/4307244-file-90308841408610410.mp4",
+    "poster": "/media/reels/38.webp",
+    "duration": 17.47
+  },
+  {
+    "id": 39,
+    "slug": "hong-kong-company-not-work-residence-permission",
+    "title": "A Hong Kong company is not a work or residence visa",
+    "category": "Immigration",
+    "url": "https://www.luminoscorp.com/articles/hong-kong-company-not-work-residence-permission",
+    "video": "https://static.metricool.com/planner/202611/4307244-file-3053664184954027774.mp4",
+    "poster": "/media/reels/39.webp",
+    "duration": 18.93
+  },
+  {
+    "id": 40,
+    "slug": "does-hong-kong-company-need-chinese-name",
+    "title": "Does your Hong Kong company need a Chinese name?",
+    "category": "Company names",
+    "url": "https://www.luminoscorp.com/articles/does-hong-kong-company-need-chinese-name",
+    "video": "https://static.metricool.com/planner/202611/4307244-file-6442222776607487928.mp4",
+    "poster": "/media/reels/40.webp",
+    "duration": 16.73
+  },
+  {
+    "id": 41,
+    "slug": "ownership-activity-expected-payments-bank-file",
+    "title": "Explain ownership, activity and payments in a bank file",
+    "category": "Business accounts",
+    "url": "https://www.luminoscorp.com/articles/ownership-activity-expected-payments-bank-file",
+    "video": "https://static.metricool.com/planner/202611/4307244-file-11413681469855744727.mp4",
+    "poster": "/media/reels/41.webp",
+    "duration": 18.33
+  },
+  {
+    "id": 42,
+    "slug": "check-hong-kong-company-official-record",
+    "title": "Check a Hong Kong company's official record",
+    "category": "Company checks",
+    "url": "https://www.luminoscorp.com/articles/check-hong-kong-company-official-record",
+    "video": "https://static.metricool.com/planner/202611/4307244-file-14219746255042991161.mp4",
+    "poster": "/media/reels/42.webp",
+    "duration": 19.47
+  },
+  {
+    "id": 43,
+    "slug": "import-export-orders-invoices-payment-evidence",
+    "title": "Import-export records: connect orders, invoices and payments",
+    "category": "Records",
+    "url": "https://www.luminoscorp.com/articles/import-export-orders-invoices-payment-evidence",
+    "video": "https://static.metricool.com/planner/202611/4307244-file-11159189875223167429.mp4",
+    "poster": "/media/reels/43.webp",
+    "duration": 18.67
+  },
+  {
+    "id": 44,
+    "slug": "hong-kong-trade-company-contracts-documents",
+    "title": "Your trading company: align contracts and documents",
+    "category": "International business",
+    "url": "https://www.luminoscorp.com/articles/hong-kong-trade-company-contracts-documents",
+    "video": "https://static.metricool.com/planner/202611/4307244-file-13987406517639113820.mp4",
+    "poster": "/media/reels/44.webp",
+    "duration": 16.2
+  },
+  {
+    "id": 45,
+    "slug": "build-hong-kong-company-compliance-calendar",
+    "title": "Build a calendar around your company's own dates",
+    "category": "Annual obligations",
+    "url": "https://www.luminoscorp.com/articles/build-hong-kong-company-compliance-calendar",
+    "video": "https://static.metricool.com/planner/202611/4307244-file-14841225718057338398.mp4",
+    "poster": "/media/reels/45.webp",
+    "duration": 17.47
+  },
+  {
+    "id": 46,
+    "slug": "business-account-documents-beyond-passport",
+    "title": "Business account documents: think beyond a passport",
+    "category": "Business accounts",
+    "url": "https://www.luminoscorp.com/articles/business-account-documents-beyond-passport",
+    "video": "https://static.metricool.com/planner/202611/4307244-file-14752706176151607276.mp4",
+    "poster": "/media/reels/46.webp",
+    "duration": 17.77
+  },
+  {
+    "id": 47,
+    "slug": "overseas-director-local-company-functions",
+    "title": "Overseas director, local company functions: the split",
+    "category": "Remote formation",
+    "url": "https://www.luminoscorp.com/articles/overseas-director-local-company-functions",
+    "video": "https://static.metricool.com/planner/202611/4307244-file-17854436609228707810.mp4",
+    "poster": "/media/reels/47.webp",
+    "duration": 18.47
+  },
+  {
+    "id": 48,
+    "slug": "brand-name-checks-before-hong-kong-incorporation",
+    "title": "Brand-name checks before Hong Kong incorporation",
+    "category": "Company names",
+    "url": "https://www.luminoscorp.com/articles/brand-name-checks-before-hong-kong-incorporation",
+    "video": "https://static.metricool.com/planner/202611/4307244-file-18443393032785510858.mp4",
+    "poster": "/media/reels/48.webp",
+    "duration": 16.0
+  },
+  {
+    "id": 49,
+    "slug": "organise-company-kit-before-business-trading",
+    "title": "Organise your company kit before trading starts",
+    "category": "Records",
+    "url": "https://www.luminoscorp.com/articles/organise-company-kit-before-business-trading",
+    "video": "https://static.metricool.com/planner/202611/4307244-file-3361333971159845280.mp4",
+    "poster": "/media/reels/49.webp",
+    "duration": 18.67
+  }
+]
