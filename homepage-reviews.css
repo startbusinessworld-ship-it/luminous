@@ -1,0 +1,12 @@
+/* Homepage customer review image: keep the full composition readable. */
+.reviews-layout{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:clamp(32px,5vw,72px);align-items:start}
+.reviews-copy .review-grid{grid-template-columns:1fr;margin-top:24px}
+.reviews-copy .featured-review blockquote{font-size:clamp(21px,2vw,28px)}
+.review-visual{margin:0;min-width:0}
+.review-visual>a{display:block;border-radius:18px;overflow:hidden;box-shadow:0 20px 50px #12233e18}
+.review-visual img{display:block;width:100%;height:auto;aspect-ratio:1122/1402}
+.review-visual figcaption{padding-top:16px;font-size:13px;line-height:1.7;color:var(--muted)}
+.review-original-links{display:flex;flex-wrap:wrap;gap:6px 18px;margin-top:8px}
+.review-visual a:focus-visible{outline:3px solid var(--red);outline-offset:5px}
+.review-visual figcaption a{text-underline-offset:3px}
+@media(max-width:850px){.reviews-layout{grid-template-columns:1fr}.reviews-copy .review-grid{display:none}.review-visual{max-width:680px;width:100%;margin-inline:auto}}
