@@ -51,11 +51,6 @@
       "source": "/hong-kong-vs-singapour",
       "destination": "/articles/hong-kong-vs-singapour",
       "permanent": true
-    },
-    {
-      "source": "/why-hong-kong",
-      "destination": "/articles/why-hong-kong",
-      "permanent": true
     }
   ]
 }
