@@ -10,3 +10,16 @@
 .review-visual a:focus-visible{outline:3px solid var(--red);outline-offset:5px}
 .review-visual figcaption a{text-underline-offset:3px}
 @media(max-width:850px){.reviews-layout{grid-template-columns:1fr}.reviews-copy .review-grid{display:none}.review-visual{max-width:680px;width:100%;margin-inline:auto}}
+
+/* A second, separate customer feedback moment before contact. */
+.office-feedback{background:#fff}
+.office-feedback-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:center;gap:clamp(32px,6vw,88px)}
+.office-feedback-photo{margin:0;min-width:0}
+.office-feedback-photo>a{display:block;border-radius:18px;overflow:hidden;box-shadow:0 20px 50px #12233e18}
+.office-feedback-photo img{display:block;width:100%;height:auto;aspect-ratio:1122/1402}
+.office-feedback-photo figcaption{margin-top:14px;font-size:13px;color:var(--muted)}
+.office-feedback-photo figcaption a{text-underline-offset:4px}
+.office-feedback-copy>p:not(.eyebrow){max-width:490px;line-height:1.75}
+.office-feedback-copy .button{margin-top:22px}
+.office-feedback a:focus-visible{outline:3px solid var(--red);outline-offset:5px}
+@media(max-width:850px){.office-feedback-grid{grid-template-columns:1fr}.office-feedback-copy{grid-row:1}.office-feedback-photo{max-width:600px;width:100%;margin-inline:auto}}
