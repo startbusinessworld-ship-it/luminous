@@ -1,0 +1,21 @@
+/* Independent logo spheres over a clean, still laptop. */
+#activities .profile-photo>.ecommerce-stage{position:absolute;inset:0;display:none;overflow:hidden;pointer-events:none;isolation:isolate}
+#activities .profile-photo>.ecommerce-stage.is-active{display:block}
+#activities .profile-photo.has-ecommerce-motion>img{opacity:0}
+#activities .ecommerce-stage .ecommerce-base{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0}
+#activities .ecommerce-connections{position:absolute;inset:0;width:100%;height:100%;z-index:1;overflow:visible;fill:none;stroke-linecap:round}
+#activities .ecommerce-connection-line{stroke:#e82350;stroke-width:4;opacity:.55;stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset 1.1s cubic-bezier(.22,.7,.2,1) var(--line-delay);filter:drop-shadow(0 0 5px #ff507b)}
+#activities .has-entered .ecommerce-connection-line{stroke-dashoffset:0}
+#activities .ecommerce-connection-pulse{stroke:#fff;stroke-width:6;stroke-dasharray:.09 .91;opacity:0;animation:ecommerce-signal 3.6s linear var(--pulse-delay) infinite;animation-play-state:paused;filter:drop-shadow(0 0 4px #ef335a)}
+#activities .has-entered .ecommerce-connection-pulse{opacity:.9}
+#activities .ecommerce-bubble{position:absolute;z-index:2;aspect-ratio:1;transform:translate(-50%,-50%)}
+#activities .ecommerce-bubble svg{display:block;width:100%;height:100%;overflow:hidden;border-radius:50%}
+#activities .ecommerce-bubble-reveal{width:100%;height:100%;opacity:0;transform:translateY(16%) scale(.64)}
+#activities .has-entered .ecommerce-bubble-reveal{animation:ecommerce-bubble-enter .85s cubic-bezier(.16,1,.3,1) var(--enter-delay) both}
+#activities .ecommerce-bubble-float{width:100%;height:100%;animation:ecommerce-bubble-float var(--float-time) ease-in-out var(--float-delay) infinite;animation-play-state:paused;filter:drop-shadow(0 5px 7px #17233a12)}
+#activities .is-playing .ecommerce-bubble-float,#activities .is-playing .ecommerce-connection-pulse{animation-play-state:running}
+@keyframes ecommerce-bubble-enter{from{opacity:0;transform:translateY(16%) scale(.64)}to{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes ecommerce-bubble-float{0%,100%{transform:translate3d(-1%,4%,0) rotate(-.7deg)}50%{transform:translate3d(2%,-7%,0) rotate(.8deg)}}
+@keyframes ecommerce-signal{from{stroke-dashoffset:1}to{stroke-dashoffset:-1}}
+@media(prefers-reduced-motion:reduce){#activities .ecommerce-bubble-reveal{opacity:1;transform:none;animation:none!important}#activities .ecommerce-bubble-float{transform:none;animation:none!important}#activities .ecommerce-connection-line{stroke-dashoffset:0;transition:none}#activities .ecommerce-connection-pulse{display:none;animation:none}}
+@media print{#activities .profile-photo>.ecommerce-stage{display:none!important}#activities .profile-photo.has-ecommerce-motion>img{opacity:1}}
