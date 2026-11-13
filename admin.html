@@ -152,7 +152,8 @@ option{background:var(--d3);}
     <div class="lcard-eye">Admin Portal</div>
     <h2>Luminous Admin</h2>
     <p class="lcard-sub">Access restricted to authorised administrators.</p>
-    <input class="lfinp" type="password" id="admin-pwd" placeholder="Admin password" onkeydown="if(event.key==='Enter')checkAdmin()">
+    <input class="lfinp" type="email" id="admin-email" placeholder="Administrator email" autocomplete="username">
+    <input class="lfinp" type="password" autocomplete="current-password" id="admin-pwd" placeholder="Admin password" onkeydown="if(event.key==='Enter')checkAdmin()">
     <button class="lbtn" onclick="checkAdmin()">Sign in</button>
     <div class="lerr" id="admin-err">Incorrect password</div>
   </div>
@@ -385,29 +386,26 @@ const SB = supabase.createClient(
   'https://nyqmhhtxqszlffqwjumw.supabase.co',
   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im55cW1oaHR4cXN6bGZmcXdqdW13Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQyNjExMjMsImV4cCI6MjA4OTgzNzEyM30.ukSPu2axVpGkJ_op42qdROwjmvo0ml83QStPwixU7ls'
 );
-const ADMIN_PWD = 'Luminos@!';
-
-// ── AUTH ──
-function checkAdmin() {
-  const pwd = document.getElementById('admin-pwd').value;
-  if (pwd === ADMIN_PWD) {
-    document.getElementById('login-screen').style.display = 'none';
-    sessionStorage.setItem('lum_admin', '1');
-    loadAll();
-  } else {
-    document.getElementById('admin-err').classList.add('show');
-  }
-}
-function adminLogout() {
-  sessionStorage.removeItem('lum_admin');
-  document.getElementById('login-screen').style.display = 'flex';
-  document.getElementById('admin-pwd').value = '';
-  document.getElementById('admin-err').classList.remove('show');
-}
-if (sessionStorage.getItem('lum_admin') === '1') {
+// Only a Supabase Auth account with server-managed app_metadata.role=admin is authorised.
+async function openAdminSession() {
+  const {data,error} = await SB.auth.getUser();
+  if (error || data?.user?.app_metadata?.role !== 'admin') return false;
   document.getElementById('login-screen').style.display = 'none';
-  document.addEventListener('DOMContentLoaded', loadAll);
+  await loadAll();
+  return true;
 }
+async function checkAdmin() {
+  const err = document.getElementById('admin-err');
+  err.classList.remove('show');
+  const {error} = await SB.auth.signInWithPassword({email:document.getElementById('admin-email').value.trim(),password:document.getElementById('admin-pwd').value});
+  document.getElementById('admin-pwd').value = '';
+  if (error || !await openAdminSession()) { err.textContent = 'Access denied. Use an authorised administrator account.'; err.classList.add('show'); }
+}
+async function adminLogout() {
+  await SB.auth.signOut();
+  window.location.reload();
+}
+document.addEventListener('DOMContentLoaded', () => openAdminSession());
 
 // ── LOAD ALL ──
 async function loadAll() {

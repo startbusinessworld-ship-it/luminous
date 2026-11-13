@@ -1,67 +1,25 @@
-const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
-
-export default async function handler(req, res) {
-  if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method not allowed' });
-  }
-
-  const { type } = req.body; // 'creation' or 'renewal'
-
-  const products = {
-    creation: {
-      name: 'Création de société à Hong Kong',
-      description: 'Enregistrement officiel, statuts, adresse légale 1 an, ouverture compte bancaire, dashboard client',
-      amount: 149000, // $1,490.00 in cents
-    },
-    renewal: {
-      name: 'Renouvellement annuel — Hong Kong Ltd.',
-      description: 'Déclaration annuelle, renouvellement licence commerciale, adresse légale, conformité',
-      amount: 99000, // $990.00 in cents
-    },
-  };
-
-  const product = products[type];
-  if (!product) {
-    return res.status(400).json({ error: 'Invalid product type' });
-  }
-
-  try {
-    const session = await stripe.checkout.sessions.create({
-      payment_method_types: ['card'],
-      line_items: [
-        {
-          price_data: {
-            currency: 'usd',
-            product_data: {
-              name: product.name,
-              description: product.description,
-              images: ['https://luminous.hk/logo.png'], // update with your real domain
-            },
-            unit_amount: product.amount,
-          },
-          quantity: 1,
-        },
-      ],
-      mode: 'payment',
-      success_url: `${req.headers.origin}/success?session_id={CHECKOUT_SESSION_ID}&type=${type}`,
-      cancel_url: `${req.headers.origin}/#pricing`,
-      billing_address_collection: 'required',
-      custom_fields: [
-        {
-          key: 'company_name',
-          label: { type: 'custom', custom: 'Nom souhaité pour la société' },
-          type: 'text',
-          optional: false,
-        },
-      ],
-      metadata: {
-        product_type: type,
-      },
-    });
-
-    res.status(200).json({ url: session.url });
-  } catch (err) {
-    console.error('Stripe error:', err);
-    res.status(500).json({ error: err.message });
-  }
-}
+const {PRODUCTS,services,authenticatedUser}=require('../lib/payment.cjs');
+module.exports=async function handler(req,res){
+ res.setHeader('Cache-Control','no-store');
+ if(req.method!=='POST')return res.status(405).json({error:'Method not allowed'});
+ try{
+  const {db,stripe}=services();
+  const user=await authenticatedUser(req,db);
+  if(!user)return res.status(401).json({error:'Please sign in again.'});
+  const type=req.body?.type;
+  if(!Object.hasOwn(PRODUCTS,type || ''))return res.status(400).json({error:'Invalid product'});
+  // Refuse to take payment until the database migration is available.
+  const readiness=await db.from('payment_receipts').select('stripe_session_id').limit(0);
+  if(readiness.error)return res.status(503).json({error:'Checkout is temporarily unavailable. Please contact our team.'});
+  const product=PRODUCTS[type];
+  const session=await stripe.checkout.sessions.create({
+   mode:'payment',payment_method_types:['card'],customer_email:user.email,
+   client_reference_id:user.id,
+   line_items:[{price_data:{currency:'usd',unit_amount:product.amount,product_data:{name:product.name}},quantity:1}],
+   metadata:{integration:'luminos_checkout_v1',user_id:user.id,product_type:type},
+   success_url:'https://www.luminoscorp.com/dashboard?payment=return&session_id={CHECKOUT_SESSION_ID}',
+   cancel_url:'https://www.luminoscorp.com/dashboard?payment=cancelled'
+  });
+  return res.status(200).json({url:session.url});
+ }catch(error){console.error('Checkout failed',error.type || 'configuration_or_service_error');return res.status(503).json({error:'Checkout is temporarily unavailable. Please try again or contact our team.'});}
+};
