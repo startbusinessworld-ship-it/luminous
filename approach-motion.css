@@ -1,23 +1,18 @@
-/* A seamless ribbon with manual swipe, drag and arrow controls. */
+/* Native manual scrolling: four original cards, no copies and no autoplay. */
 #services{--approach-gap:22px;--approach-card:clamp(310px,30vw,380px)}
-#services .approach-photo{height:188px;margin:12px -12px 18px;flex:none;display:flex;align-items:center;justify-content:center}
-#services .approach-photo img{display:block;width:100%;height:100%;object-fit:contain;background:transparent}
+#services .approach-photo{height:208px;margin:12px -12px 18px;flex:none;display:flex;align-items:center;justify-content:center}
+#services .approach-photo img{display:block;width:100%;height:100%;object-fit:contain;object-position:center;background:transparent;-webkit-user-drag:none}
 #services .document-illustration{display:none}
-#services .approach-motion-copy{display:none}
 #services .approach-motion-controls{display:flex;align-items:center;justify-content:space-between;gap:16px;margin:-14px 0 20px}
 #services .approach-motion-hint{color:var(--muted);font-size:12px}
 #services .approach-motion-buttons{display:flex;align-items:center;gap:8px}
-#services .approach-motion-buttons button{border:1px solid #cdd5e1;background:#fff;color:var(--ink);border-radius:999px;cursor:pointer;height:44px;transition:background .2s}
-#services .approach-motion-buttons button:hover{background:#edf1f7}
-#services .approach-motion-arrow{width:44px;font-size:22px}
-#services .approach-motion-toggle{min-width:122px;padding:0 14px;font-size:12px}
-#services.approach-motion-ready .approach-motion-viewport{overflow:hidden;overflow:clip;border-radius:18px;padding:4px 0 18px;cursor:grab;touch-action:pan-y pinch-zoom;user-select:none}
+#services .approach-motion-arrow{border:1px solid #cdd5e1;background:#fff;color:var(--ink);border-radius:50%;cursor:pointer;height:44px;width:44px;font-size:22px}
+#services .approach-motion-arrow:hover:not(:disabled){background:#edf1f7}
+#services .approach-motion-arrow:disabled{opacity:.35;cursor:default}
+#services.approach-motion-ready .approach-motion-viewport{overflow-x:auto;overflow-y:hidden;border-radius:18px;padding:4px 0 18px;cursor:grab;touch-action:auto;overscroll-behavior-x:contain;scrollbar-width:thin;scrollbar-color:#9ba8ba transparent;user-select:none}
 #services .approach-motion-viewport.is-dragging,#services .approach-motion-viewport.is-dragging a{cursor:grabbing}
-#services .approach-motion-viewport img{-webkit-user-drag:none}
-#services.approach-motion-ready .approach-motion-track{display:flex;gap:var(--approach-gap);width:max-content;will-change:transform}
-#services.approach-motion-ready .solution-grid{display:flex;gap:var(--approach-gap);width:max-content;flex:none;align-items:stretch}
+#services.approach-motion-ready .solution-grid{display:flex;gap:var(--approach-gap);width:max-content;align-items:stretch}
 #services.approach-motion-ready .solution-card{width:var(--approach-card);flex:0 0 var(--approach-card);min-height:0;display:flex;flex-direction:column;grid-column:auto;grid-row:auto;gap:0;padding:28px;opacity:1;transform:none;transition:box-shadow .3s,border-color .3s}
 #services.approach-motion-ready .solution-card ul{font-size:13px;line-height:1.6;padding-left:0;list-style:none}
 #services.approach-motion-ready .solution-card .text-link{margin-top:auto;padding-top:12px}
-@media(max-width:650px){#services{--approach-card:min(82vw,340px);--approach-gap:16px}#services.approach-motion-ready .solution-card{padding:24px}#services .approach-photo{height:172px;margin:10px -10px 14px}#services .approach-motion-controls{flex-wrap:wrap;margin-top:0}#services .approach-motion-hint{font-size:11px}}
-@media(prefers-reduced-motion:reduce){#services .approach-motion-track{will-change:auto}}
+@media(max-width:650px){#services{--approach-card:min(82vw,340px);--approach-gap:16px}#services.approach-motion-ready .solution-card{padding:24px}#services .approach-photo{height:192px;margin:10px -10px 14px}#services .approach-motion-controls{margin-top:0}#services .approach-motion-hint{font-size:11px}}
