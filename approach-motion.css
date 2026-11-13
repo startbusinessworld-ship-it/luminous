@@ -1,19 +1,17 @@
-/* Continuous left-to-right motion, progressively enhanced on the homepage. */
-#services.approach-motion-ready{--approach-gap:22px;--approach-card:clamp(310px,30vw,380px)}
-#services .approach-motion-controls{display:flex;justify-content:flex-end;margin:-12px 0 18px}
-#services .approach-motion-toggle{display:inline-flex;align-items:center;gap:8px;border:1px solid #cdd5e1;border-radius:999px;background:#fff;color:var(--ink);padding:9px 15px;font-size:12px;cursor:pointer}
-#services .approach-motion-viewport{overflow-x:auto;overflow-y:hidden;border-radius:18px;scrollbar-width:thin;scrollbar-color:#a3aec0 transparent;overscroll-behavior-x:contain;padding:4px 0 18px}
-#services .approach-motion-track{display:flex;gap:var(--approach-gap);width:max-content;animation:luminos-approach-right 48s linear infinite;will-change:transform}
+/* One uninterrupted ribbon: matching groups meet at an exact pixel boundary. */
+#services{--approach-gap:22px;--approach-card:clamp(310px,30vw,380px)}
+#services .approach-photo{height:188px;margin:12px -12px 18px;flex:none;display:flex;align-items:center;justify-content:center}
+#services .approach-photo img{display:block;width:100%;height:100%;object-fit:contain;background:transparent}
+#services .document-illustration{display:none}
+#services .approach-motion-copy{display:none}
+#services.approach-motion-ready .approach-motion-viewport{overflow:hidden;overflow:clip;border-radius:18px;padding:4px 0 18px}
+#services.approach-motion-ready .approach-motion-track{display:flex;gap:var(--approach-gap);width:max-content;will-change:transform}
 #services.approach-motion-ready .solution-grid{display:flex;gap:var(--approach-gap);width:max-content;flex:none;align-items:stretch}
-#services.approach-motion-ready .solution-card{width:var(--approach-card);flex:0 0 var(--approach-card);min-height:0;display:flex;flex-direction:column;grid-column:auto;grid-row:auto;gap:0;padding:30px;opacity:1;transform:none;transition:box-shadow .3s,border-color .3s}
+#services.approach-motion-ready .solution-card{width:var(--approach-card);flex:0 0 var(--approach-card);min-height:0;display:flex;flex-direction:column;grid-column:auto;grid-row:auto;gap:0;padding:28px;opacity:1;transform:none;transition:box-shadow .3s,border-color .3s}
 #services.approach-motion-ready .solution-card ul{font-size:13px;line-height:1.6;padding-left:0;list-style:none}
 #services.approach-motion-ready .solution-card .text-link{margin-top:auto;padding-top:12px}
-#services.approach-motion-ready .document-illustration{display:none}
-#services .approach-motion-viewport:hover .approach-motion-track,
-#services.is-motion-paused .approach-motion-track,
-#services.is-motion-offscreen .approach-motion-track{animation-play-state:paused}
-#services .approach-motion-viewport:focus-within .approach-motion-track{animation:none;transform:none}
-#services .approach-motion-viewport:focus-within .approach-motion-copy{display:none}
-@keyframes luminos-approach-right{from{transform:translateX(calc(-50% - var(--approach-gap)/2))}to{transform:translateX(0)}}
-@media(max-width:650px){#services.approach-motion-ready{--approach-card:min(82vw,340px);--approach-gap:16px}#services.approach-motion-ready .solution-card{padding:24px}#services .approach-motion-controls{margin-top:0}}
-@media(prefers-reduced-motion:reduce){#services .approach-motion-track{animation:none;transform:none;will-change:auto}#services.approach-motion-ready .solution-grid.approach-motion-copy,#services .approach-motion-controls{display:none}}
+#services.approach-motion-static .solution-grid:not(.approach-motion-copy){display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px}
+#services.approach-motion-static .solution-card{grid-column:auto;grid-row:auto;display:flex;flex-direction:column;min-height:0;opacity:1;transform:none}
+#services.approach-motion-static .solution-card .text-link{margin-top:auto}
+@media(max-width:650px){#services{--approach-card:min(82vw,340px);--approach-gap:16px}#services.approach-motion-ready .solution-card{padding:24px}#services .approach-photo{height:172px;margin:10px -10px 14px}#services.approach-motion-static .solution-grid:not(.approach-motion-copy){grid-template-columns:1fr}}
+@media(prefers-reduced-motion:reduce){#services .approach-motion-track{will-change:auto}}

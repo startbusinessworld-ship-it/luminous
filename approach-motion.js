@@ -1,29 +1,50 @@
-/* Keep the four original service cards available without JavaScript. */
+/* The source cards remain available when JavaScript or motion is disabled. */
 (function(){
  const section=document.querySelector('#services');
  const list=section&&section.querySelector('.solution-grid');
- if(!list||section.classList.contains('approach-motion-ready'))return;
- const viewport=document.createElement('div');viewport.className='approach-motion-viewport';viewport.tabIndex=0;viewport.setAttribute('role','region');viewport.setAttribute('aria-label','Luminos services — scroll to explore all four cards');
+ if(!list||section.querySelector('.approach-motion-viewport'))return;
+ const viewport=document.createElement('div');viewport.className='approach-motion-viewport';
+ viewport.setAttribute('role','region');viewport.setAttribute('aria-label','Luminos services');
  const track=document.createElement('div');track.className='approach-motion-track';
- const controls=document.createElement('div');controls.className='approach-motion-controls';
- const toggle=document.createElement('button');toggle.type='button';toggle.className='approach-motion-toggle';toggle.setAttribute('aria-label','Pause card motion');toggle.setAttribute('aria-pressed','false');toggle.textContent='Ⅱ Pause motion';controls.append(toggle);
- list.before(controls,viewport);track.append(list);viewport.append(track);
+ list.before(viewport);track.append(list);viewport.append(track);
  const copy=list.cloneNode(true);copy.classList.add('approach-motion-copy');copy.setAttribute('aria-hidden','true');
  copy.querySelectorAll('[id]').forEach(node=>node.removeAttribute('id'));
  copy.querySelectorAll('a,button,input,select,textarea,[tabindex]').forEach(node=>node.tabIndex=-1);
- copy.addEventListener('mousedown',event=>{if(event.target.closest('a'))event.preventDefault();});
  track.append(copy);
- section.classList.add('approach-motion-ready');
- function setPaused(paused){section.classList.toggle('is-motion-paused',paused);toggle.setAttribute('aria-pressed',String(paused));toggle.setAttribute('aria-label',paused?'Resume card motion':'Pause card motion');toggle.textContent=paused?'▶ Resume motion':'Ⅱ Pause motion';}
- toggle.addEventListener('click',()=>setPaused(!section.classList.contains('is-motion-paused')));
- viewport.addEventListener('pointerdown',event=>{if(event.pointerType==='touch'||event.pointerType==='pen')setPaused(true);});
- viewport.addEventListener('keydown',event=>{
-  if(event.target!==viewport||!['ArrowLeft','ArrowRight','Home','End'].includes(event.key))return;
-  event.preventDefault();setPaused(true);
-  if(event.key==='Home')viewport.scrollLeft=0;
-  else if(event.key==='End')viewport.scrollLeft=viewport.scrollWidth;
-  else viewport.scrollBy({left:(event.key==='ArrowRight'?1:-1)*(list.firstElementChild.getBoundingClientRect().width+22),behavior:'smooth'});
+ const reduced=window.matchMedia('(prefers-reduced-motion: reduce)');
+ let motion=null,span=0,duration=0,resizeFrame=0,keyboard=false;
+ function refresh(){
+  resizeFrame=0;
+  if(reduced.matches){
+   if(motion)motion.cancel();motion=null;span=0;
+   section.classList.remove('approach-motion-ready');section.classList.add('approach-motion-static');return;
+  }
+  section.classList.remove('approach-motion-static');section.classList.add('approach-motion-ready');
+  const next=list.getBoundingClientRect().width+parseFloat(getComputedStyle(track).columnGap);
+  if(!next||Math.abs(next-span)<.1&&motion)return;
+  const phase=motion&&duration?(Number(motion.currentTime||0)%duration)/duration:0;
+  const paused=motion&&motion.playState==='paused';
+  if(motion)motion.cancel();span=next;duration=span/34*1000;
+  motion=track.animate([{transform:`translate3d(${-span}px,0,0)`},{transform:'translate3d(0,0,0)'}],{duration,iterations:Infinity,easing:'linear'});
+  motion.currentTime=phase*duration;
+  if(paused)motion.pause();
+ }
+ // Pointer interaction never pauses or restarts the ribbon.
+ document.addEventListener('keydown',event=>{if(event.key==='Tab')keyboard=true;},true);
+ document.addEventListener('pointerdown',()=>{keyboard=false;if(motion&&motion.playState==='paused')motion.play();},true);
+ viewport.addEventListener('mousedown',event=>{if(event.target.closest('a'))event.preventDefault();});
+ // Keyboard users can read and activate each original card without chasing it.
+ viewport.addEventListener('focusin',event=>{
+  if(!keyboard||!motion||reduced.matches)return;
+  const card=event.target.closest('.solution-card');if(!card||!list.contains(card))return;
+  motion.pause();
+  const left=card.offsetLeft-list.offsetLeft;
+  const target=-Math.min(left,Math.max(0,list.offsetWidth-viewport.clientWidth));
+  motion.currentTime=Math.min(duration-.01,(1+target/span)*duration);
  });
- if('IntersectionObserver' in window){const observer=new IntersectionObserver(entries=>section.classList.toggle('is-motion-offscreen',!entries[0].isIntersecting),{rootMargin:'100px'});observer.observe(viewport);}
- document.addEventListener('visibilitychange',()=>section.classList.toggle('is-motion-offscreen',document.hidden));
+ viewport.addEventListener('focusout',()=>requestAnimationFrame(()=>{if(motion&&!viewport.contains(document.activeElement))motion.play();}));
+ if('ResizeObserver' in window)new ResizeObserver(()=>{if(!resizeFrame)resizeFrame=requestAnimationFrame(refresh);}).observe(viewport);
+ else window.addEventListener('resize',()=>{if(!resizeFrame)resizeFrame=requestAnimationFrame(refresh);});
+ reduced.addEventListener('change',refresh);
+ refresh();
 })();
