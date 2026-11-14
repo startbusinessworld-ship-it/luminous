@@ -202,7 +202,7 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 </style>
 
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;450;500;550;600;650;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/site-design.css?v=1"><script src="/site-design.js?v=1" defer></script>
+<link rel="stylesheet" href="/site-design.css?v=1"><link rel="stylesheet" href="/client-journey.css?v=1"><script src="/site-design.js?v=1" defer></script>
 </head>
 <body data-page="dashboard">
 
@@ -267,6 +267,7 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 
     <!-- PROCESS -->
     <div class="panel act" id="panel-process">
+      <p id="payment-access-message" role="status" class="banner" hidden></p>
       <div class="ph">
         <div class="pey"><span data-t="dash.my.file">My file</span></div>
         <div class="ptitle"><span data-t="dash.progress.title">Company Formation Progress</span></div>
@@ -275,17 +276,29 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
       <div id="p-banner"></div>
 
       <!-- PAYMENT ACTIONS -->
-      <div id="p-payment" style="display:none;margin-bottom:24px;">
-        <div style="background:var(--d2);border:1px solid rgba(200,16,46,0.25);border-radius:4px;padding:24px 28px;">
-          <div style="font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;color:var(--red);margin-bottom:10px;"><span data-t="dash.payment.ready">Ready to proceed</span></div>
-          <div style="font-size:1.1rem;color:var(--wh);margin-bottom:6px;"><span data-t="dash.payment.choose">Choose your service</span></div>
-          <div style="font-size:.76rem;color:var(--sv);margin-bottom:20px;"><span data-t="dash.payment.sub">Secure payment via Stripe — card or SEPA bank transfer</span></div>
-          <div style="display:flex;gap:12px;flex-wrap:wrap;">
-            <a id="btn-create" href="https://buy.stripe.com/eVq14m3Eu07Mg9K2bf33W04" target="_blank" style="background:var(--red);color:#fff;padding:12px 24px;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;border-radius:2px;transition:background .3s;white-space:nowrap;" onmouseover="this.style.background='#9B0B22'" onmouseout="this.style.background='#C8102E'"><span data-t="dash.create.btn">Create my company — $1,490 →</span></a>
-            <a id="btn-renew" href="https://buy.stripe.com/00w4gyej8f2GcXycPT33W05" target="_blank" style="background:transparent;color:var(--lt);padding:12px 24px;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;border-radius:2px;border:1px solid var(--gr);transition:all .3s;white-space:nowrap;" onmouseover="this.style.borderColor='#C8102E';this.style.color='#C8102E'" onmouseout="this.style.borderColor='var(--gr)';this.style.color='var(--lt)'"><span data-t="dash.renew.btn">Renew my company — $990 →</span></a>
+      <section id="client-journey" class="journey" aria-label="Your company application">
+        <div class="journey-eyebrow">YOUR LUMINOS APPLICATION</div>
+        <h2>Your company, step by step.</h2>
+        <p>Tell us about your project, review your order, then pay once. Your files unlock after payment is confirmed.</p>
+        <ol class="journey-steps"><li data-step="1">1 · Your project</li><li data-step="2">2 · Review & pay</li><li data-step="3">3 · Send your files</li></ol>
+        <p id="journey-status" role="status" aria-live="polite">Checking your payment status…</p>
+        <div id="p-payment" hidden>
+          <form id="project-form">
+            <label>First-choice company name<input id="project-name" name="company_name" required maxlength="120" autocomplete="organization" placeholder="e.g. Acme International Limited"></label>
+            <label>Country of residence<input id="project-country" name="country" required maxlength="100" autocomplete="country-name" placeholder="e.g. France"></label>
+            <label class="full-width">What will your company do?<textarea id="project-activity" name="business_activity" required maxlength="2000" rows="3" placeholder="Your activity, customers and markets"></textarea></label>
+            <button class="journey-primary" type="submit">Review my order →</button>
+          </form>
+          <div id="order-review" hidden>
+            <h3>Review before paying</h3>
+            <dl><dt>Service</dt><dd>Hong Kong company formation</dd><dt>Company name</dt><dd id="review-name"></dd><dt>Activity</dt><dd id="review-activity"></dd><dt>Country of residence</dt><dd id="review-country"></dd><dt>Receipt email</dt><dd id="review-email"></dd><dt>One-time total</dt><dd class="journey-total">US$1,490</dd></dl>
+            <p>After Stripe confirms your payment, you can upload your files. A payment receipt will be emailed to you. No need to pay again while confirmation is pending.</p>
+            <div class="journey-actions"><button id="btn-create" class="journey-primary" type="button">Pay US$1,490 securely →</button><button id="edit-project" class="journey-secondary" type="button">Edit information</button></div>
           </div>
         </div>
-      </div>
+        <div id="journey-check" hidden><button id="check-payment" class="journey-secondary" type="button">Check payment status</button> <a href="https://wa.me/85266455426" target="_blank" rel="noopener">Contact Luminos</a></div>
+        <p class="journey-help">Already paid or renewing an existing company? <a href="https://wa.me/85266455426" target="_blank" rel="noopener">Contact our team</a> before making another payment.</p>
+      </section>
 
       <!-- DOCS PROMPT (shown after payment) -->
       <div id="p-docs-prompt" style="display:none;margin-bottom:24px;">
@@ -1415,6 +1428,116 @@ function getProgressState(status) {
   };
 }
 
+let paymentAccess = false;
+let paymentState = 'checking';
+let checkoutBusy = false;
+let paymentRefresh = null;
+let projectReviewed = false;
+let savedProject = null;
+let paymentPoll = null;
+let paymentPollCount = 0;
+function canUploadDocuments() { return !!currentUser && paymentAccess && !!dossier?.id; }
+function requireUploadAccess() {
+  if (canUploadDocuments()) return true;
+  show('process');
+  const el = document.getElementById('journey-status');
+  if (el) el.textContent = 'Payment must be confirmed before you can access your files. If you already paid, check the payment status or contact us. Do not pay again.';
+  return false;
+}
+async function paymentRequest(path, body) {
+  const {data:{session}} = await SB.auth.getSession();
+  if (!session) throw new Error('Please sign in again.');
+  const response = await fetch(path, {method:'POST',headers:{'Content-Type':'application/json',Authorization:'Bearer '+session.access_token},body:JSON.stringify(body)});
+  const data = await response.json();
+  if (!response.ok) throw new Error(data.error || 'Payment verification unavailable.');
+  return data;
+}
+function projectValues() {
+  return {company_name:document.getElementById('project-name').value.trim(),country:document.getElementById('project-country').value.trim(),business_activity:document.getElementById('project-activity').value.trim()};
+}
+function reviewProject() {
+  if (!document.getElementById('project-form').reportValidity()) return;
+  const details=savedProject || projectValues();
+  for (const [id,value] of Object.entries({'review-name':details.company_name,'review-country':details.country,'review-activity':details.business_activity,'review-email':currentUser.email})) document.getElementById(id).textContent=value;
+  projectReviewed=true;
+  renderJourney();
+}
+function renderJourney() {
+  const messages={checking:'Checking your payment status…',draft:'Step 1 — Add your project details. No payment has been requested.',checkout_open:'Your payment session is saved. Resume the same checkout to complete your order.',processing:'Payment is being confirmed. Do not pay again. Your files will unlock automatically.',paid:'Payment received. Your files are unlocked. Stripe will email your payment receipt.',review_required:'We need to check your existing order. If you already paid, do not pay again. Contact our team.',unavailable:'We cannot verify your payment right now. Do not pay again. Retry verification or contact our team.'};
+  const el=document.getElementById('journey-status');if(!el)return;
+  el.textContent=paymentState==='draft' && projectReviewed?'Step 2 — Review your information and total before continuing to Stripe.':messages[paymentState] || messages.unavailable;
+  const canPay=['draft','checkout_open'].includes(paymentState);
+  document.getElementById('p-payment').hidden=!canPay;
+  document.getElementById('project-form').hidden=projectReviewed;
+  document.getElementById('order-review').hidden=!projectReviewed;
+  document.getElementById('journey-check').hidden=!['checking','checkout_open','processing','review_required','unavailable'].includes(paymentState);
+  const btn=document.getElementById('btn-create');btn.disabled=checkoutBusy || !canPay;
+  btn.textContent=checkoutBusy?'Opening secure payment…':paymentState==='checkout_open'?'Resume secure payment →':'Pay US$1,490 securely →';
+  document.getElementById('edit-project').hidden=paymentState==='checkout_open';
+  const step=paymentAccess?3:projectReviewed?2:1;
+  document.querySelectorAll('.journey-steps li').forEach((li,i)=>{li.classList.toggle('current',i+1===step);li.classList.toggle('done',i+1<step);if(i+1===step)li.setAttribute('aria-current','step');else li.removeAttribute('aria-current');});
+}
+async function refreshPaymentAccess() {
+  if (paymentRefresh) return paymentRefresh;
+  paymentRefresh = (async () => {
+    try {
+      const id = new URLSearchParams(window.location.search).get('session_id');
+      const data = await paymentRequest('/api/payment-status', id ? {session_id:id} : {});
+      paymentAccess = data.can_upload === true;
+      paymentState = data.status;
+      if(data.details) {
+        savedProject=data.details;
+        for(const [id,key] of Object.entries({'project-name':'company_name','project-country':'country','project-activity':'business_activity'})) document.getElementById(id).value=data.details[key] || '';
+        reviewProject();
+      }
+      if(paymentAccess) {
+        const result=await SB.from('dossiers').select('*').eq('user_id',currentUser.id).maybeSingle();
+        if(result.error || !result.data)throw new Error('Dossier verification unavailable');
+        dossier=result.data;
+        for(const [id,key] of Object.entries({name1:'company_name',name2:'company_name_2',name3:'company_name_3',activity:'business_activity'})) {
+          const field=document.getElementById(id);if(field && !field.value)field.value=dossier[key] || '';
+        }
+      }
+    } catch (error) { paymentAccess=false;paymentState='unavailable'; }
+    renderJourney();
+    return paymentAccess;
+  })();
+  try { return await paymentRefresh; } finally { paymentRefresh=null; }
+}
+async function checkPayment() { await refreshPaymentAccess();renderProcess(); }
+async function startCheckout(type) {
+  if(checkoutBusy || !projectReviewed || !['draft','checkout_open'].includes(paymentState))return;
+  checkoutBusy=true;renderJourney();
+  try {
+    const data=await paymentRequest('/api/checkout',{type,details:savedProject || projectValues()});
+    if(data.url) {
+      const url=new URL(data.url);
+      if(url.protocol!=='https:' || url.hostname!=='checkout.stripe.com')throw new Error('Invalid payment link');
+      window.location.assign(url.href);return;
+    }
+    paymentState=data.status;paymentAccess=data.can_upload===true;
+    if(paymentAccess)await refreshPaymentAccess();
+    renderProcess();
+  } catch(error) {paymentState='unavailable';paymentAccess=false;}
+  finally {checkoutBusy=false;renderJourney();}
+}
+function initJourney() {
+  document.getElementById('project-form').addEventListener('submit',event=>{event.preventDefault();reviewProject();});
+  document.getElementById('btn-create').addEventListener('click',()=>startCheckout('creation'));
+  document.getElementById('edit-project').addEventListener('click',()=>{projectReviewed=false;renderJourney();});
+  document.getElementById('check-payment').addEventListener('click',checkPayment);
+  // Bounded polling after Stripe return; refresh/focus can resume verification later.
+  if(new URLSearchParams(location.search).has('payment')) {
+    clearInterval(paymentPoll);
+    paymentPoll=setInterval(async()=>{
+      if(paymentAccess || ++paymentPollCount>20){clearInterval(paymentPoll);return;}
+      if(!document.hidden)await checkPayment();
+    },3000);
+  }
+}
+window.addEventListener('focus',async()=>{if(currentUser)await checkPayment();});
+window.addEventListener('pageshow',async event=>{if(event.persisted && currentUser)await checkPayment();});
+
 // ── INIT ──
 async function init() {
   try {
@@ -1442,12 +1565,8 @@ async function init() {
     profile = { id: currentUser.id, email: currentUser.email, full_name: displayName };
   }
 
-  // Prefill email in Stripe links
-  const emailEnc = encodeURIComponent(currentUser.email);
-  const btnCreate = document.getElementById('btn-create');
-  const btnRenew = document.getElementById('btn-renew');
-  if (btnCreate) btnCreate.href = `https://buy.stripe.com/eVq14m3Eu07Mg9K2bf33W04?prefilled_email=${emailEnc}`;
-  if (btnRenew) btnRenew.href = `https://buy.stripe.com/00w4gyej8f2GcXycPT33W05?prefilled_email=${emailEnc}`;
+  initJourney();
+  await refreshPaymentAccess();
 
   // Load dossier
   const {data:d} = await SB.from('dossiers').select('*').eq('user_id', currentUser.id).maybeSingle();
@@ -1495,24 +1614,30 @@ function renderProcess() {
   const progress = getProgressState(status);
   const STEPS = getSTEPS();
   const company = dossier?.company_name || '—';
+  const safeCompany = company.replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 
   document.getElementById('p-company').textContent = company !== '—' ? company + ' · In progress' : 'No active order';
 
   // Lock/unlock sidebar tabs based on status
-  const { hasPaid, hasSubmittedDocs } = progress;
-  document.querySelectorAll('.ni[onclick="show(\'uploads\')"]').forEach(el => {
+  const hasPaid = canUploadDocuments();
+  const hasSubmittedDocs = hasPaid && progress.hasSubmittedDocs;
+  document.querySelectorAll('[onclick="show(\'uploads\')"]').forEach(el => {
+    el.disabled = !hasPaid;
+    el.setAttribute('aria-disabled', String(!hasPaid));
     el.style.opacity = hasPaid ? '1' : '.35';
     el.style.pointerEvents = hasPaid ? 'auto' : 'none';
     el.title = hasPaid ? '' : 'Payment required to access this section';
   });
-  document.querySelectorAll('.ni[onclick="show(\'documents\')"]').forEach(el => {
-    el.style.opacity = hasSubmittedDocs ? '1' : '.35';
-    el.style.pointerEvents = hasSubmittedDocs ? 'auto' : 'none';
-    el.title = hasSubmittedDocs ? '' : 'Available after submitting your documents';
+  document.querySelectorAll('[onclick="show(\'documents\')"]').forEach(el => {
+    el.disabled = !hasPaid;
+    el.setAttribute('aria-disabled', String(!hasPaid));
+    el.style.opacity = hasPaid ? '1' : '.35';
+    el.style.pointerEvents = hasPaid ? 'auto' : 'none';
+    el.title = hasPaid ? '' : 'Available after payment confirmation';
   });
 
   // Show/hide payment block
-  document.getElementById('p-payment').style.display = hasPaid ? 'none' : 'block';
+  renderJourney();
 
   // Show/hide docs prompt
   const docsPrompt = document.getElementById('p-docs-prompt');
@@ -1558,7 +1683,7 @@ function renderProcess() {
 
   // Details
   document.getElementById('p-details').innerHTML = `
-    <div><div style="font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--sv);margin-bottom:3px;">Company name</div><div style="font-size:.85rem;color:var(--wh);">${company}</div></div>
+    <div><div style="font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--sv);margin-bottom:3px;">Company name</div><div style="font-size:.85rem;color:var(--wh);">${safeCompany}</div></div>
     <div><div style="font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--sv);margin-bottom:3px;">Jurisdiction</div><div style="font-size:.85rem;color:var(--wh);">Hong Kong SAR</div></div>
     <div><div style="font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--sv);margin-bottom:3px;">Type</div><div style="font-size:.85rem;color:var(--wh);">Private Limited Company</div></div>
     <div><div style="font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--sv);margin-bottom:3px;">Account created</div><div style="font-size:.85rem;color:var(--wh);">${new Date(dossier?.created_at||Date.now()).toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'})}</div></div>
@@ -1631,12 +1756,14 @@ async function loadReferrals() {
 
 // ── UPLOAD ──
 function triggerUpload(type, name) {
+  if (!requireUploadAccess()) return;
   uploadType = type;
   uploadName = name;
   document.getElementById('fileInput').click();
 }
 
 async function handleUpload(input) {
+  if (!await refreshPaymentAccess() || !requireUploadAccess()) { input.value = ''; show('process'); return; }
   if (!input.files.length) return;
   const file = input.files[0];
   const btnId = uploadType === 'passport' ? 'btn-passport' : uploadType === 'selfie' ? 'btn-selfie' : 'btn-address';
@@ -1679,6 +1806,7 @@ async function handleUpload(input) {
 
 // ── SUBMIT DOSSIER ──
 async function submitDossier() {
+  if (!await refreshPaymentAccess() || !requireUploadAccess()) { show('process'); return; }
   const name1 = document.getElementById('name1').value.trim();
   const name2 = document.getElementById('name2').value.trim();
   const name3 = document.getElementById('name3').value.trim();
@@ -1702,15 +1830,14 @@ async function submitDossier() {
     return;
   }
 
-  const {error} = await SB.from('dossiers').upsert({
-    user_id: currentUser.id,
+  const {data: savedDossier,error} = await SB.from('dossiers').update({
     company_name: name1,
     company_name_2: name2,
     company_name_3: name3,
     business_activity: activity,
     status: 'docs_submitted',
     updated_at: new Date().toISOString()
-  }, { onConflict: 'user_id' });
+  }).eq('id', dossier.id).eq('user_id', currentUser.id).select('id').single();
 
   if (!error) {
     await SB.from('notifications').insert({
@@ -1733,7 +1860,7 @@ async function submitDossier() {
 
 // ── OFFICIAL DOCS ──
 async function loadOfficialDocs() {
-  if (!currentUser) return;
+  if (!canUploadDocuments()) return;
   const {data:docs} = await SB.from('official_documents').select('*').eq('user_id', currentUser.id).order('created_at', {ascending:false});
   const grid = document.getElementById('official-docs-grid');
   if (!grid) return;
@@ -1768,8 +1895,9 @@ async function loadOfficialDocs() {
 
 let officialDocsCache = {};
 async function downloadOfficialDoc(id, name) {
+  await refreshPaymentAccess();if(!requireUploadAccess())return;
   if (!officialDocsCache[id]) {
-    const {data} = await SB.from('official_documents').select('file_data,file_name').eq('id',id).single();
+    const {data} = await SB.from('official_documents').select('file_data,file_name').eq('id',id).eq('user_id',currentUser.id).single();
     officialDocsCache[id] = data;
   }
   const doc = officialDocsCache[id];
@@ -1795,6 +1923,8 @@ function copyLink() {
 
 // ── NAV ──
 function show(name) {
+  if (name === 'uploads' && !canUploadDocuments()) name = 'process';
+  if (name === 'documents' && !canUploadDocuments()) name = 'process';
   const panel = document.getElementById('panel-' + name);
   if (!panel || !panel.classList.contains('panel')) return;
   document.querySelectorAll('.panel').forEach(p => p.classList.remove('act'));
@@ -1963,19 +2093,19 @@ init();
 <!-- MOBILE NAV -->
 <nav class="mobile-nav">
   <div class="mobile-nav-inner">
-    <button class="mn-btn act" id="mn-progress" onclick="show('process');setMobileNav('progress')">
+    <button class="mn-btn act" id="mn-progress" onclick="show('process')">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
       Progress
     </button>
-    <button class="mn-btn" id="mn-uploads" onclick="show('uploads');setMobileNav('uploads')">
+    <button class="mn-btn" id="mn-uploads" onclick="show('uploads')">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"/></svg>
       Files
     </button>
-    <button class="mn-btn" id="mn-documents" onclick="show('documents');setMobileNav('documents')">
+    <button class="mn-btn" id="mn-documents" onclick="show('documents')">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
       Docs
     </button>
-    <button class="mn-btn" id="mn-affiliate" onclick="show('affiliate');setMobileNav('affiliate')">
+    <button class="mn-btn" id="mn-affiliate" onclick="show('affiliate')">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
       <span data-t="dash.affiliate">Affiliate</span>
     </button>

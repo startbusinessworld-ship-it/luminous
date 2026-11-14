@@ -3,7 +3,7 @@ const fs = require('node:fs');
 const vm = require('node:vm');
 const html = fs.readFileSync(require('node:path').join(__dirname, '../dashboard.html'), 'utf8');
 for (const match of html.matchAll(/<script\b[^>]*>([\s\S]*?)<\/script>/g)) new vm.Script(match[1]);
-const stateCode = html.slice(html.indexOf('const STATUS_ORDER'), html.indexOf('// ── INIT'));
+const stateCode = html.slice(html.indexOf('const STATUS_ORDER'), html.indexOf('let paymentAccess'));
 const context = vm.createContext({});
 vm.runInContext(stateCode + '\nthis.progress = getProgressState;', context);
 const paid = context.progress('payment_confirmed');
@@ -29,6 +29,8 @@ const panel = {classList:{contains:k=>classes.has(k),add:k=>classes.add(k),remov
 let mobile;
 context.document = {getElementById:id=>id==='panel-process'?panel:null,querySelectorAll:q=>q==='.panel'?[panel]:[]};
 context.window = {scrollTo(){}};
+context.canUploadDocuments=()=>true;
+context.dossier={status:'payment_confirmed'};
 context.setMobileNav = name=>{mobile=name;};
 vm.runInContext(html.slice(html.indexOf('function show(name)'), html.indexOf('//  STRIPE CONNECT PAYOUT')), context);
 context.show('invalid');assert.ok(classes.has('act'));
@@ -36,7 +38,8 @@ context.show('process');assert.equal(mobile,'progress');assert.ok(classes.has('a
 // A successful submission must refresh the in-memory dossier before rendering.
 const nodes = Object.fromEntries(['name1','name2','name3','activity','submit-msg','submit-error','button'].map(id=>[id,{value:id,style:{},textContent:''}]));
 let rendered;
-Object.assign(context,{currentUser:{id:'test-user'},dossier:{id:'test-dossier',status:'payment_confirmed'},profile:{full_name:'Test'},T:{en:{}},getLang:()=> 'en',alert:()=>assert.fail('Unexpected alert'),renderProcess:()=>{rendered=context.dossier.status;},SB:{from:()=>({upsert:async()=>({error:null}),insert:async()=>({error:null})})}});
+Object.assign(context,{currentUser:{id:'test-user'},dossier:{id:'test-dossier',status:'payment_confirmed'},profile:{full_name:'Test'},T:{en:{}},getLang:()=> 'en',alert:()=>assert.fail('Unexpected alert'),renderProcess:()=>{rendered=context.dossier.status;},SB:{from:()=>({update:()=>({eq:()=>({eq:()=>({select:()=>({single:async()=>({data:{id:'test-dossier'},error:null})})})})}),insert:async()=>({error:null})})}});
+context.refreshPaymentAccess=async()=>true;context.requireUploadAccess=()=>true;
 context.document={getElementById:id=>nodes[id],querySelector:()=>nodes.button};
 vm.runInContext(html.slice(html.indexOf('async function submitDossier()'),html.indexOf('// ── OFFICIAL DOCS')),context);
 (async()=>{await context.submitDossier();assert.equal(rendered,'docs_submitted');assert.equal(context.dossier.id,'test-dossier');assert.equal(context.dossier.company_name,'name1');console.log('PASS: dashboard script syntax, status progression, bank/completion states, invalid navigation and post-submission refresh.');})().catch(e=>{console.error(e);process.exitCode=1;});
